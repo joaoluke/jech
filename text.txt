@@ -1,0 +1,9 @@
+keep → declarar variáveis
+
+say → imprimir
+
+when → if
+
+otherwise → else
+
+repeat ou loop → while

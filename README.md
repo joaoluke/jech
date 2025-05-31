@@ -11,6 +11,10 @@ A programming language created with love, as a tribute to the next generation â€
 
 </div>
 
+## Introduction
+
+The JECH Lang project was created with the purpose of showing step by step how a programming language is created, in a simple and didactic way so that programming lovers can enjoy this wonderful process of creating a programming language, using C as a base, as well as Python with its CPython.
+
 ## Contributors
 
 Thanks goes to these wonderful people (ðŸ”¥):
