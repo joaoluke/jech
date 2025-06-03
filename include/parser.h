@@ -3,7 +3,6 @@
 
 #include "lexer.h"
 
-// Represents a type of command
 typedef enum
 {
 	AST_SAY
@@ -12,6 +11,7 @@ typedef enum
 typedef struct
 {
 	ASTType type;
+	TokenType token_type;
 	char value[256];
 } ASTNode;
 

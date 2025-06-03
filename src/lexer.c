@@ -10,10 +10,10 @@ typedef struct
 } KeywordMap;
 
 KeywordMap keywords[] = {
-		{"say", TOKEN_SAY},
-		{"keep", TOKEN_KEEP},
-		{"when", TOKEN_WHEN},
-		{NULL, TOKEN_UNKNOWN}};
+	{"say", TOKEN_SAY},
+	{"keep", TOKEN_KEEP},
+	{"when", TOKEN_WHEN},
+	{NULL, TOKEN_UNKNOWN}};
 
 TokenType match_keyword(const char *word)
 {
@@ -24,7 +24,7 @@ TokenType match_keyword(const char *word)
 			return keywords[i].type;
 		}
 	}
-	return TOKEN_IDENTIFIER; // is not keyword? can be variable
+	return TOKEN_IDENTIFIER;
 }
 
 Token create_token(TokenType type, const char *value)
@@ -60,8 +60,25 @@ TokenList lex(const char *source)
 			}
 			word[i] = '\0';
 
+			if (strcmp(word, "true") == 0 || strcmp(word, "false") == 0)
+			{
+				list.tokens[list.count++] = create_token(TOKEN_BOOL, word);
+				continue;
+			}
+
 			TokenType type = match_keyword(word);
 			list.tokens[list.count++] = create_token(type, word);
+		}
+		else if (isdigit(*p))
+		{
+			char number[64];
+			int i = 0;
+			while (isdigit(*p) && i < 63)
+			{
+				number[i++] = *p++;
+			}
+			number[i] = '\0';
+			list.tokens[list.count++] = create_token(TOKEN_NUMBER, number);
 		}
 		else if (*p == '(')
 		{

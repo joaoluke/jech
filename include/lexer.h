@@ -1,32 +1,37 @@
 #ifndef LEXER_H
 #define LEXER_H
 
-typedef enum {
-    // Keywords
-    TOKEN_SAY,
-    TOKEN_KEEP,
-    TOKEN_WHEN,
+typedef enum
+{
+	// Keywords
+	TOKEN_SAY,
+	TOKEN_KEEP,
+	TOKEN_WHEN,
 
-    // Symbols
-    TOKEN_LPAREN,
-    TOKEN_RPAREN,
-    TOKEN_STRING,
-    TOKEN_SEMICOLON,
+	// Symbols
+	TOKEN_LPAREN,
+	TOKEN_RPAREN,
+	TOKEN_STRING,
+	TOKEN_SEMICOLON,
+	TOKEN_NUMBER,
+	TOKEN_BOOL,
 
-    // Others
-    TOKEN_IDENTIFIER, // for names that are not reserved commands
-    TOKEN_EOF,
-    TOKEN_UNKNOWN
+	// Others
+	TOKEN_IDENTIFIER, // for names that are not reserved commands
+	TOKEN_EOF,
+	TOKEN_UNKNOWN
 } TokenType;
 
-typedef struct {
-    TokenType type;
-    char value[256];
+typedef struct
+{
+	TokenType type;
+	char value[256];
 } Token;
 
-typedef struct {
-    Token tokens[128];
-    int count;
+typedef struct
+{
+	Token tokens[128];
+	int count;
 } TokenList;
 
 TokenList lex(const char *source);

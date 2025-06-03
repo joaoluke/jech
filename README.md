@@ -13,19 +13,60 @@ A programming language created with love, as a tribute to the next generation �
 
 ## Introduction
 
-The JECH Lang project was created with the purpose of showing step by step how a programming language is created, in a simple and didactic way so that programming lovers can enjoy this wonderful process of creating a programming language, using C as a base, as well as Python with its CPython.
+The JECH Lang project was created to demonstrate, step by step, how a programming language can be built from scratch — in a simple, clear, and didactic way.  
+It’s designed for programming enthusiasts who want to dive into the fascinating world of language design, using C as a foundation, much like Python is built on CPython.
 
-## Contributors
+## Purpose
+
+JECH is a programming language created with the goal of **teaching, exploring, and celebrating the process of building a language from the ground up**.
+
+It is designed to be simple, readable, and modular — enabling anyone, even with minimal experience in low-level programming, to follow its development and understand how a full interpreter works, from the lexer to the virtual machine.
+
+JECH does not aim to compete with existing languages. Instead, it serves as a learning platform, a documented journey, and a source of inspiration for developers curious about compilers, language design, and the inner workings of interpreters.
+
+## 📖 History
+
+JECH was born from a personal desire to learn how a programming language is built — from the most fundamental concepts to a working interpreter.
+
+But this project is not just for me.
+
+JECH was also created to serve as a teaching resource — a **transparent, well-documented, and step-by-step guide** to how programming languages work internally. I wanted to share this learning experience with other developers who, like me, are curious about what happens under the hood.
+
+## 💡 Why the name “JECH”?
+
+The name "JECH" is a tribute to my two sons: **Jonathan Edwards** and **Charles Haddon**.  
+It combines the initials of their names as a symbolic gesture — representing not only the technical creation of a language, but also a legacy of love, curiosity, and inspiration.
+
+## 🧠 Commands & Language Features
+
+- [x] `say(...)` — Outputs a string to the terminal
+- ⏳ `keep` — _(Coming soon: variable declarations)_
+- ⏳ `when` — _(Coming soon: conditional structures)_
+
+📂 You can find detailed explanations for each component of the language in [`/docs/`](./docs/):
+
+- [Lexer Design](docs/en/lexer.md)
+- [Parser and AST](docs/en/parser.md)
+- [Bytecode & VM](docs/en/bytecode.md)
+- [Project Architecture](docs/en/architecture.md)
+
+## 🌐 JECH
+
+📘 Available Languages:
+
+- [🇺🇸 English (en)](README.md)
+- [🇧🇷 Português (pt-BR)](docs/pt-BR/README.md)
+- [🇪🇸 Español (es-ES)](docs/es-ES/README.md)
+
+## 🤝 Contributors
 
 Thanks goes to these wonderful people (🔥):
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <table>
   <tr>
-    <td align="center"><a href="https://github.com/joaoluke"><img src="https://avatars.githubusercontent.com/u/62743404?v=4?s=100" width="100px;" alt=""/><br /><sub><b>João Lucas</b></sub></a><br /><a href="https://github.com/joaoluke/react-dropdown-tree-select/issues?q=author%3ABaarishRain" title="Bug reports">🐛</a></td>
+    <td align="center"><a href="https://github.com/joaoluke"><img src="https://avatars.githubusercontent.com/u/62743404?v=4?s=100" width="100px;" alt=""/><br /><sub><b>João Lucas</b></sub></a><br /><a href="https://github.com/joaoluke/react-dropdown-tree-select/issues?q=author%3ABaarishRain" title="Bug reports">Creator and Maintainer</a></td>
   </tr>
 </table>
-
 
 ## ⚠️ License
 
@@ -33,7 +74,6 @@ Thanks goes to these wonderful people (🔥):
 the [Apache 2.0 License][repo_license_url]. Official [logo][repo_logo_url] was
 created by [Vic Shóstak][author] and distributed under
 [Creative Commons][repo_cc_url] license (CC BY-SA 4.0 International).
-
 
 <!-- Repository -->
 
@@ -52,4 +92,3 @@ created by [Vic Shóstak][author] and distributed under
 [repo_wiki_url]: https://github.com/create-go-app/cli/wiki
 [repo_wiki_img]: https://img.shields.io/badge/docs-wiki_page-blue?style=for-the-badge&logo=none
 [repo_wiki_faq_url]: https://github.com/create-go-app/cli/wiki/FAQ
-

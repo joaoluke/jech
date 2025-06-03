@@ -5,20 +5,21 @@
 
 typedef enum
 {
-    OP_SAY,
-    OP_END
+	OP_SAY,
+	OP_END
 } OpCode;
 
 typedef struct
 {
-    OpCode op;
-    char operand[256];
+	OpCode op;
+	char operand[256];
+	TokenType token_type;
 } Instruction;
 
 typedef struct
 {
-    Instruction instructions[128];
-    int count;
+	Instruction instructions[128];
+	int count;
 } Bytecode;
 
 Bytecode compile_all(ASTList ast);
