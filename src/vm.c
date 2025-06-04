@@ -17,7 +17,7 @@ void execute(Bytecode bc)
 				printf("%s\n", inst.operand);
 				break;
 			case TOKEN_NUMBER:
-				printf("%d\n", atoi(inst.operand));
+				printf("%g\n", atof(inst.operand));
 				break;
 			case TOKEN_BOOL:
 				if (strcmp(inst.operand, "true") == 0)

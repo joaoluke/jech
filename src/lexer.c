@@ -73,7 +73,7 @@ TokenList lex(const char *source)
 		{
 			char number[64];
 			int i = 0;
-			while (isdigit(*p) && i < 63)
+			while ((isdigit(*p) || *p == '.') && i < 63) 
 			{
 				number[i++] = *p++;
 			}

@@ -1,0 +1,3 @@
+say("Hello world, in Jech");
+say(false);
+say(1000.0100);

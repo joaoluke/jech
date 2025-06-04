@@ -11,12 +11,12 @@ A programming language created with love, as a tribute to the next generation �
 
 </div>
 
-## Introduction
+## 📘 Introduction
 
 The JECH Lang project was created to demonstrate, step by step, how a programming language can be built from scratch — in a simple, clear, and didactic way.  
 It’s designed for programming enthusiasts who want to dive into the fascinating world of language design, using C as a foundation, much like Python is built on CPython.
 
-## Purpose
+## 🎯 Purpose
 
 JECH is a programming language created with the goal of **teaching, exploring, and celebrating the process of building a language from the ground up**.
 
@@ -39,9 +39,45 @@ It combines the initials of their names as a symbolic gesture — representing n
 
 ## 🧠 Commands & Language Features
 
-- [x] `say(...)` — Outputs a string to the terminal
-- ⏳ `keep` — _(Coming soon: variable declarations)_
-- ⏳ `when` — _(Coming soon: conditional structures)_
+### ⏳ `say(...)`
+
+> Prints a value to the terminal.
+
+**Currently supported types:**
+
+* ✅ **String** → `say("Hello, JECH!");`
+* ✅ **Boolean** → `say(true);`, `say(false);`
+* ✅ **Integer** → `say(42);`
+* ✅ **Float** → `say(3.14);`
+
+**Planned support:**
+
+* ⏳ **Variables** → `say(myVar);`
+* ⏳ **Arrays** → `say([1, 2, 3]);`
+* ⏳ **Objects** → `say({ name: "JECH" });`
+
+---
+
+### ⏳ `keep` — Variable Declaration
+
+> Will allow the creation of variables.
+
+```jc
+keep name = "JECH";
+```
+
+---
+
+### ⏳ `when` — Conditional Structures
+
+> Will enable conditional execution.
+
+```jc
+when (true) {
+    say("Condition passed!");
+}
+```
+
 
 📂 You can find detailed explanations for each component of the language in [`/docs/`](./docs/):
 

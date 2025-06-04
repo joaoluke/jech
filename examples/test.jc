@@ -1,3 +1,0 @@
-say("Hello world");
-say(true);
-say(1);

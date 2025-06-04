@@ -69,7 +69,6 @@ void interpret_line(char *line)
 		char arg[256];
 		if (sscanf(line, "say(\"%255[^\"]\");", text) == 1)
 		{
-			// Verifica se ainda há aspas depois do texto
 			char *fimAspas = strchr(line, '"');
 			if (fimAspas)
 			{
