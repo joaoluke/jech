@@ -40,6 +40,7 @@ TokenList lex(const char *source)
 {
 	TokenList list;
 	list.count = 0;
+	int error_count = 0;
 
 	const char *p = source;
 	while (*p)
@@ -47,6 +48,13 @@ TokenList lex(const char *source)
 		if (isspace(*p))
 		{
 			p++;
+			continue;
+		}
+
+		if (*p == '#' || (*p == '/' && *(p + 1) == '/'))
+		{
+			while (*p && *p != '\n')
+				p++;
 			continue;
 		}
 
@@ -73,7 +81,7 @@ TokenList lex(const char *source)
 		{
 			char number[64];
 			int i = 0;
-			while ((isdigit(*p) || *p == '.') && i < 63) 
+			while ((isdigit(*p) || *p == '.') && i < 63)
 			{
 				number[i++] = *p++;
 			}
@@ -120,6 +128,8 @@ TokenList lex(const char *source)
 		{
 			char unknown[2] = {*p, '\0'};
 			list.tokens[list.count++] = create_token(TOKEN_UNKNOWN, unknown);
+			printf("Lexer error: unknown character '%c'\n", *p);
+			error_count++;
 			p++;
 		}
 	}

@@ -9,19 +9,10 @@
 #include "bytecode.h"
 #include "vm.h"
 #include "utils.h"
+#include "errors.h"
 
 int main(int argc, char *argv[])
 {
-	printf("Welcome to the JECH language interpreter!\n");
-
-	// Here in the future we will call:
-	// - lexer (break text into tokens)
-	// - parser (build the AST)
-	// - compiler (generate bytecode)
-	// - vm (to execute bytecode)
-
-	jech_logo();
-
 	if (argc < 2)
 	{
 		printf("Usage: %s <file.jc>\n", argv[0]);
@@ -44,6 +35,8 @@ int main(int argc, char *argv[])
 	}
 
 	TokenList tokens = lex(source);
+
+	check_lexical_errors(&tokens, source);
 
 	ASTList ast = parse_all(&tokens);
 	if (ast.count == 0)
