@@ -4,12 +4,14 @@
 
 // JECH Language Headers
 #include "jech.h"
-#include "lexer.h"
-#include "parser.h"
-#include "bytecode.h"
-#include "vm.h"
+#include "core/lexer.h"
+#include "core/parser.h"
+#include "core/bytecode.h"
+#include "core/vm.h"
 #include "utils.h"
 #include "errors.h"
+#include "commands/say.h"
+
 
 int main(int argc, char *argv[])
 {

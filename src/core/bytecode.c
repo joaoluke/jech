@@ -1,5 +1,5 @@
 #include <string.h>
-#include "bytecode.h"
+#include "core/bytecode.h"
 
 Bytecode compile_all(ASTList ast)
 {

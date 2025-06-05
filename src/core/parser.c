@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "parser.h"
+#include "core/parser.h"
 
 ASTList parse_all(TokenList *tokens)
 {

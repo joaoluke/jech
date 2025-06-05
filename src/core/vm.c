@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "vm.h"
+#include "core/vm.h"
 
 void execute(Bytecode bc)
 {

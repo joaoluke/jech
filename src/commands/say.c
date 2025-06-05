@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "say.h"
+#include "commands/say.h"
 
 #define MAX_STRING 256
 
@@ -27,8 +27,8 @@ int count_char(const char *str, char target)
 
 void execute_say(const char *line)
 {
-    int aspas = count_char(line, '"');
-    if (aspas != 2)
+    int quotation = count_char(line, '"');
+    if (quotation != 2)
     {
         printf("Error: invalid string. Use only one pair of double quotes.\n");
         return;

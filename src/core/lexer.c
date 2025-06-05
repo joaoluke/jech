@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "lexer.h"
+#include <stdlib.h>
+#include "core/lexer.h"
 
 typedef struct
 {
@@ -121,7 +122,8 @@ TokenList lex(const char *source)
 			}
 			else
 			{
-				list.tokens[list.count++] = create_token(TOKEN_UNKNOWN, buffer);
+				fprintf(stderr, "Lexer error: Unterminated string literal -> \"%s\"\n", buffer);
+				exit(1);
 			}
 		}
 		else
