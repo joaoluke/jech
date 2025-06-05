@@ -120,5 +120,3 @@ Helper functions like `read_file_content`, string manipulation, and file handlin
 * Add memory management and variable support
 
 ---
-
-> Made with ❤️ for Jonathan Edwards and Charles Haddon
