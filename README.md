@@ -7,13 +7,19 @@
 [![Wiki][repo_wiki_img]][repo_wiki_url]
 [![License][repo_license_img]][repo_license_url]
 
-A programming language created with love, as a tribute to the next generation — and an invitation to anyone who wants to learn how languages ​​are born, grow and become real.
+A programming language created with love, as a tribute to the next generation — and an invitation to anyone who wants to learn how languages are born, grow and become real.
 
 </div>
 
 ## 📘 Introduction
 
-The JECH Lang project was created to demonstrate, step by step, how a programming language can be built from scratch — in a simple, clear, and didactic way.  
+> I bet you already know how to program. Maybe you’ve built cool things in Python, JavaScript, or even C. But... have you ever wondered how those languages actually work under the hood?
+>
+> How does a command like `print("Hello")` turn into instructions your machine can understand?
+>
+> JECH was created for exactly that curiosity — and for you. A language made by a programmer, for programmers. A step-by-step, simple, and accessible journey from raw code to running output, even if you’ve never touched compilers, interpreters, or low-level programming before.
+
+The JECH Lang project was created to demonstrate, step by step, how a programming language can be built from scratch — in a simple, clear, and didactic way.
 It’s designed for programming enthusiasts who want to dive into the fascinating world of language design, using C as a foundation, much like Python is built on CPython.
 
 ## 🎯 Purpose
@@ -34,7 +40,7 @@ JECH was also created to serve as a teaching resource — a **transparent, well-
 
 ## 💡 Why the name “JECH”?
 
-The name "JECH" is a tribute to my two sons: **Jonathan Edwards** and **Charles Haddon**.  
+The name "JECH" is a tribute to my two sons: **Jonathan Edwards** and **Charles Haddon**.
 It combines the initials of their names as a symbolic gesture — representing not only the technical creation of a language, but also a legacy of love, curiosity, and inspiration.
 
 ## 🧠 Commands & Language Features
@@ -78,21 +84,20 @@ when (true) {
 }
 ```
 
-
 📂 You can find detailed explanations for each component of the language in [`/docs/`](./docs/):
 
-- [Lexer Design](docs/en/lexer.md)
-- [Parser and AST](docs/en/parser.md)
-- [Bytecode & VM](docs/en/bytecode.md)
-- [Project Architecture](docs/en/architecture.md)
+* [Lexer Design](docs/en/lexer.md)
+* [Parser and AST](docs/en/parser.md)
+* [Bytecode & VM](docs/en/bytecode.md)
+* [Project Architecture](docs/en/architecture.md)
 
 ## 🌐 JECH
 
 📘 Available Languages:
 
-- [🇺🇸 English (en)](README.md)
-- [🇧🇷 Português (pt-BR)](docs/pt-BR/README.md)
-- [🇪🇸 Español (es-ES)](docs/es-ES/README.md)
+* [🇺🇸 English (en)](README.md)
+* [🇧🇷 Português (pt-BR)](docs/pt-BR/README.md)
+* [🇪🇸 Español (es-ES)](docs/es-ES/README.md)
 
 ## 🤝 Contributors
 
@@ -108,7 +113,7 @@ Thanks goes to these wonderful people (🔥):
 
 [`Create Go App CLI`][repo_url] is free and open-source software licensed under
 the [Apache 2.0 License][repo_license_url]. Official [logo][repo_logo_url] was
-created by [Vic Shóstak][author] and distributed under
+created by \[Vic Shóstak]\[author] and distributed under
 [Creative Commons][repo_cc_url] license (CC BY-SA 4.0 International).
 
 <!-- Repository -->
