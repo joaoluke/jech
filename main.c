@@ -69,11 +69,11 @@ void interpret_line(char *line)
 		char arg[256];
 		if (sscanf(line, "say(\"%255[^\"]\");", text) == 1)
 		{
-			char *fimAspas = strchr(line, '"');
-			if (fimAspas)
+			char *endQuotes = strchr(line, '"');
+			if (endQuotes)
 			{
-				fimAspas = strchr(fimAspas + 1, '"');
-				if (fimAspas && strlen(text) >= MAX_STRING - 1)
+				endQuotes = strchr(endQuotes + 1, '"');
+				if (endQuotes && strlen(text) >= MAX_STRING - 1)
 				{
 					printf("Error: string exceeds max length of %d characters\n", MAX_STRING - 1);
 				}

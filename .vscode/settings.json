@@ -1,8 +1,16 @@
 {
     "cSpell.words": [
-        "JECH"
+        "JECH",
+        "RPAREN"
     ],
     "files.associations": {
-        "stdio.h": "c"
+        "stdio.h": "c",
+        "bytecode.h": "c",
+        "debug_bytecode.h": "c",
+        "token_utils.h": "c",
+        "vm.h": "c",
+        "lexer.h": "c",
+        "parser.h": "c",
+        "debug_vm.h": "c"
     }
 }
