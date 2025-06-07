@@ -1,7 +1,7 @@
 #ifndef MAIN_HELPERS_H
 #define MAIN_HELPERS_H
 
-#include "core/lexer.h"
+#include "core/tokenizer.h"
 #include "core/parser.h"
 #include "core/bytecode.h"
 

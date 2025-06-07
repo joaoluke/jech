@@ -1,6 +1,6 @@
 #include "utils/token_utils.h"
 
-const char *token_type_to_str(TokenType type)
+const char *token_type_to_str(JechTokenType type)
 {
     switch (type)
     {

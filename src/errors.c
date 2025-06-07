@@ -3,7 +3,7 @@
 #include <string.h>
 #include "errors.h"
 
-void check_lexical_errors(const TokenList *tokens, const char *source)
+void check_lexical_errors(const JechTokenList *tokens, const char *source)
 {
     for (int i = 0; i < tokens->count; i++)
     {

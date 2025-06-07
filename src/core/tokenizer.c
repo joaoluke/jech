@@ -2,13 +2,15 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include "core/lexer.h"
+#include "core/tokenizer.h"
 
-// JECH Language Keyword Mapping
+/**
+ * JECH Language Keyword Mapping
+ */
 typedef struct
 {
 	const char *keyword;
-	TokenType type;
+	JechTokenType type;
 } KeywordMap;
 
 KeywordMap keywords[] = {
@@ -17,8 +19,10 @@ KeywordMap keywords[] = {
 	{"when", TOKEN_WHEN},
 	{NULL, TOKEN_UNKNOWN}};
 
-// Checks if a word matches a language keyword
-TokenType match_keyword(const char *word)
+/**
+ * Checks if a word matches a language keyword
+ */
+JechTokenType match_keyword(const char *word)
 {
 	for (int i = 0; keywords[i].keyword != NULL; i++)
 	{
@@ -30,17 +34,21 @@ TokenType match_keyword(const char *word)
 	return TOKEN_IDENTIFIER;
 }
 
-// Creates a token with defined type and value
-Token create_token(TokenType type, const char *value)
+/**
+ * Creates a token with defined type and value
+ */
+JechToken create_token(JechTokenType type, const char *value)
 {
-	Token token;
+	JechToken token;
 	token.type = type;
 	strncpy(token.value, value, sizeof(token.value) - 1);
 	token.value[sizeof(token.value) - 1] = '\0';
 	return token;
 }
 
-// Skip whitespace and comments
+/**
+ * Skip whitespace and comments
+ */
 static void skip_whitespace_and_comments(const char **p)
 {
 	while (**p)
@@ -61,8 +69,10 @@ static void skip_whitespace_and_comments(const char **p)
 	}
 }
 
-// Reads words or booleans (true/false) and returns a token
-static Token read_word(const char **p)
+/**
+ * Reads words or booleans (true/false) and returns a token
+ */
+static JechToken read_word(const char **p)
 {
 	char word[64];
 	int i = 0;
@@ -77,12 +87,14 @@ static Token read_word(const char **p)
 		return create_token(TOKEN_BOOL, word);
 	}
 
-	TokenType type = match_keyword(word);
+	JechTokenType type = match_keyword(word);
 	return create_token(type, word);
 }
 
-// Reads numbers (integers or floats)
-static Token read_number(const char **p)
+/**
+ * Reads numbers (integers or floats)
+ */
+static JechToken read_number(const char **p)
 {
 	char number[64];
 	int i = 0;
@@ -94,8 +106,10 @@ static Token read_number(const char **p)
 	return create_token(TOKEN_NUMBER, number);
 }
 
-// Reads quoted strings
-static Token read_string(const char **p)
+/**
+ * Reads quoted strings
+ */
+static JechToken read_string(const char **p)
 {
 	(*p)++; // Skip the first quote
 	char buffer[256];
@@ -118,10 +132,12 @@ static Token read_string(const char **p)
 	}
 }
 
-// Parses the source code and returns the list of tokens
-TokenList lex(const char *source)
+/**
+ * Parses the source code and returns the list of tokens
+ */
+JechTokenList _JechTokenizer_Lex(const char *source)
 {
-	TokenList list;
+	JechTokenList list;
 	list.count = 0;
 
 	const char *p = source;

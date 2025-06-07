@@ -9,8 +9,12 @@
         "debug_bytecode.h": "c",
         "token_utils.h": "c",
         "vm.h": "c",
-        "lexer.h": "c",
+        "tokenizer.h": "c",
         "parser.h": "c",
-        "debug_vm.h": "c"
+        "debug_vm.h": "c",
+        "debug_lexer.h": "c",
+        "constants.h": "c",
+        "type_traits": "c",
+        "stdlib.h": "c"
     }
 }

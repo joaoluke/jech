@@ -1,42 +1,11 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "lexer.h"
-#include "constants.h"
+#include "ast.h"
 
 /**
- * AST node types
+ * Convert token list into an Abstract Syntax Tree (AST).
  */
-typedef enum
-{
-	AST_SAY,
-	AST_KEEP,
-	AST_UNKNOWN
-} ASTType;
-
-/**
- * Abstract Syntax Tree node
- */
-typedef struct
-{
-	ASTType type;
-	char value[MAX_STRING];
-	char name[MAX_STRING];
-	TokenType token_type;
-} ASTNode;
-
-/**
- * List of AST nodes
- */
-typedef struct
-{
-	ASTNode nodes[128];
-	int count;
-} ASTList;
-
-/**
- * Parses tokens into an AST
- */
-ASTList parse_all(TokenList *tokens);
+JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count);
 
 #endif

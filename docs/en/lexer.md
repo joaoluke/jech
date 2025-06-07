@@ -42,14 +42,14 @@ typedef enum {
     TOKEN_NUMBER,
     TOKEN_BOOLEAN,
     TOKEN_EOF
-} TokenType;
+} JechTokenType;
 ```
 
 Each token has a **type** and a **value**. For example:
 
 ```c
 typedef struct {
-    TokenType type;
+    JechTokenType type;
     char value[256];
 } Token;
 ```
@@ -119,7 +119,7 @@ Token: Type=TOKEN_EOF        Value=""
 typedef struct {
     Token tokens[128];
     int count;
-} TokenList;
+} JechTokenList;
 ```
 
 This list of tokens is passed to the **parser**, which builds the Abstract Syntax Tree (AST) from the sequence.

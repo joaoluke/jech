@@ -15,7 +15,7 @@ jech-lang/
 │   ├── errors.h
 │   
 │   ├── core/
-│   │   ├── lexer.h
+│   │   ├── tokenizer.h
 │   │   ├── parser.h
 │   │   ├── bytecode.h
 │   │   └── vm.h
@@ -28,7 +28,7 @@ jech-lang/
 │   ├── utils.c           # Utility functions (e.g., file reading)
 │
 │   ├── core/             # Core interpreter logic
-│   │   ├── lexer.c
+│   │   ├── tokenizer.c
 │   │   ├── parser.c
 │   │   ├── bytecode.c
 │   │   ├── vm.c
@@ -59,7 +59,7 @@ The interpreter follows the classical compilation pipeline:
 ```
 📁 .jc source file
    ↓
-🔍 Lexer (tokenizer)        →   Produces TokenList
+🔍 Lexer (tokenizer)        →   Produces JechTokenList
    ↓
 🧠 Parser                   →   Builds AST (Abstract Syntax Tree)
    ↓
@@ -74,7 +74,7 @@ Each step is modular and separated into its own file for clarity and ease of mai
 
 ## 🧱 Compiler Modules (src/compiler/)
 
-* `lexer.c` — Responsible for breaking raw text into tokens.
+* `tokenizer.c` — Responsible for breaking raw text into tokens.
 * `parser.c` — Converts the stream of tokens into AST nodes.
 * `bytecode.c` — Compiles AST nodes into instructions.
 * `vm.c` — Executes instructions one by one.

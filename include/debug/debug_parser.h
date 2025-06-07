@@ -1,11 +1,11 @@
-#ifndef PARSER_DEBUG_H
-#define PARSER_DEBUG_H
+// #ifndef PARSER_DEBUG_H
+// #define PARSER_DEBUG_H
 
-#include "core/parser.h"
+// #include "core/parser.h"
 
-/**
- * Prints all nodes of the parsed abstract syntax tree.
- */
-void debug_print_ast(const ASTList *ast);
+// /**
+//  * Prints all nodes of the parsed abstract syntax tree.
+//  */
+// void debug_print_ast(const *ast);
 
-#endif
+// #endif

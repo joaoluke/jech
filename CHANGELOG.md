@@ -5,7 +5,7 @@
 ### Added
 
 - Support for multiple instructions in code `.jc`
-- ASTList to represent a sequence of commands
+- JechASTList to represent a sequence of commands
 - New compiler for multiple commands
 - Updating the VM for sequential bytecode execution
 
@@ -16,4 +16,4 @@
 
 ### Removed
 
-- Limited support for a single instruction (single ASTNode)
+- Limited support for a single instruction (single JechASTNode)

@@ -1,7 +1,6 @@
-#ifndef BYTECODE_H
-#define BYTECODE_H
-
-#include "parser.h"
+#ifndef JECH_BYTECODE_H
+#define JECH_BYTECODE_H
+#include "ast.h"
 
 /**
  * Enum for bytecode operation types
@@ -21,7 +20,7 @@ typedef struct
 	OpCode op;
 	char operand[MAX_STRING];
 	char name[MAX_STRING];
-	TokenType token_type;
+	JechTokenType token_type;
 } Instruction;
 
 /**
@@ -36,6 +35,6 @@ typedef struct
 /**
  * Compiles the AST into bytecode
  */
-Bytecode compile_all(ASTList ast);
+Bytecode _JechBytecode_CompileAll(JechASTNode **roots, int count);
 
 #endif

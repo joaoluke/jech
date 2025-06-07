@@ -21,7 +21,7 @@ say("Hello");
 
 ### 2. 🧹 Lexer (Tokenization)
 
-* **File:** `src/compiler/lexer.c`
+* **File:** `src/compiler/tokenizer.c`
 * Converts the raw string into a list of **tokens**, such as:
 
 ```text
@@ -40,8 +40,8 @@ Token: Type=TOKEN_SEMICOLON, Value=";"
 * Transforms the token list into an **AST** (Abstract Syntax Tree), which represents the structure of the command:
 
 ```c
-ASTNode {
-  type: AST_SAY,
+JechASTNode {
+  type: JECH_AST_SAY,
   value: "Hello"
 }
 ```
@@ -88,7 +88,7 @@ Hello
 | Step | Responsibility       | File(s)                   |
 | ---- | -------------------- | ------------------------- |
 | 1    | Read `.jc` file      | `src/utils.c`             |
-| 2    | Tokenize input       | `src/compiler/lexer.c`    |
+| 2    | Tokenize input       | `src/compiler/tokenizer.c`    |
 | 3    | Build AST            | `src/compiler/parser.c`   |
 | 4    | Compile to bytecode  | `src/compiler/bytecode.c` |
 | 5    | Execute instructions | `src/compiler/vm.c`       |
