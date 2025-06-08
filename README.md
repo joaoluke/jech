@@ -45,31 +45,27 @@ It combines the initials of their names as a symbolic gesture — representing n
 
 ## 🧠 Commands & Language Features
 
-### ⏳ `say(...)`
+### ✅ `say(...)`
 
 > Prints a value to the terminal.
 
 **Currently supported types:**
 
-* ✅ **String** → `say("Hello, JECH!");`
-* ✅ **Boolean** → `say(true);`, `say(false);`
-* ✅ **Integer** → `say(42);`
-* ✅ **Float** → `say(3.14);`
-
-**Planned support:**
-
-* ⏳ **Variables** → `say(myVar);`
-* ⏳ **Arrays** → `say([1, 2, 3]);`
-* ⏳ **Objects** → `say({ name: "JECH" });`
+- ✅ **String** → `say("Hello, JECH!");`
+- ✅ **Boolean** → `say(true);`, `say(false);`
+- ✅ **Integer** → `say(42);`
+- ✅ **Float** → `say(3.14);`
+- ✅ **Variables** → `keep x = "Hi!"; say(x);`
 
 ---
 
-### ⏳ `keep` — Variable Declaration
+### ✅ `keep` — Variable Declaration
 
-> Will allow the creation of variables.
+> Declares a variable that can be reused throughout the program.
 
 ```jc
 keep name = "JECH";
+say(name);
 ```
 
 ---
@@ -84,20 +80,42 @@ when (true) {
 }
 ```
 
-📂 You can find detailed explanations for each component of the language in [`/docs/`](./docs/):
+## ⚙️ Architecture Pipeline
 
-* [Lexer Design](docs/en/lexer.md)
-* [Parser and AST](docs/en/parser.md)
-* [Bytecode & VM](docs/en/bytecode.md)
-* [Project Architecture](docs/en/architecture.md)
+JECH now implements a **fully modular interpreter pipeline**, inspired by CPython:
+
+```text
+Source Code
+   ↓
+Tokenizer (lexer)
+   ↓
+Parser
+   ↓
+AST Tree (ast.c)
+   ↓
+Bytecode Compiler
+   ↓
+Virtual Machine (VM)
+   ↓
+💾 Execution!
+```
+
+Each stage is fully modular and documented:
+
+### 📂 Explore the documentation:
+
+- [Lexer Design](docs/en/lexer.md)
+- [Parser and AST Tree](docs/en/parser.md)
+- [Bytecode & VM](docs/en/bytecode.md)
+- [Architecture Overview](docs/en/architecture.md)
 
 ## 🌐 JECH
 
 📘 Available Languages:
 
-* [🇺🇸 English (en)](README.md)
-* [🇧🇷 Português (pt-BR)](docs/pt-BR/README.md)
-* [🇪🇸 Español (es-ES)](docs/es-ES/README.md)
+- [🇺🇸 English (en)](README.md)
+- [🇧🇷 Português (pt-BR)](docs/pt-BR/README.md)
+- [🇪🇸 Español (es-ES)](docs/es-ES/README.md)
 
 ## 🤝 Contributors
 

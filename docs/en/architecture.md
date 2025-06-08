@@ -1,122 +1,144 @@
-# 🧱 Project Architecture - JECH Language
+# 📐 JECH Lang Architecture Overview
 
-This document outlines the architecture and folder structure of the JECH Language interpreter.
-It is designed to be **modular**, **educational**, and easy to scale as the language grows.
+This document explains the full compilation and execution pipeline of the JECH language, from raw source code to final output — using the example:
+
+```jc
+say("Hello, World!");
+```
+
+We'll break down how this code passes through each stage:
 
 ---
 
-## 🗂 Folder Structure
+## 1. 🧾 Tokenizer (Lexical Analysis)
 
+**File:** `tokenizer.c`
+**Function:** `_JechTokenizer_Lex`
+
+### 🔧 What it does:
+
+Converts raw source code into a stream of **tokens**.
+
+### Example:
+
+```c
+say("Hello, World!");
 ```
-jech-lang/
-├── include/              # Header files for project-wide access
-│   ├── jech.h            # Main project header
-│   ├── utils.h
-│   ├── errors.h
-│   
-│   ├── core/
-│   │   ├── tokenizer.h
-│   │   ├── parser.h
-│   │   ├── bytecode.h
-│   │   └── vm.h
-│
-│   ├── commands/         # Shared interface for language commands
-│   │   └── say.h
-│
-├── src/
-│   ├── main.c            # Entry point of the interpreter
-│   ├── utils.c           # Utility functions (e.g., file reading)
-│
-│   ├── core/             # Core interpreter logic
-│   │   ├── tokenizer.c
-│   │   ├── parser.c
-│   │   ├── bytecode.c
-│   │   ├── vm.c
-│   │   └── errors.c
-│
-│   └── commands/         # Language-specific command implementations
-│       └── say.c         # Handles say(...) execution
-│
-├── examples/             # Example .jc programs for testing and showcasing
-│   └── say.jc
-│
-├── docs/                 # Project documentation
-│   ├── en/
-│   ├── es-ES/
-│   └── pt-BR/
-│
-├── README.md
-├── CHANGELOG.md
-└── jech (compiled binary)
+
+becomes:
+
+```text
+TOKEN_SAY       → "say"
+TOKEN_LPAREN    → "("
+TOKEN_STRING    → "Hello, World!"
+TOKEN_RPAREN    → ")"
+TOKEN_SEMICOLON → ";"
 ```
 
 ---
 
-## 🔄 Interpreter Flow
+## 2. 🧱 Parser
 
-The interpreter follows the classical compilation pipeline:
+**File:** `parser.c`
+**Function:** `_JechParser_ParseAll`
+
+### 🔧 What it does:
+
+Reads the tokens and identifies **instruction patterns**. It creates a list of **AST root nodes**.
+
+### Output:
+
+One AST node representing the `say("Hello, World!")` instruction.
+
+---
+
+## 3. 🌳 AST (Abstract Syntax Tree)
+
+**File:** `ast.c`
+**Function:** `_JechAST_CreateNode`
+
+### 🔧 What it does:
+
+Builds structured trees to represent the meaning of the code.
+Each instruction becomes a node, possibly with children (not yet in this version).
+
+### Example:
+
+```text
+• JECH_AST_SAY ("Hello, World!")
+```
+
+The AST for our example has just one node.
+
+---
+
+## 4. 🔤 Bytecode Compiler
+
+**File:** `bytecode.c`
+**Function:** `_JechBytecode_CompileAll`
+
+### 🔧 What it does:
+
+Converts AST nodes into **bytecode instructions**.
+
+### Example:
+
+```text
+[0] OP_SAY  → operand: "Hello, World!"
+[1] OP_END
+```
+
+This bytecode can be stored, optimized, or executed directly.
+
+---
+
+## 5. 🧠 Virtual Machine (VM)
+
+**File:** `vm.c`
+**Function:** `_JechVM_Execute`
+
+### 🔧 What it does:
+
+Reads and executes bytecode instructions.
+
+### Example:
+
+Executes:
+
+```text
+OP_SAY  → prints "Hello, World!"
+OP_END  → stops execution
+```
+
+Terminal output:
 
 ```
-📁 .jc source file
-   ↓
-🔍 Lexer (tokenizer)        →   Produces JechTokenList
-   ↓
-🧠 Parser                   →   Builds AST (Abstract Syntax Tree)
-   ↓
-⚙️  Bytecode Compiler       →   Converts AST into bytecode instructions
-   ↓
-🖥 Virtual Machine (VM)     →   Executes bytecode instruction-by-instruction
+Hello, World!
 ```
 
-Each step is modular and separated into its own file for clarity and ease of maintenance.
+---
+
+## ✅ Summary
+
+```text
+say("Hello, World!");
+       │
+       ▼
+[Tokenizer] → [Parser] → [AST] → [Bytecode] → [VM Execution]
+```
+
+Each step in JECH is modular and extensible. You can inspect or modify any stage of this pipeline independently, making it a great tool for learning or experimenting with language design.
 
 ---
 
-## 🧱 Compiler Modules (src/compiler/)
+## 🧩 File Responsibility Summary
 
-* `tokenizer.c` — Responsible for breaking raw text into tokens.
-* `parser.c` — Converts the stream of tokens into AST nodes.
-* `bytecode.c` — Compiles AST nodes into instructions.
-* `vm.c` — Executes instructions one by one.
-* `errors.c` — Centralized error handling and reporting.
+| Stage           | File          | Key Function               |
+| --------------- | ------------- | -------------------------- |
+| Tokenizer       | `tokenizer.c` | `_JechTokenizer_Lex`       |
+| Parser          | `parser.c`    | `_JechParser_ParseAll`     |
+| AST Builder     | `ast.c`       | `_JechAST_CreateNode`      |
+| Bytecode Gen    | `bytecode.c`  | `_JechBytecode_CompileAll` |
+| Virtual Machine | `vm.c`        | `_JechVM_Execute`          |
 
----
-
-## 🧩 Language Commands (src/commands/)
-
-Each command in JECH is treated as a modular component. These live in the `commands/` folder.
-
-* `say.c` — Implements behavior for the `say(...)` instruction, currently supporting:
-
-  * Strings
-  * Numbers
-  * Floats
-  * Booleans
-
-More commands like `keep` and `when` will follow the same structure.
-
----
-
-## 🔧 Utilities (src/utils.c)
-
-Helper functions like `read_file_content`, string manipulation, and file handling.
-
----
-
-## 📌 Goals of the Architecture
-
-* **Clarity:** Separate responsibilities for educational purposes.
-* **Scalability:** Easy to add new commands or extend compiler phases.
-* **Maintainability:** Isolated and reusable modules.
-* **Documentation-first:** Well-documented for those learning language implementation.
-
----
-
-## ✅ Next Steps
-
-* Implement modules for `keep` and `when`
-* Improve error reporting (line numbers, clearer messages)
-* Add testing suite for each compiler phase
-* Add memory management and variable support
-
----
+> This modular setup makes JECH an excellent educational tool for understanding compilers and interpreters.
