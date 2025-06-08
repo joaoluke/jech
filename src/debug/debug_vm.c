@@ -1,16 +1,12 @@
-// #include <stdio.h>
-// #include "core/vm.h"
-// #include "debug/debug_vm.h"
+#include <stdio.h>
+#include "core/vm.h"
+#include "debug/debug_vm.h"
 
-// void debug_print_variables()
-// {
-//     extern Variable variables[];
-//     extern int var_count;
+extern void _debug_vm_dump_vars();
 
-//     printf("\n--- Variables ---\n");
-//     for (int i = 0; i < var_count; i++)
-//     {
-//         printf("%s = %s\n", variables[i].name, variables[i].value);
-//     }
-//     printf("\n");
-// }
+void debug_print_variables()
+{
+    printf("\n--- VM Variables ---\n");
+    _debug_vm_dump_vars();
+    printf("\n");
+}

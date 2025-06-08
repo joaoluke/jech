@@ -1,11 +1,15 @@
-// #ifndef BYTECODE_DEBUG_H
-// #define BYTECODE_DEBUG_H
+#ifndef DEBUG_BYTECODE_H
+#define DEBUG_BYTECODE_H
 
-// #include "core/bytecode.h"
+#include "core/bytecode.h"
 
-// /**
-//  * Prints all compiled bytecode instructions for inspection.
-//  */
-// void debug_print_bytecode(const Bytecode *bc);
+/**
+ * Prints the bytecode instructions in a human-readable format.
+ * This function iterates through the bytecode and prints each instruction
+ * with its operation, operand, and token type.
+ *
+ * @param bc Pointer to the Bytecode structure containing the instructions.
+ */
+void debug_print_bytecode(const Bytecode *bc);
 
-// #endif
+#endif

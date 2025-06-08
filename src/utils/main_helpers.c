@@ -13,10 +13,11 @@
 #include "config.h"
 
 // Debug
-// #include "debug/debug_lexer.h"
-// #include "debug/debug_parser.h"
-// #include "debug/debug_bytecode.h"
-// #include "debug/debug_vm.h"
+#include "debug/debug_tokenizer.h"
+#include "debug/debug_parser.h"
+#include "debug/debug_ast.h"
+#include "debug/debug_bytecode.h"
+#include "debug/debug_vm.h"
 
 int is_valid_extension(const char *filename)
 {
@@ -43,15 +44,12 @@ void run_pipeline(const char *source)
     int ast_count = 0;
     JechASTNode **roots = _JechParser_ParseAll(&tokens, &ast_count);
 
-    // if (JECH_DEBUG)
-    // {
-    //     debug_print_tokens(&tokens);
-    //     for (int i = 0; i < ast_count; i++)
-    //     {
-    //         printf("AST %d:\n", i);
-    //         _JechAST_Print(roots[i], 0);
-    //     }
-    // }
+    if (JECH_DEBUG)
+    {
+        debug_print_tokens(&tokens);
+        debug_print_parser(roots, ast_count);
+        debug_print_ast(roots, ast_count);
+    }
 
     if (ast_count == 0)
     {
@@ -61,17 +59,17 @@ void run_pipeline(const char *source)
 
     Bytecode bytecode = _JechBytecode_CompileAll(roots, ast_count);
 
-    // if (JECH_DEBUG)
-    // {
-    //     debug_print_bytecode(&bytecode);
-    // }
+    if (JECH_DEBUG)
+    {
+        debug_print_bytecode(&bytecode);
+    }
 
     _JechVM_Execute(&bytecode);
 
-    // if (JECH_DEBUG)
-    // {
-    //     debug_print_variables();
-    // }
+    if (JECH_DEBUG)
+    {
+        debug_print_variables();
+    }
 
     for (int i = 0; i < ast_count; i++)
     {

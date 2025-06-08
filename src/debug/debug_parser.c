@@ -1,23 +1,31 @@
-// #include <stdio.h>
-// #include "core/ast.h"
-// #include "debug/debug_parser.h"
-// #include "utils/token_utils.h"
+#include <stdio.h>
+#include "debug/debug_parser.h"
+#include "core/ast.h"
 
-// void debug_print_ast(const JechASTList *ast)
-// {
-//     printf("--- AST ---\n");
-//     for (int i = 0; i < ast->count; i++)
-//     {
-//         JechASTNode node = ast->nodes[i];
-//         switch (node.type)
-//         {
-//         case JECH_AST_SAY:
-//             printf("Node %d: SAY → \"%s\" (%s)\n", i, node.value, token_type_to_str(node.token_type));
-//             break;
-//         case JECH_AST_KEEP:
-//             printf("Node %d: KEEP → %s = \"%s\" (%s)\n", i, node.name, node.value, token_type_to_str(node.token_type));
-//             break;
-//         }
-//     }
-//     printf("\n");
-// }
+void debug_print_parser(JechASTNode **roots, int count)
+{
+    printf("\n--- Parser Output (AST Roots) ---\n");
+
+    for (int i = 0; i < count; i++)
+    {
+        JechASTNode *node = roots[i];
+
+        const char *kind = (node->type == JECH_AST_SAY) ? "say" : (node->type == JECH_AST_KEEP) ? "keep"
+                                                                                                : "unknown";
+
+        if (node->type == JECH_AST_SAY)
+        {
+            printf("Instruction: %s(\"%s\")\n", kind, node->value);
+        }
+        else if (node->type == JECH_AST_KEEP)
+        {
+            printf("Instruction: %s %s = \"%s\"\n", kind, node->name, node->value);
+        }
+        else
+        {
+            printf("Instruction: unknown → name=%s, value=%s\n", node->name, node->value);
+        }
+    }
+
+    printf("\n");
+}
