@@ -33,6 +33,8 @@ typedef struct
 {
 	JechTokenType type;
 	char value[256];
+	int line;
+	int column;
 } JechToken;
 
 /**
