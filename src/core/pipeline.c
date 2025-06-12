@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "utils/main_helpers.h"
 #include "utils/read_file.h"
 #include "core/tokenizer.h"
+#include "core/pipeline.h"
 #include "core/parser.h"
 #include "core/bytecode.h"
 #include "core/vm.h"
