@@ -104,10 +104,11 @@ Each stage is fully modular and documented:
 
 ### 📂 Explore the documentation:
 
-- [Lexer Design](docs/en/lexer.md)
-- [Parser and AST Tree](docs/en/parser.md)
-- [Bytecode & VM](docs/en/bytecode.md)
 - [Architecture Overview](docs/en/architecture.md)
+- [Tokenizer Design](docs/en/tokenizer.md)
+- [Parser Tree](docs/en/parser.md)
+- [Ast](docs/en/ast.md)
+- [Bytecode & VM](docs/en/bytecode.md)
 
 ## 🌐 JECH
 

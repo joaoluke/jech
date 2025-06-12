@@ -35,6 +35,8 @@ TOKEN_RPAREN    → ")"
 TOKEN_SEMICOLON → ";"
 ```
 
+- [Tokenizer Documentation](tokenizer.md)
+
 ---
 
 ## 2. 🧱 Parser
@@ -49,6 +51,8 @@ Reads the tokens and identifies **instruction patterns**. It creates a list of *
 ### Output:
 
 One AST node representing the `say("Hello, World!")` instruction.
+
+- [Parser Documentation](parser.md)
 
 ---
 
@@ -70,6 +74,8 @@ Each instruction becomes a node, possibly with children (not yet in this version
 
 The AST for our example has just one node.
 
+- [Ast Documentation](ast.md)
+
 ---
 
 ## 4. 🔤 Bytecode Compiler
@@ -89,6 +95,8 @@ Converts AST nodes into **bytecode instructions**.
 ```
 
 This bytecode can be stored, optimized, or executed directly.
+
+- [Bytecode Documentation](bytecode.md)
 
 ---
 
@@ -115,6 +123,8 @@ Terminal output:
 ```
 Hello, World!
 ```
+
+- [VM Documentation](vm.md)
 
 ---
 

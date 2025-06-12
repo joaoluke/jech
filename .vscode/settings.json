@@ -1,7 +1,12 @@
 {
     "cSpell.words": [
+        "ctype",
         "JECH",
-        "RPAREN"
+        "LPAREN",
+        "malloc",
+        "RPAREN",
+        "stdlib",
+        "strncpy"
     ],
     "files.associations": {
         "stdio.h": "c",
