@@ -11,14 +11,18 @@ typedef enum
 	TOKEN_KEEP,
 	TOKEN_WHEN,
 
-	// Symbols and literals
-	TOKEN_LPAREN,
-	TOKEN_RPAREN,
+	// Data types
 	TOKEN_STRING,
-	TOKEN_SEMICOLON,
 	TOKEN_NUMBER,
 	TOKEN_BOOL,
-	TOKEN_EQUAL,
+
+	// Symbols and literals
+	TOKEN_LPAREN,	 // (
+	TOKEN_RPAREN,	 // )
+	TOKEN_LBRACE,	 // {
+	TOKEN_RBRACE,	 // }
+	TOKEN_EQUAL,	 // =
+	TOKEN_SEMICOLON, // ;
 
 	// Identifiers and misc
 	TOKEN_IDENTIFIER,

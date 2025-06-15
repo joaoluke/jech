@@ -19,12 +19,20 @@
 #include "debug/debug_bytecode.h"
 #include "debug/debug_vm.h"
 
+/**
+ * Checks if the file has a valid .jc extension
+ * Returns 1 if valid, 0 otherwise
+ */
 int is_valid_extension(const char *filename)
 {
     int len = strlen(filename);
     return len >= 4 && strcmp(&filename[len - 3], ".jc") == 0;
 }
 
+/**
+ * Reads the source file content into a string
+ * Returns NULL if the file cannot be read
+ */
 char *load_source_file(const char *filename)
 {
     char *source = read_file_content(filename);
@@ -36,6 +44,10 @@ char *load_source_file(const char *filename)
     return source;
 }
 
+/**
+ * Runs the entire pipeline: lexing, parsing, bytecode compilation, and execution
+ * Prints debug information if JECH_DEBUG is enabled
+ */
 void run_pipeline(const char *source)
 {
     JechTokenList tokens = _JechTokenizer_Lex(source);
@@ -53,7 +65,7 @@ void run_pipeline(const char *source)
 
     if (ast_count == 0)
     {
-        printf("Parser error: No valid instructions found\n");
+        fprintf(stderr, "\033[1;31mParser error:\033[0m No valid instructions found\n");
         return;
     }
 

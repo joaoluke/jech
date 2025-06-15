@@ -24,6 +24,12 @@ const char *token_type_to_str(JechTokenType type)
         return "EQUAL";
     case TOKEN_SEMICOLON:
         return "SEMICOLON";
+    case TOKEN_WHEN:
+        return "WHEN";
+    case TOKEN_LBRACE:
+        return "LBRACE";
+    case TOKEN_RBRACE:
+        return "RBRACE";
     case TOKEN_EOF:
         return "EOF";
     default:

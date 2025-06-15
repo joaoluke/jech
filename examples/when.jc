@@ -1,0 +1,5 @@
+keep value = true;
+
+when (value) {
+    say("Hello!");
+}

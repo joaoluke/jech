@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include "core/bytecode.h"
 #include "core/ast.h"
 
@@ -27,6 +28,61 @@ static void compile_keep(Bytecode *bc, const JechASTNode *node)
 }
 
 /**
+ * Compiles a `when` block, which contains a condition and an action
+ * Currently only supports `say` actions for the true condition
+ */
+static void compile_when(Bytecode *bc, const JechASTNode *node)
+{
+	bool is_true = false;
+
+	// Verifica a condição do when
+	const JechASTNode *condition = node->left;
+
+	switch (condition->token_type)
+	{
+	case TOKEN_BOOL:
+		is_true = (strcmp(condition->value, "true") == 0);
+		break;
+
+	case TOKEN_IDENTIFIER:
+		// Procura se a variável foi definida anteriormente como true
+		for (int i = 0; i < bc->count; i++)
+		{
+			Instruction inst = bc->instructions[i];
+			if (inst.op == OP_KEEP && strcmp(inst.name, condition->value) == 0)
+			{
+				is_true = (strcmp(inst.operand, "true") == 0);
+				break;
+			}
+		}
+		break;
+
+	default:
+		fprintf(stderr, "Bytecode warning: unsupported when condition type: %d\n", condition->token_type);
+		break;
+	}
+
+	// Se a condição for verdadeira, compila o conteúdo dentro do when
+	if (is_true && node->right != NULL)
+	{
+		switch (node->right->type)
+		{
+		case JECH_AST_SAY:
+			compile_say(bc, node->right);
+			break;
+
+		case JECH_AST_KEEP:
+			compile_keep(bc, node->right);
+			break;
+
+		default:
+			fprintf(stderr, "Bytecode warning: unsupported when block content.\n");
+			break;
+		}
+	}
+}
+
+/**
  * Main compilation function: convert AST to bytecode
  */
 Bytecode _JechBytecode_CompileAll(JechASTNode **roots, int count)
@@ -50,6 +106,9 @@ Bytecode _JechBytecode_CompileAll(JechASTNode **roots, int count)
 			break;
 		case JECH_AST_KEEP:
 			compile_keep(&bc, node);
+			break;
+		case JECH_AST_WHEN:
+			compile_when(&bc, node);
 			break;
 		default:
 			fprintf(stderr, "Unknown AST node.\n");

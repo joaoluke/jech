@@ -197,6 +197,16 @@ JechTokenList _JechTokenizer_Lex(const char *source)
 		{
 			list.tokens[list.count++] = read_string(&p, &line, &col, token_col);
 		}
+		else if (*p == '{')
+		{
+			list.tokens[list.count++] = create_token(TOKEN_LBRACE, "{", line, col);
+			p++;
+		}
+		else if (*p == '}')
+		{
+			list.tokens[list.count++] = create_token(TOKEN_RBRACE, "}", line, col);
+			p++;
+		}
 		else if (*p != '\0')
 		{
 			char unknown[2] = {*p, '\0'};
