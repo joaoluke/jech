@@ -212,7 +212,11 @@ JechTokenList _JechTokenizer_Lex(const char *source)
 		{
 			char unknown[2] = {*p, '\0'};
 			list.tokens[list.count++] = create_token(TOKEN_UNKNOWN, unknown, line, col);
-			fprintf(stderr, "Lexer error: unknown character '%c'\n", *p);
+
+			char msg[64];
+			snprintf(msg, sizeof(msg), "Unknown character '%c'", *p);
+			report_syntax_error(msg, line, col);
+
 			p++;
 		}
 	}

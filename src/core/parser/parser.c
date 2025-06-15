@@ -2,8 +2,10 @@
 #include <string.h>
 #include <stdlib.h>
 #include "core/ast.h"
-#include "core/parser.h"
-#include "core/parser_keep.h"
+#include "core/parser/parser.h"
+#include "core/parser/keep.h"
+#include "core/parser/say.h"
+#include "core/parser/when.h"
 #include "errors/error.h"
 
 #define MAX_AST_ROOTS 128
@@ -56,15 +58,20 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 		}
 
 		// say("Hello, World!");
-		if (t[i].type == TOKEN_SAY &&
-			t[i + 1].type == TOKEN_LPAREN &&
-			(t[i + 2].type == TOKEN_STRING || t[i + 2].type == TOKEN_NUMBER ||
-			 t[i + 2].type == TOKEN_BOOL || t[i + 2].type == TOKEN_IDENTIFIER) &&
-			t[i + 3].type == TOKEN_RPAREN &&
-			t[i + 4].type == TOKEN_SEMICOLON)
+		if (t[i].type == TOKEN_SAY)
 		{
-			roots[count++] = create_say_node(&t[i + 2]);
-			i += 5;
+			int remaining = tokens->count - i;
+			JechASTNode *node = parse_say(&t[i], remaining);
+			if (node)
+			{
+				roots[count++] = node;
+				i += 5;
+				continue;
+			}
+			else
+			{
+				break;
+			}
 		}
 
 		// keep name = value;
@@ -85,22 +92,22 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 		}
 
 		// when(condition) { say(...) }
-		else if (i + 10 < tokens->count &&
-				 t[i].type == TOKEN_WHEN &&
-				 t[i + 1].type == TOKEN_LPAREN &&
-				 (t[i + 2].type == TOKEN_BOOL || t[i + 2].type == TOKEN_IDENTIFIER) &&
-				 t[i + 3].type == TOKEN_RPAREN &&
-				 t[i + 4].type == TOKEN_LBRACE &&
-				 t[i + 5].type == TOKEN_SAY &&
-				 t[i + 6].type == TOKEN_LPAREN &&
-				 (t[i + 7].type == TOKEN_STRING || t[i + 7].type == TOKEN_NUMBER || t[i + 7].type == TOKEN_IDENTIFIER) &&
-				 t[i + 8].type == TOKEN_RPAREN &&
-				 t[i + 9].type == TOKEN_SEMICOLON &&
-				 t[i + 10].type == TOKEN_RBRACE)
+		if (t[i].type == TOKEN_WHEN)
 		{
-			roots[count++] = create_when_node(&t[i + 2], &t[i + 7]);
-			i += 11;
+			int remaining = tokens->count - i;
+			JechASTNode *node = parse_when(&t[i], remaining);
+			if (node)
+			{
+				roots[count++] = node;
+				i += 11;
+			}
+			else
+			{
+				break;
+			}
 		}
+
+		// Handle other tokens
 		else
 		{
 			report_error(ERROR_PARSER, "Unexpected token or invalid statement", t[i].line, t[i].column);

@@ -22,7 +22,7 @@ void report_error(JechErrorType type, const char *message, int line, int col)
     fprintf(stderr, "at line %d, col %d: %s\n", line, col, message);
 }
 
-void report_parser_error(const char *message, int line, int column)
+void report_syntax_error(const char *message, int line, int column)
 {
     print_error_header(SYNTAX_ERROR);
     fprintf(stderr, "at line %d, col %d: %s\n", line, column, message);

@@ -92,7 +92,7 @@ Errors in JECH are modularized and categorized for clarity:
 
 This structure helps maintain clean separation between:
 
-* Logic (e.g., `parser_keep.c`)
+* Logic (e.g., `keep.c`)
 * Presentation of messages (e.g., `parser_error.c`)
 
 Example usage:

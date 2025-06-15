@@ -5,11 +5,10 @@
 #include "utils/read_file.h"
 #include "core/tokenizer.h"
 #include "core/pipeline.h"
-#include "core/parser.h"
+#include "core/parser/parser.h"
 #include "core/bytecode.h"
 #include "core/vm.h"
 #include "core/ast.h"
-#include "errors.h"
 #include "config.h"
 
 // Debug
@@ -51,7 +50,6 @@ char *load_source_file(const char *filename)
 void run_pipeline(const char *source)
 {
     JechTokenList tokens = _JechTokenizer_Lex(source);
-    check_lexical_errors(&tokens, source);
 
     int ast_count = 0;
     JechASTNode **roots = _JechParser_ParseAll(&tokens, &ast_count);

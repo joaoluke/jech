@@ -1,7 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include "ast.h"
+#include "core/ast.h"
 
 /**
  * Convert token list into an Abstract Syntax Tree (AST).

@@ -2,7 +2,7 @@
 #define MAIN_HELPERS_H
 
 #include "core/tokenizer.h"
-#include "core/parser.h"
+#include "core/parser/parser.h"
 #include "core/bytecode.h"
 
 /**
