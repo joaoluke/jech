@@ -63,12 +63,6 @@ void run_pipeline(const char *source)
         debug_print_ast(roots, ast_count);
     }
 
-    if (ast_count == 0)
-    {
-        fprintf(stderr, "\033[1;31mParser error:\033[0m No valid instructions found\n");
-        return;
-    }
-
     Bytecode bytecode = _JechBytecode_CompileAll(roots, ast_count);
 
     if (JECH_DEBUG)

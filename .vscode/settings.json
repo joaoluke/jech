@@ -20,6 +20,9 @@
         "debug_lexer.h": "c",
         "constants.h": "c",
         "type_traits": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "parser_error.h": "c",
+        "compare": "c",
+        "error.h": "c"
     }
 }

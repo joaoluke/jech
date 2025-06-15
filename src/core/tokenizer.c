@@ -3,6 +3,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include "core/tokenizer.h"
+#include "errors/error.h"
 
 /**
  * JECH Language Keyword Mapping
@@ -143,7 +144,7 @@ static JechToken read_string(const char **p, int *line, int *col, int start_col)
 	}
 	else
 	{
-		fprintf(stderr, "Lexer error at line %d, column %d: Unterminated string literal → \"%s\"\n", *line, start_col, buffer);
+		report_error(SYNTAX_ERROR, "Unterminated string literal", *line, start_col);
 		exit(1);
 	}
 }

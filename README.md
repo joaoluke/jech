@@ -70,13 +70,37 @@ say(name);
 
 ---
 
-### ⏳ `when` — Conditional Structures
+### ✅ `when` — Conditional Structures
 
-> Will enable conditional execution.
+> Executes a block of code only if the condition is `true`.
 
 ```jc
-when (true) {
-    say("Condition passed!");
+keep show = true;
+
+when (show) {
+    say("Hello!");
+}
+```
+
+## 📎 Error Handling Architecture (Preview)
+
+Errors in JECH are modularized and categorized for clarity:
+
+* `errors/error.h` → main error reporting function
+* `errors/parser_error.c` → custom messages like "Missing semicolon after `keep`"
+* `errors/lexer_error.c` → syntax issues like "Unterminated string"
+
+This structure helps maintain clean separation between:
+
+* Logic (e.g., `parser_keep.c`)
+* Presentation of messages (e.g., `parser_error.c`)
+
+Example usage:
+
+```c
+if (t[i + 4].type != TOKEN_SEMICOLON) {
+    report_missing_semicolon(&t[i + 4]);
+    return NULL;
 }
 ```
 

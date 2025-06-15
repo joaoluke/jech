@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "core/parser.h"
 #include "core/ast.h"
+#include "core/parser.h"
+#include "core/parser_keep.h"
+#include "errors/error.h"
 
 #define MAX_AST_ROOTS 128
 
@@ -49,10 +51,11 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 	{
 		if (count >= MAX_AST_ROOTS)
 		{
-			fprintf(stderr, "Parser error: AST root limit reached\n");
-			exit(1);
+			report_error(ERROR_PARSER, "Too many instructions", t[i].line, t[i].column);
+			break;
 		}
 
+		// say("Hello, World!");
 		if (t[i].type == TOKEN_SAY &&
 			t[i + 1].type == TOKEN_LPAREN &&
 			(t[i + 2].type == TOKEN_STRING || t[i + 2].type == TOKEN_NUMBER ||
@@ -63,15 +66,25 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 			roots[count++] = create_say_node(&t[i + 2]);
 			i += 5;
 		}
-		else if (t[i].type == TOKEN_KEEP &&
-				 t[i + 1].type == TOKEN_IDENTIFIER &&
-				 t[i + 2].type == TOKEN_EQUAL &&
-				 (t[i + 3].type == TOKEN_STRING || t[i + 3].type == TOKEN_NUMBER || t[i + 3].type == TOKEN_BOOL) &&
-				 t[i + 4].type == TOKEN_SEMICOLON)
+
+		// keep name = value;
+		if (t[i].type == TOKEN_KEEP)
 		{
-			roots[count++] = create_keep_node(&t[i + 1], &t[i + 3]);
-			i += 5;
+			int remaining = tokens->count - i;
+			JechASTNode *node = parse_keep(&t[i], remaining);
+			if (node)
+			{
+				roots[count++] = node;
+				i += 5;
+				continue;
+			}
+			else
+			{
+				break;
+			}
 		}
+
+		// when(condition) { say(...) }
 		else if (i + 10 < tokens->count &&
 				 t[i].type == TOKEN_WHEN &&
 				 t[i + 1].type == TOKEN_LPAREN &&
@@ -88,17 +101,9 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 			roots[count++] = create_when_node(&t[i + 2], &t[i + 7]);
 			i += 11;
 		}
-
 		else
 		{
-			if (t[i].type == TOKEN_EOF)
-			{
-				break;
-			}
-			else
-			{
-				fprintf(stderr, "Parser error near token '%s' (type %d)\n", t[i].value, t[i].type);
-			}
+			report_error(ERROR_PARSER, "Unexpected token or invalid statement", t[i].line, t[i].column);
 			break;
 		}
 	}
