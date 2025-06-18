@@ -13,6 +13,7 @@ typedef enum
     JECH_AST_KEEP,
     JECH_AST_WHEN,
     JECH_AST_BOOL_LITERAL,
+    JECH_AST_ASSIGN,
     JECH_AST_UNKNOWN
 } JechASTType;
 

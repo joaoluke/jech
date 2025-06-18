@@ -80,6 +80,18 @@ static void compile_when(Bytecode *bc, const JechASTNode *node)
 }
 
 /**
+ * Helper function to compile the `assign` command
+ */
+static void compile_assign(Bytecode *bc, const JechASTNode *node)
+{
+	Instruction *inst = &bc->instructions[bc->count++];
+	inst->op = OP_ASSIGN;
+	strncpy(inst->name, node->name, sizeof(inst->name));
+	strncpy(inst->operand, node->value, sizeof(inst->operand));
+	inst->token_type = node->token_type;
+}
+
+/**
  * Main compilation function: convert AST to bytecode
  */
 Bytecode _JechBytecode_CompileAll(JechASTNode **roots, int count)
@@ -106,6 +118,9 @@ Bytecode _JechBytecode_CompileAll(JechASTNode **roots, int count)
 			break;
 		case JECH_AST_WHEN:
 			compile_when(&bc, node);
+			break;
+		case JECH_AST_ASSIGN:
+			compile_assign(&bc, node);
 			break;
 		default:
 			fprintf(stderr, "Unknown AST node.\n");

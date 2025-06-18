@@ -9,6 +9,7 @@ typedef enum
 {
 	OP_SAY,
 	OP_KEEP,
+	OP_ASSIGN,
 	OP_END
 } OpCode;
 
