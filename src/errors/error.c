@@ -27,3 +27,9 @@ void report_syntax_error(const char *message, int line, int column)
     print_error_header(SYNTAX_ERROR);
     fprintf(stderr, "at line %d, col %d: %s\n", line, column, message);
 }
+
+void report_runtime_error(const char *message, int line, int column)
+{
+    print_error_header(ERROR_RUNTIME);
+    fprintf(stderr, "at line %d, col %d: %s\n", line, column, message);
+}

@@ -21,6 +21,8 @@ typedef struct
 	char operand[MAX_STRING];
 	char name[MAX_STRING];
 	JechTokenType token_type;
+	int line;
+	int column;
 } Instruction;
 
 /**

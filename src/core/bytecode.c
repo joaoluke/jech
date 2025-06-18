@@ -35,7 +35,6 @@ static void compile_when(Bytecode *bc, const JechASTNode *node)
 {
 	bool is_true = false;
 
-	// Verifica a condição do when
 	const JechASTNode *condition = node->left;
 
 	switch (condition->token_type)
@@ -45,7 +44,6 @@ static void compile_when(Bytecode *bc, const JechASTNode *node)
 		break;
 
 	case TOKEN_IDENTIFIER:
-		// Procura se a variável foi definida anteriormente como true
 		for (int i = 0; i < bc->count; i++)
 		{
 			Instruction inst = bc->instructions[i];
@@ -62,7 +60,6 @@ static void compile_when(Bytecode *bc, const JechASTNode *node)
 		break;
 	}
 
-	// Se a condição for verdadeira, compila o conteúdo dentro do when
 	if (is_true && node->right != NULL)
 	{
 		switch (node->right->type)

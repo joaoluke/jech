@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "core/vm.h"
+#include "errors/error.h"
 
 #define MAX_VARS 64
 
@@ -92,6 +94,11 @@ void _JechVM_Execute(const Bytecode *bc)
 			}
 			break;
 		case OP_KEEP:
+			if (get_variable(inst.name) != NULL)
+			{
+				report_runtime_error("Variable already declared", inst.line, inst.column);
+				exit(1);
+			}
 			set_variable(inst.name, inst.operand);
 			break;
 		case OP_END:

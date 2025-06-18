@@ -13,5 +13,6 @@ typedef enum
 void report_error(JechErrorType type, const char *message, int line, int col);
 void print_error_header(JechErrorType type);
 void report_syntax_error(const char *message, int line, int column);
+void report_runtime_error(const char *message, int line, int column);
 
 #endif
