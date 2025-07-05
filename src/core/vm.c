@@ -22,7 +22,7 @@ static int var_count = 0;
 /**
  * Sets or updates a variable in the runtime environment
  */
-void set_variable(const char *name, const char *value)
+void _JechVM_SetVariable(const char *name, const char *value)
 {
 	for (int i = 0; i < var_count; i++)
 	{
@@ -43,7 +43,7 @@ void set_variable(const char *name, const char *value)
 /**
  * Retrieves the value of a variable by name
  */
-const char *get_variable(const char *name)
+const char *_JechVM_GetVariable(const char *name)
 {
 	for (int i = 0; i < var_count; i++)
 	{
@@ -98,7 +98,7 @@ void _JechVM_Execute(const Bytecode *bc)
 		case OP_SAY:
 			if (inst.token_type == TOKEN_IDENTIFIER)
 			{
-				const char *value = get_variable(inst.operand);
+				const char *value = _JechVM_GetVariable(inst.operand);
 				if (value)
 					printf("%s\n", value);
 				else
@@ -110,17 +110,17 @@ void _JechVM_Execute(const Bytecode *bc)
 			}
 			break;
 		case OP_KEEP:
-			if (get_variable(inst.name) != NULL)
+			if (_JechVM_GetVariable(inst.name) != NULL)
 			{
 				report_runtime_error("Variable already declared", inst.line, inst.column);
 				exit(1);
 			}
-			set_variable(inst.name, inst.operand);
+			_JechVM_SetVariable(inst.name, inst.operand);
 			break;
 		case OP_ASSIGN:
 			if (variable_exists(inst.name))
 			{
-				set_variable(inst.name, inst.operand);
+				_JechVM_SetVariable(inst.name, inst.operand);
 			}
 			else
 			{
@@ -135,7 +135,7 @@ void _JechVM_Execute(const Bytecode *bc)
 				printf("OPCODE: %d NAME: %s\n", bc->instructions[i].op, bc->instructions[i].name);
 			}
 
-			const char *left_val = get_variable(inst.operand);
+			const char *left_val = _JechVM_GetVariable(inst.operand);
 			if (!left_val)
 			{
 				fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
@@ -172,7 +172,53 @@ void _JechVM_Execute(const Bytecode *bc)
 
 			char result_str[MAX_STRING];
 			snprintf(result_str, sizeof(result_str), "%.2f", result);
-			set_variable(inst.name, result_str);
+			_JechVM_SetVariable(inst.name, result_str);
+			break;
+		}
+		case OP_WHEN:
+		{
+			const char *var_val = _JechVM_GetVariable(inst.name);
+			if (!var_val)
+			{
+				fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.name);
+				exit(1);
+			}
+
+			double left = atof(var_val);
+			double right = atof(inst.operand);
+			bool is_true = false;
+
+			switch (inst.bin_op)
+			{
+			case TOKEN_GT:
+				is_true = (left > right);
+				break;
+			case TOKEN_LT:
+				is_true = (left < right);
+				break;
+			case TOKEN_EQEQ:
+				is_true = (left == right);
+				break;
+			default:
+				fprintf(stderr, "Runtime Error: Unsupported operator in when.\n");
+				exit(1);
+			}
+
+			if (is_true)
+			{
+				if (inst.token_type == TOKEN_IDENTIFIER)
+				{
+					const char *say_val = _JechVM_GetVariable(inst.operand_right);
+					if (say_val)
+						printf("%s\n", say_val);
+					else
+						fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand_right);
+				}
+				else
+				{
+					printf("%s\n", inst.operand_right);
+				}
+			}
 			break;
 		}
 		case OP_END:

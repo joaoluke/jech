@@ -3,8 +3,18 @@
 
 #include "bytecode.h"
 
-const char *get_variable(const char *name);
-void set_variable(const char *name, const char *value);
+/**
+ * Sets or updates a variable in the VM runtime environment.
+ * If the variable already exists, its value will be overwritten.
+ */
+void _JechVM_SetVariable(const char *name, const char *value);
+
+/**
+ * Retrieves the value of a variable from the VM runtime environment.
+ * Returns NULL if the variable does not exist.
+ */
+const char *_JechVM_GetVariable(const char *name);
+
 /**
  * Executes the bytecode instructions
  */

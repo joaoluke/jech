@@ -1,6 +1,8 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
-#define JECH_DEBUG 1
+#ifndef JECH_DEBUG
+#define JECH_DEBUG 0
+#endif
 
 #endif

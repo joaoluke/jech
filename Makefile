@@ -1,45 +1,39 @@
-# Diretórios
-SRC_DIR = src
-BUILD_DIR = build
-INCLUDE_DIR = include
-
-# Arquivos principais
-MAIN_SRC = $(SRC_DIR)/main.c
-CORE_SRCS = $(wildcard $(SRC_DIR)/core/*.c)
-UTILS_SRCS = $(wildcard $(SRC_DIR)/utils/*.c)
-ERRORS_SRCS = $(wildcard $(SRC_DIR)/errors/*.c)
-DEBUG_SRCS = $(wildcard $(SRC_DIR)/debug/*.c)
-
-# Compilador
+# ===============
+# Variables
+# ===============
 CC = gcc
-CFLAGS = -I$(INCLUDE_DIR) -Wall
+SRC = $(wildcard src/*.c src/core/*.c src/core/parser/*.c src/debug/*.c src/utils/*.c src/errors/*.c)
+INCLUDE = -Iinclude
 
-# Binários
-JECH_BIN = $(BUILD_DIR)/jech
-TEST_BIN = $(BUILD_DIR)/test_runner
+BUILD_DIR = build
+SRC_DEBUG = src/debug/debug.c
+OUTPUT = $(BUILD_DIR)/jech
+OUTPUT_DEBUG = $(BUILD_DIR)/jech_debug
 
-# ======================
-# COMANDOS PRINCIPAIS
-# ======================
+CFLAGS = -Wall $(INCLUDE)
+DEBUG_FLAGS = -g -DJECH_DEBUG=1
 
-all: jech
+# ===============
+# Main Targets
+# ===============
+all: $(OUTPUT)
 
-# Compilar o projeto principal
-jech:
-	mkdir -p build
-	gcc src/*.c src/core/*.c src/core/parser/*.c src/debug/*.c src/errors/*.c src/utils/*.c -Iinclude -o build/jech
+debug: $(OUTPUT_DEBUG)
 
+# ===============
+# Compilations
+# ===============
+$(OUTPUT): $(SRC) | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $^ -o $@
 
-# Compilar e rodar os testes
-test: tests/main.c tests/tokenizer_tests.c $(SRC_DIR)/core/tokenizer.c $(SRC_DIR)/errors/error.c | $(BUILD_DIR)
-	$(CC) $^ $(CFLAGS) -o $(TEST_BIN)
-	@echo "Running JECH internal tests..."
-	@./$(TEST_BIN)
+$(OUTPUT_DEBUG): $(SRC) | $(BUILD_DIR)
+	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $^ -o $@
 
-# Criar pasta de build se não existir
+# ===============
+# Infra
+# ===============
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-# Limpar os binários
 clean:
 	rm -rf $(BUILD_DIR)

@@ -11,6 +11,7 @@ typedef enum
 	OP_KEEP,
 	OP_ASSIGN,
 	OP_BIN_OP,
+	OP_WHEN,
 	OP_END
 } OpCode;
 

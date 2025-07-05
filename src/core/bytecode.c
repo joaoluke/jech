@@ -37,93 +37,51 @@ static void compile_keep(Bytecode *bc, const JechASTNode *node)
  */
 static void compile_when(Bytecode *bc, const JechASTNode *node)
 {
-	bool is_true = false;
-
 	const JechASTNode *condition = node->left;
 
-	printf("[DEBUG] compile_when: condition type = %d\n", condition->type);
-
-	switch (condition->type)
+	if (condition->type == JECH_AST_BIN_OP)
 	{
-	case JECH_AST_BOOL_LITERAL:
-		is_true = (strcmp(condition->value, "true") == 0);
-		break;
+		Instruction *inst = &bc->instructions[bc->count++];
+		memset(inst, 0, sizeof(Instruction));
+		inst->op = OP_WHEN;
 
-	case JECH_AST_IDENTIFIER:
-		for (int i = 0; i < bc->count; i++)
-		{
-			Instruction inst = bc->instructions[i];
-			if (inst.op == OP_KEEP && strcmp(inst.name, condition->value) == 0)
-			{
-				is_true = (strcmp(inst.operand, "true") == 0);
-				break;
-			}
-		}
-		break;
+		strncpy(inst->name, condition->left->value, sizeof(inst->name));
 
-	case JECH_AST_BIN_OP:
+		inst->bin_op = condition->token_type;
+
+		strncpy(inst->operand, condition->right->value, sizeof(inst->operand));
+
+		strncpy(inst->operand_right, node->right->value, sizeof(inst->operand_right));
+		inst->token_type = node->right->token_type;
+	}
+	else
 	{
-		const char *var_name = condition->left->value;
-		const char *rhs = condition->right->value;
+		bool is_true = false;
 
-		int var_value = 0;
-		int found = 0;
-
-		for (int i = 0; i < bc->count; i++)
+		switch (condition->type)
 		{
-			Instruction inst = bc->instructions[i];
-			if (inst.op == OP_KEEP && strcmp(inst.name, var_name) == 0)
+		case JECH_AST_BOOL_LITERAL:
+			is_true = strcmp(condition->value, "true") == 0;
+			break;
+		case JECH_AST_IDENTIFIER:
+			for (int i = 0; i < bc->count; i++)
 			{
-				var_value = atoi(inst.operand);
-				found = 1;
-				break;
+				Instruction inst = bc->instructions[i];
+				if (inst.op == OP_KEEP && strcmp(inst.name, condition->value) == 0)
+				{
+					is_true = strcmp(inst.operand, "true") == 0;
+					break;
+				}
 			}
-		}
-
-		if (!found)
-		{
-			fprintf(stderr, "Bytecode Error: Variable '%s' not found for 'when'\n", var_name);
-			exit(1);
-		}
-
-		int rhs_value = atoi(rhs);
-
-		switch (condition->token_type)
-		{
-		case TOKEN_GT:
-			is_true = (var_value > rhs_value);
-			break;
-		case TOKEN_LT:
-			is_true = (var_value < rhs_value);
-			break;
-		case TOKEN_EQEQ:
-			is_true = (var_value == rhs_value);
 			break;
 		default:
-			fprintf(stderr, "Bytecode warning: unsupported binary operator in when condition.\n");
+			fprintf(stderr, "Bytecode Error: unsupported when condition.\n");
 			break;
 		}
-		break;
-	}
 
-	default:
-		fprintf(stderr, "Bytecode warning: unsupported when condition type: %d\n", condition->type);
-		break;
-	}
-
-	if (is_true && node->right != NULL)
-	{
-		switch (node->right->type)
+		if (is_true && node->right)
 		{
-		case JECH_AST_SAY:
 			compile_say(bc, node->right);
-			break;
-		case JECH_AST_KEEP:
-			compile_keep(bc, node->right);
-			break;
-		default:
-			fprintf(stderr, "Bytecode warning: unsupported when block content.\n");
-			break;
 		}
 	}
 }
