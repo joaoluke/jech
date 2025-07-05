@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "ctype",
+        "EQEQ",
         "JECH",
         "LPAREN",
         "malloc",
@@ -23,6 +24,7 @@
         "stdlib.h": "c",
         "parser_error.h": "c",
         "compare": "c",
-        "error.h": "c"
+        "error.h": "c",
+        "ast.h": "c"
     }
 }

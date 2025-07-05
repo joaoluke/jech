@@ -14,6 +14,9 @@ typedef enum
     JECH_AST_WHEN,
     JECH_AST_BOOL_LITERAL,
     JECH_AST_ASSIGN,
+    JECH_AST_BIN_OP,
+    JECH_AST_IDENTIFIER,
+    JECH_AST_NUMBER_LITERAL,
     JECH_AST_UNKNOWN
 } JechASTType;
 
@@ -26,8 +29,11 @@ typedef struct JechASTNode
     char value[MAX_STRING];
     char name[MAX_STRING];
     JechTokenType token_type;
+
     struct JechASTNode *left;
     struct JechASTNode *right;
+
+    JechTokenType op;
 } JechASTNode;
 
 /**

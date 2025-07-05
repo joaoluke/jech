@@ -22,7 +22,7 @@ static int var_count = 0;
 /**
  * Sets or updates a variable in the runtime environment
  */
-static void set_variable(const char *name, const char *value)
+void set_variable(const char *name, const char *value)
 {
 	for (int i = 0; i < var_count; i++)
 	{
@@ -43,7 +43,7 @@ static void set_variable(const char *name, const char *value)
 /**
  * Retrieves the value of a variable by name
  */
-static const char *get_variable(const char *name)
+const char *get_variable(const char *name)
 {
 	for (int i = 0; i < var_count; i++)
 	{
@@ -128,6 +128,53 @@ void _JechVM_Execute(const Bytecode *bc)
 				exit(1);
 			}
 			break;
+		case OP_BIN_OP:
+		{
+			for (int i = 0; i < bc->count; i++)
+			{
+				printf("OPCODE: %d NAME: %s\n", bc->instructions[i].op, bc->instructions[i].name);
+			}
+
+			const char *left_val = get_variable(inst.operand);
+			if (!left_val)
+			{
+				fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
+				exit(1);
+			}
+
+			double left = atof(left_val);
+			double right = atof(inst.operand_right);
+			double result = 0;
+
+			switch (inst.bin_op)
+			{
+			case TOKEN_PLUS:
+				result = left + right;
+				break;
+			case TOKEN_MINUS:
+				result = left - right;
+				break;
+			case TOKEN_STAR:
+				result = left * right;
+				break;
+			case TOKEN_SLASH:
+				if (right == 0)
+				{
+					fprintf(stderr, "Runtime Error: Division by zero\n");
+					exit(1);
+				}
+				result = left / right;
+				break;
+			default:
+				fprintf(stderr, "Runtime Error: Unsupported binary operator\n");
+				exit(1);
+			}
+
+			char result_str[MAX_STRING];
+			snprintf(result_str, sizeof(result_str), "%.2f", result);
+			set_variable(inst.name, result_str);
+			break;
+		}
 		case OP_END:
 			return;
 		default:

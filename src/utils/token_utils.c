@@ -22,6 +22,20 @@ const char *token_type_to_str(JechTokenType type)
         return "RPAREN";
     case TOKEN_EQUAL:
         return "EQUAL";
+    case TOKEN_EQEQ:
+        return "EQEQ";
+    case TOKEN_GT:
+        return "GT";
+    case TOKEN_LT:
+        return "LT";
+    case TOKEN_PLUS:
+        return "PLUS";
+    case TOKEN_MINUS:
+        return "MINUS";
+    case TOKEN_STAR:
+        return "STAR";
+    case TOKEN_SLASH:
+        return "SLASH";
     case TOKEN_SEMICOLON:
         return "SEMICOLON";
     case TOKEN_WHEN:

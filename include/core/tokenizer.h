@@ -24,6 +24,15 @@ typedef enum
 	TOKEN_EQUAL,	 // =
 	TOKEN_SEMICOLON, // ;
 
+	// New operators:
+	TOKEN_PLUS,	 // +
+	TOKEN_MINUS, // -
+	TOKEN_STAR,	 // *
+	TOKEN_SLASH, // /
+	TOKEN_EQEQ,	 // ==
+	TOKEN_GT,	 // >
+	TOKEN_LT,	 // <
+
 	// Identifiers and misc
 	TOKEN_IDENTIFIER,
 	TOKEN_EOF,

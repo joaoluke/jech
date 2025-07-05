@@ -174,9 +174,54 @@ JechTokenList _JechTokenizer_Lex(const char *source)
 		{
 			list.tokens[list.count++] = read_number(&p, &line, &col, token_col);
 		}
+		else if (*p == '+')
+		{
+			list.tokens[list.count++] = create_token(TOKEN_PLUS, "+", line, col);
+			p++;
+		}
+		else if (*p == '-')
+		{
+			list.tokens[list.count++] = create_token(TOKEN_MINUS, "-", line, col);
+			p++;
+		}
+		else if (*p == '*')
+		{
+			list.tokens[list.count++] = create_token(TOKEN_STAR, "*", line, col);
+			p++;
+		}
+		else if (*p == '/')
+		{
+			if (*(p + 1) == '/')
+			{
+				while (*p && *p != '\n')
+				{
+					p++;
+				}
+			}
+			else
+			{
+				list.tokens[list.count++] = create_token(TOKEN_SLASH, "/", line, col);
+				p++;
+			}
+		}
+		else if (*p == '=' && *(p + 1) == '=')
+		{
+			list.tokens[list.count++] = create_token(TOKEN_EQEQ, "==", line, col);
+			p += 2;
+		}
 		else if (*p == '=')
 		{
 			list.tokens[list.count++] = create_token(TOKEN_EQUAL, "=", line, col);
+			p++;
+		}
+		else if (*p == '>')
+		{
+			list.tokens[list.count++] = create_token(TOKEN_GT, ">", line, col);
+			p++;
+		}
+		else if (*p == '<')
+		{
+			list.tokens[list.count++] = create_token(TOKEN_LT, "<", line, col);
 			p++;
 		}
 		else if (*p == '(')
@@ -208,6 +253,7 @@ JechTokenList _JechTokenizer_Lex(const char *source)
 			list.tokens[list.count++] = create_token(TOKEN_RBRACE, "}", line, col);
 			p++;
 		}
+
 		else if (*p != '\0')
 		{
 			char unknown[2] = {*p, '\0'};

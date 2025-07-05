@@ -97,10 +97,23 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 		{
 			int remaining = tokens->count - i;
 			JechASTNode *node = parse_when(&t[i], remaining);
+
 			if (node)
 			{
 				roots[count++] = node;
-				i += 11;
+
+				int offset = 0;
+				if (node->left->type == JECH_AST_BIN_OP)
+				{
+					offset = 5;
+				}
+				else
+				{
+					offset = 3;
+				}
+
+				i += offset + 8;
+				continue;
 			}
 			else
 			{
@@ -116,7 +129,7 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 			if (node)
 			{
 				roots[count++] = node;
-				i += 4;
+				i += (node->left && node->left->type == JECH_AST_BIN_OP) ? 6 : 4;
 				continue;
 			}
 			else

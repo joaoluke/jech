@@ -3,6 +3,8 @@
 
 #include "bytecode.h"
 
+const char *get_variable(const char *name);
+void set_variable(const char *name, const char *value);
 /**
  * Executes the bytecode instructions
  */
