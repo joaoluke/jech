@@ -1,0 +1,17 @@
+// ==============
+// Basic examples of the keep command
+// ==============
+
+// Basic keep
+keep name = "JECH";
+say(name);
+
+// Number keep
+keep age = 25;
+say(age);
+
+// Bool keep
+keep isActive = true;
+when (isActive) {
+    say("It's active!");
+}

@@ -1,0 +1,31 @@
+// ==============
+// Basic examples of the when command
+// ==============
+
+// Simple when with bool
+keep flag = true;
+
+when (flag) {
+    say("Flag is true");
+}
+
+// When with binary op
+keep num = 10;
+
+when (num > 5) {
+    say("Num is greater than 5");
+}
+
+// When condition false: should not print
+keep active = false;
+
+when (active) {
+    say("This should not appear");
+}
+
+// When with binary op false: should not print
+keep value = 2;
+
+when (value > 10) {
+    say("This won't appear either");
+}

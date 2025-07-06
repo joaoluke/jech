@@ -130,11 +130,6 @@ void _JechVM_Execute(const Bytecode *bc)
 			break;
 		case OP_BIN_OP:
 		{
-			for (int i = 0; i < bc->count; i++)
-			{
-				printf("OPCODE: %d NAME: %s\n", bc->instructions[i].op, bc->instructions[i].name);
-			}
-
 			const char *left_val = _JechVM_GetVariable(inst.operand);
 			if (!left_val)
 			{

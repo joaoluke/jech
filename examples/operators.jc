@@ -1,6 +1,0 @@
-keep x = 1;
-x = x + 2;
-
-when (x > 2) {
-    say(x);
-}
