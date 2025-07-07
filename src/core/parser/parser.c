@@ -107,6 +107,12 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 				break;
 		}
 
+		// Handle EOF token
+		if (t[i].type == TOKEN_EOF)
+		{
+			break;
+		}
+
 		// Handle other tokens
 		else
 		{
