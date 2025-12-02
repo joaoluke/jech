@@ -1,79 +1,212 @@
-## ⚙️ Role of `bytecode.c`
+# ⚙️ Bytecode Compiler
 
-This file is responsible for:
+## What is Bytecode?
 
-> 🚧 **Converting the AST (command tree) into linear bytecode**
-> which will later be executed by the virtual machine.
+**Bytecode** is an intermediate representation between your source code and machine execution. It's a sequence of simple instructions that the Virtual Machine can execute efficiently.
+
+Think of it like assembly language, but designed specifically for your language's VM.
+
+### Why Bytecode?
+
+1. **Simpler than machine code** — easier to generate and debug
+2. **Portable** — runs on any platform with the VM
+3. **Optimizable** — can be analyzed and improved before execution
 
 ---
 
-## 🔍 Code Analysis
+## 📊 Instruction Types (OpCodes)
 
-### 1. **Helper function: `compile_say`**
+```c
+typedef enum {
+    OP_SAY,       // Print a value
+    OP_KEEP,      // Declare a variable
+    OP_ASSIGN,    // Reassign a variable
+    OP_BIN_OP,    // Binary operation (+, -, *, /)
+    OP_WHEN,      // Conditional with comparison (>, <, ==)
+    OP_WHEN_BOOL, // Conditional with boolean/identifier
+    OP_END        // End of program
+} OpCode;
+```
+
+---
+
+## 🏗️ Instruction Structure
+
+```c
+typedef struct {
+    OpCode op;                    // What operation to perform
+    char name[MAX_STRING];        // Variable name or condition var
+    char operand[MAX_STRING];     // Primary value
+    char operand_right[MAX_STRING]; // Secondary value (for comparisons)
+    char else_operand[MAX_STRING];  // Else branch value
+    JechTokenType bin_op;         // Operator type (>, <, ==, +, -)
+    JechTokenType token_type;     // Value type (STRING, NUMBER, etc.)
+    JechTokenType cmp_operand_type; // Comparison operand type
+    JechTokenType else_token_type;  // Else value type
+    int has_else;                 // Flag for else branch
+    int line, column;             // Source location for errors
+} Instruction;
+```
+
+---
+
+## 🔧 Compilation Functions
+
+### `compile_say`
 
 ```c
 static void compile_say(Bytecode *bc, const JechASTNode *node)
 ```
 
-* Creates an instruction of type `OP_SAY`.
-* Copies the value (`node->value`) to the `operand` field.
-* Stores the original token type (e.g. `TOKEN_STRING`, `TOKEN_NUMBER`).
-* Increments the instruction counter.
+Compiles a `say(...)` statement:
 
-📦 This transforms the `say("hello")` command into:
+```jc
+say("Hello!");
+```
 
+Becomes:
 ```text
-{ op: OP_SAY, operand: "hello", token_type: TOKEN_STRING }
+{ op: OP_SAY, operand: "Hello!", token_type: TOKEN_STRING }
 ```
 
 ---
 
-### 2. **Helper function: `compile_keep`**
+### `compile_keep`
 
 ```c
 static void compile_keep(Bytecode *bc, const JechASTNode *node)
 ```
 
-* Creates an `OP_KEEP` instruction.
-* Sets `name` to the variable identifier.
-* Sets `operand` to the assigned value.
-* Also stores the value type.
-
-🧠 Example:
+Compiles a variable declaration:
 
 ```jc
-keep x = 42;
+keep age = 25;
 ```
 
-turns:
-
+Becomes:
 ```text
-{ op: OP_KEEP, name: "x", operand: "42", token_type: TOKEN_NUMBER }
+{ op: OP_KEEP, name: "age", operand: "25", token_type: TOKEN_NUMBER }
 ```
 
 ---
 
-### 3. **Main function: `_JechBytecode_CompileAll`**
+### `compile_assign`
+
+```c
+static void compile_assign(Bytecode *bc, const JechASTNode *node)
+```
+
+Compiles a variable reassignment:
+
+```jc
+age = 30;
+```
+
+Becomes:
+```text
+{ op: OP_ASSIGN, name: "age", operand: "30", token_type: TOKEN_NUMBER }
+```
+
+---
+
+### `compile_when`
+
+```c
+static void compile_when(Bytecode *bc, const JechASTNode *node)
+```
+
+Compiles conditional statements. This is the most complex function because it handles multiple cases:
+
+#### Case 1: Comparison condition
+```jc
+when (age > 18) { say("adult"); } else { say("minor"); }
+```
+
+Becomes:
+```text
+{
+    op: OP_WHEN,
+    name: "age",           // Variable to compare
+    bin_op: TOKEN_GT,      // > operator
+    operand: "18",         // Compare against
+    operand_right: "adult", // Then-branch value
+    has_else: 1,
+    else_operand: "minor"  // Else-branch value
+}
+```
+
+#### Case 2: Boolean/identifier condition
+```jc
+when (active) { say("yes"); } else { say("no"); }
+```
+
+Becomes:
+```text
+{
+    op: OP_WHEN_BOOL,
+    name: "active",        // Variable to check
+    operand: "yes",        // Then-branch value
+    has_else: 1,
+    else_operand: "no"     // Else-branch value
+}
+```
+
+---
+
+## 🎯 Main Entry Point
 
 ```c
 Bytecode _JechBytecode_CompileAll(JechASTNode **roots, int count)
 ```
 
-#### 🚀 This is the function that scans the entire AST and compiles each node into an instruction:
+Orchestrates the compilation of all AST nodes:
 
-* Initializes a new `Bytecode` structure with counter 0.
-* Iterates over all the nodes in the AST (`roots[i]`).
-* For each node, checks its type (`JECH_AST_SAY`, `JECH_AST_KEEP`...).
+1. **Initialize** empty bytecode structure
+2. **Iterate** through AST roots
+3. **Dispatch** to appropriate compile function based on node type
+4. **Append** `OP_END` instruction
+5. **Return** complete bytecode
 
-* Calls the corresponding compilation function.
-* Manually adds the final `OP_END` instruction to the end of the program (marking the end of execution for the VM).
+### Complete Example
 
-🧱 Example of an instruction sequence:
+Source code:
+```jc
+keep age = 25;
+when (age > 18) {
+    say("adult");
+}
+else {
+    say("minor");
+}
+```
 
+Generated bytecode:
 ```text
-[0] OP_KEEP ("x" = "42")
-[1] OP_SAY ("x")
+[0] OP_KEEP      name="age", operand="25"
+[1] OP_WHEN      name="age", bin_op=GT, operand="18", 
+                 operand_right="adult", has_else=1, else_operand="minor"
 [2] OP_END
 ```
+
+---
+
+## 💡 Key Concepts for Learners
+
+1. **Linearization** — trees become flat instruction sequences
+2. **All data is strings** — the VM interprets types at runtime
+3. **One instruction per statement** — keeps execution simple
+4. **Metadata matters** — token types help the VM make decisions
+
+---
+
+## 🔬 How Bytecode Connects to Other Stages
+
+```text
+Tokens → Parser → AST → Bytecode → VM
+                          ↑
+                     You are here
+```
+
+The bytecode compiler reads the AST and produces instructions that the VM can execute directly.
 
 ---

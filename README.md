@@ -45,11 +45,11 @@ It combines the initials of their names as a symbolic gesture — representing n
 
 ## 🧠 Commands & Language Features
 
-### ✅ `say(...)`
+### ✅ `say(...)` — Output
 
 > Prints a value to the terminal.
 
-**Currently supported types:**
+**Supported types:**
 
 - ✅ **String** → `say("Hello, JECH!");`
 - ✅ **Boolean** → `say(true);`, `say(false);`
@@ -61,18 +61,36 @@ It combines the initials of their names as a symbolic gesture — representing n
 
 ### ✅ `keep` — Variable Declaration
 
-> Declares a variable that can be reused throughout the program.
+> Declares a new variable that can be reused throughout the program.
 
 ```jc
 keep name = "JECH";
-say(name);
+keep age = 25;
+keep active = true;
+
+say(name);  // Output: JECH
+say(age);   // Output: 25
+```
+
+---
+
+### ✅ Variable Reassignment
+
+> After declaring a variable with `keep`, you can reassign its value.
+
+```jc
+keep status = true;
+status = false;
+say(status);  // Output: false
 ```
 
 ---
 
 ### ✅ `when` — Conditional Structures
 
-> Executes a block of code only if the condition is `true`.
+> Executes a block of code based on a condition.
+
+#### Boolean Conditions
 
 ```jc
 keep show = true;
@@ -80,6 +98,54 @@ keep show = true;
 when (show) {
     say("Hello!");
 }
+```
+
+#### Comparison Operators (`==`, `>`, `<`)
+
+```jc
+keep age = 25;
+
+when (age > 18) {
+    say("You are an adult");
+}
+```
+
+```jc
+keep name = "João";
+
+when (name == "João") {
+    say("Welcome, João!");
+}
+```
+
+---
+
+### ✅ `else` — Alternative Branch
+
+> Executes a block when the `when` condition is `false`.
+
+```jc
+keep age = 15;
+
+when (age > 18) {
+    say("adult");
+}
+else {
+    say("minor");
+}
+// Output: minor
+```
+
+```jc
+keep logged = false;
+
+when (logged) {
+    say("Welcome back!");
+}
+else {
+    say("Please log in");
+}
+// Output: Please log in
 ```
 
 ## 📎 Error Handling Architecture (Preview)
@@ -104,35 +170,93 @@ if (t[i + 4].type != TOKEN_SEMICOLON) {
 }
 ```
 
-## ⚙️ Architecture Pipeline
+## 🚀 Quick Start
 
-JECH now implements a **fully modular interpreter pipeline**, inspired by CPython:
+### Building JECH
 
-```text
-Source Code
-   ↓
-Tokenizer (lexer)
-   ↓
-Parser
-   ↓
-AST Tree (ast.c)
-   ↓
-Bytecode Compiler
-   ↓
-Virtual Machine (VM)
-   ↓
-💾 Execution!
+```bash
+# Clone the repository
+git clone https://github.com/joaoluke/jech.git
+cd jech
+
+# Build the compiler
+make
+
+# Run a JECH program
+./build/jech main.jc
 ```
 
-Each stage is fully modular and documented:
+### Your First Program
 
-### 📂 Explore the documentation:
+Create a file called `hello.jc`:
 
-- [Architecture Overview](docs/en/architecture.md)
-- [Tokenizer Design](docs/en/tokenizer.md)
-- [Parser Tree](docs/en/parser.md)
-- [Ast](docs/en/ast.md)
-- [Bytecode & VM](docs/en/bytecode.md)
+```jc
+keep name = "World";
+say("Hello, JECH!");
+say(name);
+```
+
+Run it:
+
+```bash
+./build/jech hello.jc
+# Output:
+# Hello, JECH!
+# World
+```
+
+---
+
+## ⚙️ Architecture Pipeline
+
+JECH implements a **fully modular interpreter pipeline**, inspired by how CPython works:
+
+```text
+┌─────────────────┐
+│   Source Code   │  →  keep x = 10; say(x);
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│    Tokenizer    │  →  Breaks code into tokens: KEEP, IDENTIFIER, EQUALS, NUMBER...
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│     Parser      │  →  Validates syntax and creates AST nodes
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│       AST       │  →  Tree structure representing the program
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│    Bytecode     │  →  Converts AST to instructions: OP_KEEP, OP_SAY...
+└────────┬────────┘
+         ▼
+┌─────────────────┐
+│  Virtual Machine│  →  Executes bytecode and produces output
+└─────────────────┘
+```
+
+### 🔬 Understanding Each Stage
+
+Each stage is **fully modular** — you can inspect, modify, or replace any component independently. This makes JECH perfect for learning how interpreters work.
+
+| Stage | File | Purpose |
+|-------|------|---------|
+| **Tokenizer** | `tokenizer.c` | Converts source code into tokens |
+| **Parser** | `parser.c` | Validates syntax, creates AST |
+| **AST** | `ast.c` | Tree structure for program representation |
+| **Bytecode** | `bytecode.c` | Compiles AST into VM instructions |
+| **VM** | `vm.c` | Executes bytecode instructions |
+
+### 📂 Deep Dive Documentation
+
+- [Architecture Overview](docs/en/architecture.md) — Full pipeline walkthrough
+- [Tokenizer Design](docs/en/tokenizer.md) — How lexical analysis works
+- [Parser](docs/en/parser.md) — Syntax validation and AST generation
+- [AST](docs/en/ast.md) — Abstract Syntax Tree structure
+- [Bytecode](docs/en/bytecode.md) — Instruction compilation
+- [Virtual Machine](docs/en/vm.md) — Bytecode execution
 
 ## 🌐 JECH
 
