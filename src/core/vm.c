@@ -172,32 +172,67 @@ void _JechVM_Execute(const Bytecode *bc)
 		}
 		case OP_WHEN:
 		{
-			// Binary condition: when (x > 10) { ... } else { ... }
-			const char *var_val = _JechVM_GetVariable(inst.name);
-			if (!var_val)
+			// Binary condition: when (x > 10) or when (x == "hello") { ... } else { ... }
+			const char *left_val = _JechVM_GetVariable(inst.name);
+			if (!left_val)
 			{
 				fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.name);
 				exit(1);
 			}
 
-			double left = atof(var_val);
-			double right = atof(inst.operand);
+			// Get right operand value (could be literal or variable)
+			const char *right_val = inst.operand;
+			if (inst.cmp_operand_type == TOKEN_IDENTIFIER)
+			{
+				right_val = _JechVM_GetVariable(inst.operand);
+				if (!right_val)
+				{
+					fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
+					exit(1);
+				}
+			}
+
 			bool is_true = false;
 
-			switch (inst.bin_op)
+			// String comparison for == with strings
+			if (inst.cmp_operand_type == TOKEN_STRING || 
+			    (inst.cmp_operand_type == TOKEN_IDENTIFIER && inst.bin_op == TOKEN_EQEQ))
 			{
-			case TOKEN_GT:
-				is_true = (left > right);
-				break;
-			case TOKEN_LT:
-				is_true = (left < right);
-				break;
-			case TOKEN_EQEQ:
-				is_true = (left == right);
-				break;
-			default:
-				fprintf(stderr, "Runtime Error: Unsupported operator in when.\n");
-				exit(1);
+				// Use string comparison for == operator
+				if (inst.bin_op == TOKEN_EQEQ)
+				{
+					is_true = (strcmp(left_val, right_val) == 0);
+				}
+				else if (inst.bin_op == TOKEN_GT)
+				{
+					is_true = (strcmp(left_val, right_val) > 0);
+				}
+				else if (inst.bin_op == TOKEN_LT)
+				{
+					is_true = (strcmp(left_val, right_val) < 0);
+				}
+			}
+			else
+			{
+				// Numeric comparison
+				double left = atof(left_val);
+				double right = atof(right_val);
+
+				switch (inst.bin_op)
+				{
+				case TOKEN_GT:
+					is_true = (left > right);
+					break;
+				case TOKEN_LT:
+					is_true = (left < right);
+					break;
+				case TOKEN_EQEQ:
+					is_true = (left == right);
+					break;
+				default:
+					fprintf(stderr, "Runtime Error: Unsupported operator in when.\n");
+					exit(1);
+				}
 			}
 
 			if (is_true)

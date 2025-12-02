@@ -42,14 +42,16 @@ static void compile_when(Bytecode *bc, const JechASTNode *node)
 
 	if (condition->type == JECH_AST_BIN_OP)
 	{
-		// Binary condition: when (x > 10) { ... }
+		// Binary condition: when (x > 10) { ... } or when (x == "hello") { ... }
 		Instruction *inst = &bc->instructions[bc->count++];
 		memset(inst, 0, sizeof(Instruction));
 		inst->op = OP_WHEN;
 
 		strncpy(inst->name, condition->left->value, sizeof(inst->name));
-		inst->bin_op = condition->token_type;
+		inst->bin_op = condition->token_type; // ==, <, >
 		strncpy(inst->operand, condition->right->value, sizeof(inst->operand));
+		inst->cmp_operand_type = condition->right->token_type; // STRING, NUMBER, IDENTIFIER
+
 		strncpy(inst->operand_right, node->right->value, sizeof(inst->operand_right));
 		inst->token_type = node->right->token_type;
 

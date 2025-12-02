@@ -33,13 +33,22 @@ JechASTNode *parse_when(const JechToken *t, int remaining_tokens)
     }
     else if (t[2].type == TOKEN_IDENTIFIER &&
              (t[3].type == TOKEN_GT || t[3].type == TOKEN_LT || t[3].type == TOKEN_EQEQ) &&
-             t[4].type == TOKEN_NUMBER &&
+             (t[4].type == TOKEN_NUMBER || t[4].type == TOKEN_STRING || t[4].type == TOKEN_IDENTIFIER) &&
              t[5].type == TOKEN_RPAREN)
     {
-
         JechASTNode *bin = _JechAST_CreateNode(JECH_AST_BIN_OP, NULL, NULL, t[3].type);
         bin->left = _JechAST_CreateNode(JECH_AST_IDENTIFIER, t[2].value, NULL, t[2].type);
-        bin->right = _JechAST_CreateNode(JECH_AST_NUMBER_LITERAL, t[4].value, NULL, t[4].type);
+
+        // Create right node based on token type
+        JechASTType right_type;
+        if (t[4].type == TOKEN_NUMBER)
+            right_type = JECH_AST_NUMBER_LITERAL;
+        else if (t[4].type == TOKEN_STRING)
+            right_type = JECH_AST_STRING_LITERAL;
+        else
+            right_type = JECH_AST_IDENTIFIER;
+
+        bin->right = _JechAST_CreateNode(right_type, t[4].value, NULL, t[4].type);
 
         condition = bin;
         offset = 5;

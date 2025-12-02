@@ -24,10 +24,11 @@ typedef struct
 	OpCode op;						// operation type: OP_SAY, OP_ASSIGN, etc.
 	char name[MAX_STRING];			// target variable name (for assign) or condition var
 	char operand[MAX_STRING];		// left operand or single value (then branch)
-	char operand_right[MAX_STRING]; // right operand (for BIN_OP)
+	char operand_right[MAX_STRING]; // right operand (for BIN_OP) or say value in when
 	char else_operand[MAX_STRING];  // else branch value (for WHEN_BOOL)
-	JechTokenType bin_op;			// BIN_OP operator (+, -, etc.)
-	JechTokenType token_type;		// then value type
+	JechTokenType bin_op;			// BIN_OP operator (+, -, ==, <, >)
+	JechTokenType token_type;		// then value type (say)
+	JechTokenType cmp_operand_type; // comparison operand type (STRING, NUMBER, IDENTIFIER)
 	JechTokenType else_token_type;  // else value type
 	int has_else;                   // flag for else branch
 	int line;
