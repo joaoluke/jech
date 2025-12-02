@@ -1,2 +1,7 @@
-keep name = "JoãoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooJoãoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooJoãoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooJoãoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooJoãoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooJoãoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooJoãooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
-say(name);
+keep name = true;
+when (name) {
+    say("true");
+}
+else {
+    say("false");
+}

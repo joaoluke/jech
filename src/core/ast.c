@@ -24,6 +24,7 @@ JechASTNode *_JechAST_CreateNode(JechASTType type, const char *value, const char
     node->token_type = token_type;
     node->left = NULL;
     node->right = NULL;
+    node->else_branch = NULL;
 
     return node;
 }
@@ -37,6 +38,7 @@ void _JechAST_Free(JechASTNode *node)
         return;
     _JechAST_Free(node->left);
     _JechAST_Free(node->right);
+    _JechAST_Free(node->else_branch);
     free(node);
 }
 

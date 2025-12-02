@@ -12,6 +12,7 @@ typedef enum
 	OP_ASSIGN,
 	OP_BIN_OP,
 	OP_WHEN,
+	OP_WHEN_BOOL, // for boolean/identifier conditions with else support
 	OP_END
 } OpCode;
 
@@ -21,11 +22,14 @@ typedef enum
 typedef struct
 {
 	OpCode op;						// operation type: OP_SAY, OP_ASSIGN, etc.
-	char name[MAX_STRING];			// target variable name (for assign)
-	char operand[MAX_STRING];		// left operand or single value
+	char name[MAX_STRING];			// target variable name (for assign) or condition var
+	char operand[MAX_STRING];		// left operand or single value (then branch)
 	char operand_right[MAX_STRING]; // right operand (for BIN_OP)
+	char else_operand[MAX_STRING];  // else branch value (for WHEN_BOOL)
 	JechTokenType bin_op;			// BIN_OP operator (+, -, etc.)
-	JechTokenType token_type;		// right value type
+	JechTokenType token_type;		// then value type
+	JechTokenType else_token_type;  // else value type
+	int has_else;                   // flag for else branch
 	int line;
 	int column;
 } Instruction;

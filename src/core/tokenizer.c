@@ -18,6 +18,7 @@ KeywordMap keywords[] = {
 	{"say", TOKEN_SAY},
 	{"keep", TOKEN_KEEP},
 	{"when", TOKEN_WHEN},
+	{"else", TOKEN_ELSE},
 	{NULL, TOKEN_UNKNOWN}};
 
 /**

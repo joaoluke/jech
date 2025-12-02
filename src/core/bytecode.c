@@ -33,7 +33,8 @@ static void compile_keep(Bytecode *bc, const JechASTNode *node)
 
 /**
  * Compiles a `when` block, which contains a condition and an action
- * Currently only supports `say` actions for the true condition
+ * Supports both binary conditions (x > 10) and boolean conditions (true/false/identifier)
+ * Now with else branch support
  */
 static void compile_when(Bytecode *bc, const JechASTNode *node)
 {
@@ -41,47 +42,49 @@ static void compile_when(Bytecode *bc, const JechASTNode *node)
 
 	if (condition->type == JECH_AST_BIN_OP)
 	{
+		// Binary condition: when (x > 10) { ... }
 		Instruction *inst = &bc->instructions[bc->count++];
 		memset(inst, 0, sizeof(Instruction));
 		inst->op = OP_WHEN;
 
 		strncpy(inst->name, condition->left->value, sizeof(inst->name));
-
 		inst->bin_op = condition->token_type;
-
 		strncpy(inst->operand, condition->right->value, sizeof(inst->operand));
-
 		strncpy(inst->operand_right, node->right->value, sizeof(inst->operand_right));
 		inst->token_type = node->right->token_type;
+
+		// Handle else branch for binary conditions
+		if (node->else_branch)
+		{
+			inst->has_else = 1;
+			strncpy(inst->else_operand, node->else_branch->value, sizeof(inst->else_operand));
+			inst->else_token_type = node->else_branch->token_type;
+		}
 	}
 	else
 	{
-		bool is_true = false;
+		// Boolean/identifier condition: when (name) { ... } else { ... }
+		Instruction *inst = &bc->instructions[bc->count++];
+		memset(inst, 0, sizeof(Instruction));
+		inst->op = OP_WHEN_BOOL;
 
-		switch (condition->type)
+		// Store condition (variable name or literal "true"/"false")
+		strncpy(inst->name, condition->value, sizeof(inst->name));
+		inst->bin_op = condition->type == JECH_AST_BOOL_LITERAL ? TOKEN_BOOL : TOKEN_IDENTIFIER;
+
+		// Store then branch (say value)
+		if (node->right)
 		{
-		case JECH_AST_BOOL_LITERAL:
-			is_true = strcmp(condition->value, "true") == 0;
-			break;
-		case JECH_AST_IDENTIFIER:
-			for (int i = 0; i < bc->count; i++)
-			{
-				Instruction inst = bc->instructions[i];
-				if (inst.op == OP_KEEP && strcmp(inst.name, condition->value) == 0)
-				{
-					is_true = strcmp(inst.operand, "true") == 0;
-					break;
-				}
-			}
-			break;
-		default:
-			fprintf(stderr, "Bytecode Error: unsupported when condition.\n");
-			break;
+			strncpy(inst->operand, node->right->value, sizeof(inst->operand));
+			inst->token_type = node->right->token_type;
 		}
 
-		if (is_true && node->right)
+		// Store else branch if present
+		if (node->else_branch)
 		{
-			compile_say(bc, node->right);
+			inst->has_else = 1;
+			strncpy(inst->else_operand, node->else_branch->value, sizeof(inst->else_operand));
+			inst->else_token_type = node->else_branch->token_type;
 		}
 	}
 }

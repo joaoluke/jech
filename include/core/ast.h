@@ -32,6 +32,7 @@ typedef struct JechASTNode
 
     struct JechASTNode *left;
     struct JechASTNode *right;
+    struct JechASTNode *else_branch; // for when/else
 
     JechTokenType op;
 } JechASTNode;

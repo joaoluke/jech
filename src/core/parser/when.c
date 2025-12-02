@@ -101,5 +101,57 @@ JechASTNode *parse_when(const JechToken *t, int remaining_tokens)
     when->left = condition;
     when->right = say;
 
+    // Check for optional else block: else { say(...); }
+    int else_start = base + 7; // position after '}'
+    if (remaining_tokens > else_start && t[else_start].type == TOKEN_ELSE)
+    {
+        if (t[else_start + 1].type != TOKEN_LBRACE)
+        {
+            report_syntax_error("Expected '{' after 'else'", t[else_start + 1].line, t[else_start + 1].column);
+            return NULL;
+        }
+
+        if (t[else_start + 2].type != TOKEN_SAY)
+        {
+            report_syntax_error("Expected 'say' statement inside 'else' block", t[else_start + 2].line, t[else_start + 2].column);
+            return NULL;
+        }
+
+        if (t[else_start + 3].type != TOKEN_LPAREN)
+        {
+            report_syntax_error("Expected '(' after 'say' in else", t[else_start + 3].line, t[else_start + 3].column);
+            return NULL;
+        }
+
+        if (t[else_start + 4].type != TOKEN_STRING &&
+            t[else_start + 4].type != TOKEN_IDENTIFIER &&
+            t[else_start + 4].type != TOKEN_NUMBER)
+        {
+            report_syntax_error("Invalid value inside 'say' in else", t[else_start + 4].line, t[else_start + 4].column);
+            return NULL;
+        }
+
+        if (t[else_start + 5].type != TOKEN_RPAREN)
+        {
+            report_syntax_error("Expected ')' after value in 'say' in else", t[else_start + 5].line, t[else_start + 5].column);
+            return NULL;
+        }
+
+        if (t[else_start + 6].type != TOKEN_SEMICOLON)
+        {
+            report_syntax_error("Missing semicolon after 'say' in else", t[else_start + 6].line, t[else_start + 6].column);
+            return NULL;
+        }
+
+        if (t[else_start + 7].type != TOKEN_RBRACE)
+        {
+            report_syntax_error("Expected '}' to close 'else' block", t[else_start + 7].line, t[else_start + 7].column);
+            return NULL;
+        }
+
+        JechASTNode *else_say = _JechAST_CreateNode(JECH_AST_SAY, t[else_start + 4].value, NULL, t[else_start + 4].type);
+        when->else_branch = else_say;
+    }
+
     return when;
 }

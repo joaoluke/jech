@@ -172,6 +172,7 @@ void _JechVM_Execute(const Bytecode *bc)
 		}
 		case OP_WHEN:
 		{
+			// Binary condition: when (x > 10) { ... } else { ... }
 			const char *var_val = _JechVM_GetVariable(inst.name);
 			if (!var_val)
 			{
@@ -212,6 +213,75 @@ void _JechVM_Execute(const Bytecode *bc)
 				else
 				{
 					printf("%s\n", inst.operand_right);
+				}
+			}
+			else if (inst.has_else)
+			{
+				if (inst.else_token_type == TOKEN_IDENTIFIER)
+				{
+					const char *say_val = _JechVM_GetVariable(inst.else_operand);
+					if (say_val)
+						printf("%s\n", say_val);
+					else
+						fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.else_operand);
+				}
+				else
+				{
+					printf("%s\n", inst.else_operand);
+				}
+			}
+			break;
+		}
+		case OP_WHEN_BOOL:
+		{
+			// Boolean/identifier condition: when (name) { ... } else { ... }
+			bool is_true = false;
+
+			if (inst.bin_op == TOKEN_BOOL)
+			{
+				// Literal true/false
+				is_true = strcmp(inst.name, "true") == 0;
+			}
+			else
+			{
+				// Identifier - get variable value at runtime
+				const char *var_val = _JechVM_GetVariable(inst.name);
+				if (!var_val)
+				{
+					fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.name);
+					exit(1);
+				}
+				is_true = strcmp(var_val, "true") == 0;
+			}
+
+			if (is_true)
+			{
+				if (inst.token_type == TOKEN_IDENTIFIER)
+				{
+					const char *say_val = _JechVM_GetVariable(inst.operand);
+					if (say_val)
+						printf("%s\n", say_val);
+					else
+						fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
+				}
+				else
+				{
+					printf("%s\n", inst.operand);
+				}
+			}
+			else if (inst.has_else)
+			{
+				if (inst.else_token_type == TOKEN_IDENTIFIER)
+				{
+					const char *say_val = _JechVM_GetVariable(inst.else_operand);
+					if (say_val)
+						printf("%s\n", say_val);
+					else
+						fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.else_operand);
+				}
+				else
+				{
+					printf("%s\n", inst.else_operand);
 				}
 			}
 			break;

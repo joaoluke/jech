@@ -43,7 +43,7 @@ JechASTNode *parse_assign(const JechToken *t, int remaining_tokens)
         return assign;
     }
 
-    if ((t[2].type == TOKEN_STRING || t[2].type == TOKEN_NUMBER || t[2].type == TOKEN_IDENTIFIER) && t[3].type == TOKEN_SEMICOLON)
+    if ((t[2].type == TOKEN_STRING || t[2].type == TOKEN_NUMBER || t[2].type == TOKEN_BOOL || t[2].type == TOKEN_IDENTIFIER) && t[3].type == TOKEN_SEMICOLON)
     {
         return _JechAST_CreateNode(JECH_AST_ASSIGN, t[2].value, t[0].value, t[2].type);
     }

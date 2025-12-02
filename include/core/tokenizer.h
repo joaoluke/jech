@@ -10,6 +10,7 @@ typedef enum
 	TOKEN_SAY,
 	TOKEN_KEEP,
 	TOKEN_WHEN,
+	TOKEN_ELSE,
 
 	// Data types
 	TOKEN_STRING,
