@@ -1,0 +1,53 @@
+// ================================================
+// 13 - Practical Example: Simple Banking
+// Account balance operations
+// ================================================
+
+// --- Account Setup ---
+keep accountHolder = "John Doe";
+keep balance = 1000;
+keep minimumBalance = 100;
+
+say("=== Bank Account ===");
+say("Account holder:");
+say(accountHolder);
+say("Initial balance:");
+say(balance);
+
+// --- Deposit ---
+balance = balance + 500;
+say("Deposit +500. New balance:");
+say(balance);
+
+// --- Withdrawal ---
+balance = balance - 200;
+say("Withdrawal -200. New balance:");
+say(balance);
+
+// --- Another Withdrawal ---
+balance = balance - 800;
+say("Withdrawal -800. New balance:");
+say(balance);
+
+// --- Check Minimum Balance ---
+when (balance > minimumBalance) {
+    say("Balance OK");
+}
+else {
+    say("Warning: Low balance!");
+}
+
+// --- Large Deposit ---
+balance = balance + 2000;
+say("Deposit +2000. New balance:");
+say(balance);
+
+// --- Final Balance Check ---
+when (balance > 1000) {
+    say("Healthy account balance");
+}
+else {
+    say("Consider saving more");
+}
+
+say("=== End of Statement ===");

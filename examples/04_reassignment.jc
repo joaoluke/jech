@@ -1,0 +1,44 @@
+// ================================================
+// 04 - Variable Reassignment
+// Changing variable values after declaration
+// ================================================
+
+// --- Basic Reassignment ---
+keep counter = 0;
+say(counter);
+
+counter = 1;
+say(counter);
+
+counter = 2;
+say(counter);
+
+// --- String Reassignment ---
+keep status = "pending";
+say(status);
+
+status = "processing";
+say(status);
+
+status = "complete";
+say(status);
+
+// --- Boolean Reassignment ---
+keep isLoggedIn = false;
+say(isLoggedIn);
+
+isLoggedIn = true;
+say(isLoggedIn);
+
+// --- Multiple Reassignments ---
+keep value = 10;
+say(value);
+
+value = 20;
+say(value);
+
+value = 30;
+say(value);
+
+value = 40;
+say(value);

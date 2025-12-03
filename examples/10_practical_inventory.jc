@@ -1,0 +1,45 @@
+// ================================================
+// 10 - Practical Example: Inventory System
+// Managing stock levels
+// ================================================
+
+// --- Initial Stock ---
+keep productName = "Widget";
+keep stockLevel = 50;
+keep reorderPoint = 20;
+
+say("=== Inventory System ===");
+say(productName);
+say("Initial stock:");
+say(stockLevel);
+
+// --- Process Sale ---
+stockLevel = stockLevel - 15;
+say("After sale (-15):");
+say(stockLevel);
+
+// --- Another Sale ---
+stockLevel = stockLevel - 20;
+say("After sale (-20):");
+say(stockLevel);
+
+// --- Check Stock Level ---
+when (stockLevel > reorderPoint) {
+    say("Stock OK");
+}
+else {
+    say("Low stock - reorder needed!");
+}
+
+// --- Restock ---
+stockLevel = stockLevel + 100;
+say("After restock (+100):");
+say(stockLevel);
+
+// --- Final Check ---
+when (stockLevel > reorderPoint) {
+    say("Stock replenished");
+}
+else {
+    say("Still low");
+}

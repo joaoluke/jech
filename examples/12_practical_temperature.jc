@@ -1,0 +1,55 @@
+// ================================================
+// 12 - Practical Example: Temperature Monitor
+// Checking temperature thresholds
+// ================================================
+
+// --- Sensor Reading ---
+keep temperature = 72;
+keep unit = "Fahrenheit";
+keep alertEnabled = true;
+
+say("=== Temperature Monitor ===");
+say("Current temperature:");
+say(temperature);
+say(unit);
+
+// --- Check if Hot ---
+when (temperature > 80) {
+    say("Warning: High temperature!");
+}
+else {
+    say("Temperature is normal");
+}
+
+// --- Check if Cold ---
+when (temperature < 60) {
+    say("Warning: Low temperature!");
+}
+else {
+    say("Not too cold");
+}
+
+// --- Simulate Temperature Rise ---
+temperature = temperature + 15;
+say("Temperature rising:");
+say(temperature);
+
+when (temperature > 80) {
+    say("Alert: Overheating!");
+}
+else {
+    say("Still within range");
+}
+
+// --- Check Alert Status ---
+when (alertEnabled) {
+    say("Alerts are enabled");
+}
+else {
+    say("Alerts are disabled");
+}
+
+// --- Cool Down ---
+temperature = temperature - 20;
+say("After cooling:");
+say(temperature);

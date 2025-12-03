@@ -1,0 +1,70 @@
+// ================================================
+// 15 - Practical Example: Todo List Status
+// Tracking task completion
+// ================================================
+
+// --- Task Setup ---
+keep task1 = "Buy groceries";
+keep task1Done = false;
+
+keep task2 = "Write report";
+keep task2Done = false;
+
+keep task3 = "Call mom";
+keep task3Done = true;
+
+keep completedTasks = 0;
+
+say("=== Todo List ===");
+
+// --- Check Task 1 ---
+say(task1);
+when (task1Done) {
+    say("Status: Complete");
+}
+else {
+    say("Status: Pending");
+}
+
+// --- Check Task 2 ---
+say(task2);
+when (task2Done) {
+    say("Status: Complete");
+}
+else {
+    say("Status: Pending");
+}
+
+// --- Check Task 3 ---
+say(task3);
+when (task3Done) {
+    say("Status: Complete");
+}
+else {
+    say("Status: Pending");
+}
+
+// --- Complete Task 1 ---
+task1Done = true;
+completedTasks = completedTasks + 1;
+say("Task 1 completed!");
+
+// --- Complete Task 2 ---
+task2Done = true;
+completedTasks = completedTasks + 1;
+say("Task 2 completed!");
+
+// --- Count completed (task3 was already done) ---
+completedTasks = completedTasks + 1;
+
+// --- Summary ---
+say("=== Summary ===");
+say("Completed tasks:");
+say(completedTasks);
+
+when (completedTasks == 3) {
+    say("All tasks done! Great job!");
+}
+else {
+    say("Keep going!");
+}

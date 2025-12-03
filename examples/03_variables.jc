@@ -1,0 +1,31 @@
+// ================================================
+// 03 - Variables with keep
+// Declaring and using variables
+// ================================================
+
+// --- String Variables ---
+keep name = "Alice";
+keep greeting = "Hello";
+say(name);
+say(greeting);
+
+// --- Number Variables ---
+keep age = 25;
+keep score = 100;
+keep price = 19.99;
+say(age);
+say(score);
+say(price);
+
+// --- Boolean Variables ---
+keep isActive = true;
+keep isComplete = false;
+say(isActive);
+say(isComplete);
+
+// --- Using Variables in Output ---
+keep username = "Bob";
+say(username);
+
+keep points = 500;
+say(points);

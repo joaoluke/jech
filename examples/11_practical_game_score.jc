@@ -1,0 +1,58 @@
+// ================================================
+// 11 - Practical Example: Game Score System
+// Tracking player progress
+// ================================================
+
+// --- Player Setup ---
+keep playerName = "Hero";
+keep score = 0;
+keep level = 1;
+keep isAlive = true;
+
+say("=== Game Started ===");
+say("Player:");
+say(playerName);
+
+// --- Collect Coins ---
+score = score + 10;
+say("Collected coin! Score:");
+say(score);
+
+score = score + 10;
+say("Collected coin! Score:");
+say(score);
+
+score = score + 10;
+say("Collected coin! Score:");
+say(score);
+
+// --- Defeat Enemy ---
+score = score + 50;
+say("Enemy defeated! Score:");
+say(score);
+
+// --- Bonus Multiplier ---
+score = score * 2;
+say("Bonus activated! Score:");
+say(score);
+
+// --- Check for Level Up ---
+when (score > 100) {
+    say("Level up!");
+}
+else {
+    say("Keep playing");
+}
+
+// --- Take Damage ---
+isAlive = true;
+when (isAlive) {
+    say("Player is still alive!");
+}
+else {
+    say("Game Over");
+}
+
+// --- Final Score ---
+say("=== Final Score ===");
+say(score);

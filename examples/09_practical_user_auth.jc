@@ -1,0 +1,45 @@
+// ================================================
+// 09 - Practical Example: User Authentication
+// Simulating a login system
+// ================================================
+
+// --- User Data ---
+keep username = "admin";
+keep isAuthenticated = false;
+keep loginAttempts = 0;
+
+// --- Display Initial State ---
+say("=== Login System ===");
+say(username);
+say(isAuthenticated);
+
+// --- Simulate Login Attempt ---
+loginAttempts = loginAttempts + 1;
+say("Login attempt:");
+say(loginAttempts);
+
+// --- Check Credentials ---
+when (username == "admin") {
+    say("Username valid");
+}
+else {
+    say("Unknown user");
+}
+
+// --- Authenticate User ---
+isAuthenticated = true;
+say("Authentication status:");
+say(isAuthenticated);
+
+// --- Check Authentication ---
+when (isAuthenticated) {
+    say("Welcome to the system!");
+}
+else {
+    say("Please log in first");
+}
+
+// --- Logout ---
+isAuthenticated = false;
+say("User logged out");
+say(isAuthenticated);

@@ -1,0 +1,62 @@
+// ================================================
+// 08 - Arithmetic Operations
+// Addition, subtraction, multiplication, division
+// ================================================
+
+// --- Addition ---
+keep sum = 5;
+sum = sum + 3;
+say(sum);
+
+keep total = 100;
+total = total + 50;
+say(total);
+
+// --- Subtraction ---
+keep difference = 20;
+difference = difference - 8;
+say(difference);
+
+keep balance = 1000;
+balance = balance - 250;
+say(balance);
+
+// --- Multiplication ---
+keep product = 4;
+product = product * 5;
+say(product);
+
+keep quantity = 3;
+quantity = quantity * 10;
+say(quantity);
+
+// --- Division ---
+keep quotient = 100;
+quotient = quotient / 4;
+say(quotient);
+
+keep half = 50;
+half = half / 2;
+say(half);
+
+// --- Combined Operations ---
+keep result = 10;
+result = result + 5;
+result = result * 2;
+result = result - 10;
+result = result / 5;
+say(result);
+
+// --- Practical Example: Shopping Cart ---
+keep cartTotal = 0;
+cartTotal = cartTotal + 25;
+cartTotal = cartTotal + 15;
+cartTotal = cartTotal + 10;
+say(cartTotal);
+
+// --- Practical Example: Score Calculation ---
+keep gameScore = 0;
+gameScore = gameScore + 100;
+gameScore = gameScore + 50;
+gameScore = gameScore * 2;
+say(gameScore);

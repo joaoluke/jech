@@ -1,0 +1,71 @@
+// ================================================
+// 14 - Practical Example: Quiz System
+// Checking answers and calculating score
+// ================================================
+
+// --- Quiz Setup ---
+keep totalQuestions = 5;
+keep correctAnswers = 0;
+keep passingScore = 3;
+
+say("=== Quiz Started ===");
+
+// --- Question 1: Correct ---
+keep answer1 = "correct";
+when (answer1 == "correct") {
+    say("Q1: Correct!");
+}
+else {
+    say("Q1: Wrong");
+}
+correctAnswers = correctAnswers + 1;
+
+// --- Question 2: Correct ---
+keep answer2 = "correct";
+when (answer2 == "correct") {
+    say("Q2: Correct!");
+}
+else {
+    say("Q2: Wrong");
+}
+correctAnswers = correctAnswers + 1;
+
+// --- Question 3: Wrong ---
+keep answer3 = "wrong";
+when (answer3 == "correct") {
+    say("Q3: Correct!");
+}
+else {
+    say("Q3: Wrong");
+}
+
+// --- Question 4: Correct ---
+keep answer4 = "correct";
+when (answer4 == "correct") {
+    say("Q4: Correct!");
+}
+else {
+    say("Q4: Wrong");
+}
+correctAnswers = correctAnswers + 1;
+
+// --- Question 5: Wrong ---
+keep answer5 = "wrong";
+when (answer5 == "correct") {
+    say("Q5: Correct!");
+}
+else {
+    say("Q5: Wrong");
+}
+
+// --- Results ---
+say("=== Quiz Results ===");
+say("Correct answers:");
+say(correctAnswers);
+
+when (correctAnswers > passingScore) {
+    say("Congratulations! You passed!");
+}
+else {
+    say("Sorry, you did not pass");
+}

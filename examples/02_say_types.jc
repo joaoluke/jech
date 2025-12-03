@@ -1,0 +1,24 @@
+// ================================================
+// 02 - Say Command with Different Types
+// Printing strings, numbers, and booleans
+// ================================================
+
+// --- Strings ---
+say("This is a string");
+say("Strings can have spaces and punctuation!");
+say("Even special chars: @#$%");
+
+// --- Numbers ---
+// Integers
+say(42);
+say(0);
+say(999);
+
+// Floats
+say(3.14);
+say(0.5);
+say(100.99);
+
+// --- Booleans ---
+say(true);
+say(false);

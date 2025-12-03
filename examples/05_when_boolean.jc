@@ -1,0 +1,42 @@
+// ================================================
+// 05 - When with Boolean Conditions
+// Conditional execution based on true/false
+// ================================================
+
+// --- When with true literal ---
+when (true) {
+    say("This always runs");
+}
+
+// --- When with false literal (won't execute) ---
+when (false) {
+    say("This never runs");
+}
+
+// --- When with boolean variable (true) ---
+keep showMessage = true;
+
+when (showMessage) {
+    say("Message is visible!");
+}
+
+// --- When with boolean variable (false) ---
+keep hideContent = false;
+
+when (hideContent) {
+    say("This is hidden");
+}
+
+// --- Practical Example: Feature Flag ---
+keep featureEnabled = true;
+
+when (featureEnabled) {
+    say("New feature is active!");
+}
+
+// --- Practical Example: Debug Mode ---
+keep debugMode = false;
+
+when (debugMode) {
+    say("Debug: This is a debug message");
+}

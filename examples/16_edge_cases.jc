@@ -1,0 +1,75 @@
+// ================================================
+// 16 - Edge Cases and Special Scenarios
+// Testing boundary conditions
+// ================================================
+
+// --- Zero Values ---
+keep zero = 0;
+say(zero);
+
+when (zero == 0) {
+    say("Zero equals zero");
+}
+
+when (zero > 0) {
+    say("This won't show");
+}
+else {
+    say("Zero is not greater than zero");
+}
+
+// --- Empty-ish String ---
+keep space = " ";
+say(space);
+
+// --- Long String ---
+keep longText = "This is a very long string that tests how JECH handles longer text content in variables";
+say(longText);
+
+// --- Large Numbers ---
+keep bigNumber = 999999;
+say(bigNumber);
+
+bigNumber = bigNumber + 1;
+say(bigNumber);
+
+// --- Small Decimals ---
+keep tiny = 0.001;
+say(tiny);
+
+// --- Negative-like via Subtraction ---
+keep result = 5;
+result = result - 10;
+say(result);
+
+// --- Boolean Toggle ---
+keep flag = true;
+say(flag);
+
+flag = false;
+say(flag);
+
+flag = true;
+say(flag);
+
+// --- Multiple Comparisons on Same Variable ---
+keep num = 50;
+
+when (num > 25) {
+    say("Greater than 25");
+}
+
+when (num > 40) {
+    say("Greater than 40");
+}
+
+when (num > 60) {
+    say("This won't show - not greater than 60");
+}
+else {
+    say("Not greater than 60");
+}
+
+when (num == 50) {
+    say("Exactly 50");
+}

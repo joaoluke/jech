@@ -1,0 +1,74 @@
+// ================================================
+// 07 - When/Else Statements
+// Handling both true and false cases
+// ================================================
+
+// --- Basic When/Else with Boolean ---
+keep isOnline = true;
+
+when (isOnline) {
+    say("User is online");
+}
+else {
+    say("User is offline");
+}
+
+// --- When/Else with False Condition ---
+keep hasPermission = false;
+
+when (hasPermission) {
+    say("Access granted");
+}
+else {
+    say("Access denied");
+}
+
+// --- When/Else with Comparison ---
+keep age = 16;
+
+when (age > 18) {
+    say("You can vote");
+}
+else {
+    say("Too young to vote");
+}
+
+// --- When/Else with Equality ---
+keep answer = "yes";
+
+when (answer == "yes") {
+    say("You agreed!");
+}
+else {
+    say("You declined");
+}
+
+// --- Practical Example: Login Check ---
+keep isLoggedIn = false;
+
+when (isLoggedIn) {
+    say("Welcome back!");
+}
+else {
+    say("Please log in");
+}
+
+// --- Practical Example: Stock Check ---
+keep inventory = 0;
+
+when (inventory > 0) {
+    say("In stock");
+}
+else {
+    say("Out of stock");
+}
+
+// --- Practical Example: Pass/Fail ---
+keep testScore = 45;
+
+when (testScore > 60) {
+    say("Passed");
+}
+else {
+    say("Failed");
+}
