@@ -1,0 +1,7 @@
+// ================================================
+// ERROR: Invalid Value in Keep
+// Expected: [SyntaxError] Invalid value type in 'keep' statement
+// ================================================
+
+// Trying to assign an invalid value type
+keep x = +;

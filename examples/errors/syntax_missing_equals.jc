@@ -1,0 +1,7 @@
+// ================================================
+// ERROR: Missing Equals Sign
+// Expected: [SyntaxError] Expected '=' after variable name
+// ================================================
+
+// Missing the equals sign in variable declaration
+keep name "John";

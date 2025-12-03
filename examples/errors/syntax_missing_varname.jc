@@ -1,0 +1,7 @@
+// ================================================
+// ERROR: Missing Variable Name
+// Expected: [SyntaxError] Expected variable name after 'keep'
+// ================================================
+
+// Missing the variable name after keep
+keep = "John";

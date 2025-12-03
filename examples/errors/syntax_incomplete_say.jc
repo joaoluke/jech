@@ -1,0 +1,7 @@
+// ================================================
+// ERROR: Incomplete Say Statement
+// Expected: [SyntaxError] Incomplete 'say' statement
+// ================================================
+
+// Statement is cut off
+say(

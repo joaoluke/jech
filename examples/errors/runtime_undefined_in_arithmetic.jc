@@ -1,0 +1,10 @@
+// ================================================
+// ERROR: Undefined Variable in Arithmetic
+// Expected: Runtime Error: Undefined variable
+// ================================================
+
+keep x = 10;
+
+// Using undefined variable 'y' in arithmetic
+x = x + y;
+say(x);

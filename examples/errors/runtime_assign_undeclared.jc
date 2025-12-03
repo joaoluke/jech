@@ -1,0 +1,8 @@
+// ================================================
+// ERROR: Assignment to Undeclared Variable
+// Expected: Cannot assign to undeclared variable
+// ================================================
+
+// Trying to assign without declaring first with 'keep'
+score = 100;
+say(score);

@@ -1,0 +1,7 @@
+// ================================================
+// ERROR: Invalid Value in Say
+// Expected: [SyntaxError] Invalid value in 'say' statement
+// ================================================
+
+// Trying to say something that's not a valid value
+say(+);

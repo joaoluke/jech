@@ -1,0 +1,9 @@
+// ================================================
+// ERROR: Undefined Variable in Comparison
+// Expected: Runtime Error: Undefined variable 'age'
+// ================================================
+
+// Using an undefined variable in a comparison
+when (age > 18) {
+    say("Adult");
+}

@@ -1,0 +1,9 @@
+// ================================================
+// ERROR: Undefined Variable in When Condition
+// Expected: Runtime Error: Undefined variable 'status'
+// ================================================
+
+// Using an undefined variable in a when condition
+when (status) {
+    say("Active");
+}

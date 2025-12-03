@@ -1,0 +1,7 @@
+// ================================================
+// ERROR: Undefined Variable
+// Expected: Runtime error: undefined variable 'name'
+// ================================================
+
+// Trying to use a variable that was never declared
+say(name);

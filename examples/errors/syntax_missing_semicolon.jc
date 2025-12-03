@@ -1,0 +1,9 @@
+// ================================================
+// ERROR: Missing Semicolon
+// Expected: [SyntaxError] Missing semicolon after 'say' statement
+// ================================================
+
+// This line is missing a semicolon at the end
+say("Hello")
+
+// The parser will catch this before execution

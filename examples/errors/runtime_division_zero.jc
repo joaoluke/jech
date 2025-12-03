@@ -1,0 +1,11 @@
+// ================================================
+// ERROR: Division by Zero
+// Expected: Runtime Error: Division by zero
+// ================================================
+
+keep x = 10;
+keep y = 0;
+
+// This will cause a division by zero error
+x = x / y;
+say(x);

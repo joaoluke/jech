@@ -1,0 +1,7 @@
+// ================================================
+// ERROR: Missing Opening Parenthesis
+// Expected: [SyntaxError] Expected '(' after 'say'
+// ================================================
+
+// Missing the opening parenthesis
+say "Hello");

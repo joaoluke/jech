@@ -1,0 +1,7 @@
+// ================================================
+// ERROR: Missing Closing Parenthesis
+// Expected: [SyntaxError] Expected ')' after value
+// ================================================
+
+// Missing the closing parenthesis
+say("Hello";

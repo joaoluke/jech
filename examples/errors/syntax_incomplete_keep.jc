@@ -1,0 +1,7 @@
+// ================================================
+// ERROR: Incomplete Keep Statement
+// Expected: [SyntaxError] Incomplete 'keep' statement
+// ================================================
+
+// Statement is cut off
+keep x =

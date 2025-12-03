@@ -1,0 +1,8 @@
+// ================================================
+// ERROR: Missing Semicolon After Keep
+// Expected: [SyntaxError] Missing semicolon after 'keep' statement
+// ================================================
+
+// Missing semicolon after variable declaration
+keep name = "John"
+say(name);

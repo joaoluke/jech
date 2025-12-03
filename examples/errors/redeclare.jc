@@ -1,3 +1,0 @@
-// Should raise redeclare error
-keep user = "John";
-keep user = "Luke"; // ERROR: Variable already declared

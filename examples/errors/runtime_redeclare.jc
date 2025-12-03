@@ -1,0 +1,12 @@
+// ================================================
+// ERROR: Variable Redeclaration
+// Expected: Error when trying to declare same variable twice
+// ================================================
+
+// First declaration - OK
+keep username = "John";
+say(username);
+
+// Second declaration with same name - ERROR
+keep username = "Jane";
+say(username);
