@@ -1,0 +1,11 @@
+// ================================================
+// 01 - Hello World
+// The simplest JECH program
+// ================================================
+
+// Your first JECH program!
+say("Hello, World!");
+
+// You can print multiple things
+say("Welcome to JECH Lang!");
+say("Let's learn together.");
