@@ -1,7 +1,7 @@
-keep name = true;
-when (name) {
-    say("true");
+keep age = 25;
+when (age > 18) {
+    say("adult");
 }
 else {
-    say("false");
+    say("minor");
 }

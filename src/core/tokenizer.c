@@ -5,6 +5,18 @@
 #include "core/tokenizer.h"
 #include "errors/error.h"
 
+static int push_token(JechTokenList *list, JechToken token)
+{
+	if (list->count >= JECH_MAX_TOKENS - 1)
+	{
+		report_error(SYNTAX_ERROR, "Too many tokens", token.line, token.column);
+		return 0;
+	}
+
+	list->tokens[list->count++] = token;
+	return 1;
+}
+
 /**
  * JECH Language Keyword Mapping
  */
@@ -169,25 +181,30 @@ JechTokenList _JechTokenizer_Lex(const char *source)
 
 		if (isalpha(*p))
 		{
-			list.tokens[list.count++] = read_word(&p, &line, &col, token_col);
+			if (!push_token(&list, read_word(&p, &line, &col, token_col)))
+				break;
 		}
 		else if (isdigit(*p))
 		{
-			list.tokens[list.count++] = read_number(&p, &line, &col, token_col);
+			if (!push_token(&list, read_number(&p, &line, &col, token_col)))
+				break;
 		}
 		else if (*p == '+')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_PLUS, "+", line, col);
+			if (!push_token(&list, create_token(TOKEN_PLUS, "+", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == '-')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_MINUS, "-", line, col);
+			if (!push_token(&list, create_token(TOKEN_MINUS, "-", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == '*')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_STAR, "*", line, col);
+			if (!push_token(&list, create_token(TOKEN_STAR, "*", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == '/')
@@ -201,64 +218,76 @@ JechTokenList _JechTokenizer_Lex(const char *source)
 			}
 			else
 			{
-				list.tokens[list.count++] = create_token(TOKEN_SLASH, "/", line, col);
+				if (!push_token(&list, create_token(TOKEN_SLASH, "/", line, col)))
+					break;
 				p++;
 			}
 		}
 		else if (*p == '=' && *(p + 1) == '=')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_EQEQ, "==", line, col);
+			if (!push_token(&list, create_token(TOKEN_EQEQ, "==", line, col)))
+				break;
 			p += 2;
 		}
 		else if (*p == '=')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_EQUAL, "=", line, col);
+			if (!push_token(&list, create_token(TOKEN_EQUAL, "=", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == '>')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_GT, ">", line, col);
+			if (!push_token(&list, create_token(TOKEN_GT, ">", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == '<')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_LT, "<", line, col);
+			if (!push_token(&list, create_token(TOKEN_LT, "<", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == '(')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_LPAREN, "(", line, col);
+			if (!push_token(&list, create_token(TOKEN_LPAREN, "(", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == ')')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_RPAREN, ")", line, col);
+			if (!push_token(&list, create_token(TOKEN_RPAREN, ")", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == ';')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_SEMICOLON, ";", line, col);
+			if (!push_token(&list, create_token(TOKEN_SEMICOLON, ";", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == '"')
 		{
-			list.tokens[list.count++] = read_string(&p, &line, &col, token_col);
+			if (!push_token(&list, read_string(&p, &line, &col, token_col)))
+				break;
 		}
 		else if (*p == '{')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_LBRACE, "{", line, col);
+			if (!push_token(&list, create_token(TOKEN_LBRACE, "{", line, col)))
+				break;
 			p++;
 		}
 		else if (*p == '}')
 		{
-			list.tokens[list.count++] = create_token(TOKEN_RBRACE, "}", line, col);
+			if (!push_token(&list, create_token(TOKEN_RBRACE, "}", line, col)))
+				break;
 			p++;
 		}
 
 		else if (*p != '\0')
 		{
 			char unknown[2] = {*p, '\0'};
-			list.tokens[list.count++] = create_token(TOKEN_UNKNOWN, unknown, line, col);
+			if (!push_token(&list, create_token(TOKEN_UNKNOWN, unknown, line, col)))
+				break;
 
 			char msg[64];
 			snprintf(msg, sizeof(msg), "Unknown character '%c'", *p);
@@ -268,6 +297,6 @@ JechTokenList _JechTokenizer_Lex(const char *source)
 		}
 	}
 
-	list.tokens[list.count++] = create_token(TOKEN_EOF, "", line, col);
+	push_token(&list, create_token(TOKEN_EOF, "", line, col));
 	return list;
 }

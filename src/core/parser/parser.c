@@ -102,7 +102,7 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 		}
 
 		// 🔄 assignment: name = value;
-		if (t[i].type == TOKEN_IDENTIFIER && t[i + 1].type == TOKEN_EQUAL)
+		if ((i + 1) < tokens->count && t[i].type == TOKEN_IDENTIFIER && t[i + 1].type == TOKEN_EQUAL)
 		{
 			int remaining = tokens->count - i;
 			JechASTNode *node = parse_assign(&t[i], remaining);

@@ -1,63 +1,20 @@
-// ================================================
-// 06 - When with Comparison Operators
-// Using >, <, and == in conditions
-// ================================================
+keep age=25;
+when(age>18){say("You are an adult");}
+when(age>30){say("This won't show - age is 25");}
 
-// --- Greater Than (>) ---
-keep age = 25;
+keep temperature=15;
+when(temperature<20){say("It's cold outside");}
+when(temperature<10){say("This won't show - temp is 15");}
 
-when (age > 18) {
-    say("You are an adult");
-}
+keep score=100;
+when(score==100){say("Perfect score!");}
+when(score==50){say("This won't show - score is 100");}
 
-when (age > 30) {
-    say("This won't show - age is 25");
-}
+keep color="blue";
+when(color=="blue"){say("The color is blue");}
+when(color=="red"){say("This won't show - color is blue");}
 
-// --- Less Than (<) ---
-keep temperature = 15;
-
-when (temperature < 20) {
-    say("It's cold outside");
-}
-
-when (temperature < 10) {
-    say("This won't show - temp is 15");
-}
-
-// --- Equality (==) ---
-keep score = 100;
-
-when (score == 100) {
-    say("Perfect score!");
-}
-
-when (score == 50) {
-    say("This won't show - score is 100");
-}
-
-// --- String Equality ---
-keep color = "blue";
-
-when (color == "blue") {
-    say("The color is blue");
-}
-
-when (color == "red") {
-    say("This won't show - color is blue");
-}
-
-// --- Practical Example: Grade Check ---
-keep grade = 85;
-
-when (grade > 90) {
-    say("Excellent!");
-}
-
-when (grade > 70) {
-    say("Good job!");
-}
-
-when (grade > 50) {
-    say("You passed");
-}
+keep grade=85;
+when(grade>90){say("Excellent!");}
+when(grade>70){say("Good job!");}
+when(grade>50){say("You passed");}
