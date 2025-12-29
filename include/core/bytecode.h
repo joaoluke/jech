@@ -8,8 +8,12 @@
 typedef enum
 {
 	OP_SAY,
+	OP_SAY_INDEX,
+	OP_ARRAY_NEW,
+	OP_ARRAY_PUSH,
 	OP_KEEP,
 	OP_ASSIGN,
+	OP_INDEX_GET,
 	OP_BIN_OP,
 	OP_WHEN,
 	OP_WHEN_BOOL, // for boolean/identifier conditions with else support

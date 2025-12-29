@@ -259,6 +259,24 @@ JechTokenList _JechTokenizer_Lex(const char *source)
 				break;
 			p++;
 		}
+		else if (*p == '[')
+		{
+			if (!push_token(&list, create_token(TOKEN_LBRACKET, "[", line, col)))
+				break;
+			p++;
+		}
+		else if (*p == ']')
+		{
+			if (!push_token(&list, create_token(TOKEN_RBRACKET, "]", line, col)))
+				break;
+			p++;
+		}
+		else if (*p == ',')
+		{
+			if (!push_token(&list, create_token(TOKEN_COMMA, ",", line, col)))
+				break;
+			p++;
+		}
 		else if (*p == ';')
 		{
 			if (!push_token(&list, create_token(TOKEN_SEMICOLON, ";", line, col)))

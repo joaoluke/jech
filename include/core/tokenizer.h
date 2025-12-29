@@ -22,6 +22,9 @@ typedef enum
 	TOKEN_RPAREN,	 // )
 	TOKEN_LBRACE,	 // {
 	TOKEN_RBRACE,	 // }
+	TOKEN_LBRACKET,  // [
+	TOKEN_RBRACKET,  // ]
+	TOKEN_COMMA,     // ,
 	TOKEN_EQUAL,	 // =
 	TOKEN_SEMICOLON, // ;
 

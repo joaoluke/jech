@@ -44,8 +44,16 @@ const char *token_type_to_str(JechTokenType type)
         return "LBRACE";
     case TOKEN_RBRACE:
         return "RBRACE";
+    case TOKEN_LBRACKET:
+        return "LBRACKET";
+    case TOKEN_RBRACKET:
+        return "RBRACKET";
+    case TOKEN_COMMA:
+        return "COMMA";
     case TOKEN_EOF:
         return "EOF";
+    case TOKEN_ELSE:
+        return "ELSE";
     default:
         return "UNKNOWN";
     }

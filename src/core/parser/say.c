@@ -23,6 +23,19 @@ JechASTNode *parse_say(const JechToken *t, int remaining_tokens)
         return NULL;
     }
 
+    if (remaining_tokens >= 8 &&
+        t[2].type == TOKEN_IDENTIFIER &&
+        t[3].type == TOKEN_LBRACKET &&
+        t[4].type == TOKEN_NUMBER &&
+        t[5].type == TOKEN_RBRACKET &&
+        t[6].type == TOKEN_RPAREN &&
+        t[7].type == TOKEN_SEMICOLON)
+    {
+        JechASTNode *say = _JechAST_CreateNode(JECH_AST_SAY_INDEX, t[2].value, NULL, TOKEN_IDENTIFIER);
+        say->left = _JechAST_CreateNode(JECH_AST_NUMBER_LITERAL, t[4].value, NULL, TOKEN_NUMBER);
+        return say;
+    }
+
     if (t[3].type != TOKEN_RPAREN)
     {
         report_syntax_error("Expected ')' after value", t[3].line, t[3].column);
