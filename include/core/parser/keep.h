@@ -4,6 +4,6 @@
 #include "core/tokenizer.h"
 #include "core/ast.h"
 
-JechASTNode *parse_keep(const JechToken *t, int remaining_tokens);
+JechASTNode *parse_keep(const JechToken *t, int remaining_tokens, int *out_consumed);
 
 #endif

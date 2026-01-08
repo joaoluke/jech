@@ -33,11 +33,12 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 		if (t[i].type == TOKEN_SAY)
 		{
 			int remaining = tokens->count - i;
-			JechASTNode *node = parse_say(&t[i], remaining);
+			int consumed = 0;
+			JechASTNode *node = parse_say(&t[i], remaining, &consumed);
 			if (node)
 			{
 				roots[count++] = node;
-				i += 5;
+				i += consumed;
 				continue;
 			}
 			else
@@ -50,11 +51,12 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 		if (t[i].type == TOKEN_KEEP)
 		{
 			int remaining = tokens->count - i;
-			JechASTNode *node = parse_keep(&t[i], remaining);
+			int consumed = 0;
+			JechASTNode *node = parse_keep(&t[i], remaining, &consumed);
 			if (node)
 			{
 				roots[count++] = node;
-				i += 5;
+				i += consumed;
 				continue;
 			}
 			else
@@ -105,11 +107,12 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 		if ((i + 1) < tokens->count && t[i].type == TOKEN_IDENTIFIER && t[i + 1].type == TOKEN_EQUAL)
 		{
 			int remaining = tokens->count - i;
-			JechASTNode *node = parse_assign(&t[i], remaining);
+			int consumed = 0;
+			JechASTNode *node = parse_assign(&t[i], remaining, &consumed);
 			if (node)
 			{
 				roots[count++] = node;
-				i += (node->left && node->left->type == JECH_AST_BIN_OP) ? 6 : 4;
+				i += consumed;
 				continue;
 			}
 			else

@@ -19,16 +19,56 @@ static void compile_say(Bytecode *bc, const JechASTNode *node)
 }
 
 /**
+ * Helper function to compile say with array indexing: say(arr[0]);
+ */
+static void compile_say_index(Bytecode *bc, const JechASTNode *node)
+{
+	Instruction *inst = &bc->instructions[bc->count++];
+	memset(inst, 0, sizeof(Instruction));
+	inst->op = OP_SAY_INDEX;
+	strncpy(inst->name, node->value, sizeof(inst->name));
+	if (node->left)
+	{
+		strncpy(inst->operand, node->left->value, sizeof(inst->operand));
+	}
+}
+
+/**
  * Helper function to compile the `keep` command
  */
 static void compile_keep(Bytecode *bc, const JechASTNode *node)
 {
-	Instruction *inst = &bc->instructions[bc->count++];
-	memset(inst, 0, sizeof(Instruction));
-	inst->op = OP_KEEP;
-	strncpy(inst->name, node->name, sizeof(inst->name));
-	strncpy(inst->operand, node->value, sizeof(inst->operand));
-	inst->token_type = node->token_type;
+	if (node->token_type == TOKEN_LBRACKET && node->left && node->left->type == JECH_AST_ARRAY_LITERAL)
+	{
+		// Array literal: keep arr = [1, 2, 3];
+		Instruction *inst = &bc->instructions[bc->count++];
+		memset(inst, 0, sizeof(Instruction));
+		inst->op = OP_ARRAY_NEW;
+		strncpy(inst->name, node->name, sizeof(inst->name));
+
+		// Iterate through array elements and push them
+		JechASTNode *elem = node->left->left;
+		while (elem)
+		{
+			Instruction *push_inst = &bc->instructions[bc->count++];
+			memset(push_inst, 0, sizeof(Instruction));
+			push_inst->op = OP_ARRAY_PUSH;
+			strncpy(push_inst->name, node->name, sizeof(push_inst->name));
+			strncpy(push_inst->operand, elem->value, sizeof(push_inst->operand));
+			push_inst->token_type = elem->token_type;
+			elem = elem->right;
+		}
+	}
+	else
+	{
+		// Scalar keep
+		Instruction *inst = &bc->instructions[bc->count++];
+		memset(inst, 0, sizeof(Instruction));
+		inst->op = OP_KEEP;
+		strncpy(inst->name, node->name, sizeof(inst->name));
+		strncpy(inst->operand, node->value, sizeof(inst->operand));
+		inst->token_type = node->token_type;
+	}
 }
 
 /**
@@ -159,6 +199,9 @@ Bytecode _JechBytecode_CompileAll(JechASTNode **roots, int count)
 		{
 		case JECH_AST_SAY:
 			compile_say(&bc, node);
+			break;
+		case JECH_AST_SAY_INDEX:
+			compile_say_index(&bc, node);
 			break;
 		case JECH_AST_KEEP:
 			compile_keep(&bc, node);
