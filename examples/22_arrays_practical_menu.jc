@@ -1,0 +1,7 @@
+keep menu = ["Pizza", "Burger", "Salad", "Pasta", "Soup"];
+
+say("Welcome to our restaurant!");
+say("Today's specials:");
+say(menu[0]);
+say(menu[1]);
+say(menu[4]);

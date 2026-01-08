@@ -1,0 +1,10 @@
+keep scores = [100, 250, 175, 300, 425];
+
+say("First player score:");
+say(scores[0]);
+
+say("Third player score:");
+say(scores[2]);
+
+say("Last player score:");
+say(scores[4]);

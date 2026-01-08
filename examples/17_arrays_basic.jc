@@ -1,0 +1,4 @@
+keep numbers = [1, 2, 3, 4, 5];
+say(numbers[0]);
+say(numbers[2]);
+say(numbers[4]);

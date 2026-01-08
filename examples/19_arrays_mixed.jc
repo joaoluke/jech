@@ -1,0 +1,5 @@
+keep mixed = [42, "hello", true, 3.14];
+say(mixed[0]);
+say(mixed[1]);
+say(mixed[2]);
+say(mixed[3]);
