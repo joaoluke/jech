@@ -1,0 +1,37 @@
+name: Jech Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup GCC
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gcc make
+    
+    - name: Create build directory
+      run: mkdir -p build
+    
+    - name: Build Jech
+      run: make
+    
+    - name: Run Tests
+      run: |
+        chmod +x run_tests.sh
+        ./run_tests.sh
+    
+    - name: Test Examples
+      run: |
+        for file in examples/*.jc; do
+          echo "Testing $file"
+          ./build/jech "$file" || exit 1
+        done
