@@ -3,13 +3,14 @@
 #include <stdlib.h>
 
 #include "core/pipeline.h"
+#include "core/repl.h"
 
 int main(int argc, char *argv[])
 {
 	if (argc < 2)
 	{
-		printf("Usage: %s <file.jc>\n", argv[0]);
-		return 1;
+		run_repl();
+		return 0;
 	}
 
 	const char *filename = argv[1];

@@ -20,4 +20,9 @@ const char *_JechVM_GetVariable(const char *name);
  */
 void _JechVM_Execute(const Bytecode *bc);
 
+/**
+ * Clears all variables and arrays from the VM runtime environment
+ */
+void _JechVM_ClearState();
+
 #endif
