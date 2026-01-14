@@ -169,6 +169,29 @@ static const char *array_get(const char *name, int index)
 }
 
 /**
+ * Prints all elements of an array
+ */
+static void print_array(const char *name)
+{
+	JechArray *arr = find_array(name);
+	if (!arr)
+	{
+		return;
+	}
+	
+	printf("[");
+	for (int i = 0; i < arr->size; i++)
+	{
+		printf("%s", arr->elements[i]);
+		if (i < arr->size - 1)
+		{
+			printf(", ");
+		}
+	}
+	printf("]\n");
+}
+
+/**
  * Clears all variables and arrays from the VM runtime environment
  */
 void _JechVM_ClearState()
@@ -206,9 +229,21 @@ void _JechVM_Execute(const Bytecode *bc)
 			{
 				const char *value = _JechVM_GetVariable(inst.operand);
 				if (value)
+				{
 					printf("%s\n", value);
+				}
 				else
-					fprintf(stderr, "Runtime error: undefined variable '%s'\n", inst.operand);
+				{
+					JechArray *arr = find_array(inst.operand);
+					if (arr)
+					{
+						print_array(inst.operand);
+					}
+					else
+					{
+						fprintf(stderr, "Runtime error: undefined variable '%s'\n", inst.operand);
+					}
+				}
 			}
 			else
 			{
