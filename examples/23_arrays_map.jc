@@ -1,0 +1,56 @@
+// ================================================
+// 23 - Array Map Method
+// Transforming arrays with map operations
+// ================================================
+
+// --- Basic Map Operations ---
+keep numbers = [1, 2, 3, 4, 5];
+say(numbers);
+
+// Multiply each element by 2
+keep doubled = numbers.map(* 2);
+say(doubled);
+
+// Add 10 to each element
+keep added = numbers.map(+ 10);
+say(added);
+
+// Divide each element by 2
+keep halved = numbers.map(/ 2);
+say(halved);
+
+// Subtract 1 from each element
+keep decreased = numbers.map(- 1);
+say(decreased);
+
+// --- Practical Example: Price Calculations ---
+keep prices = [100, 200, 300, 400];
+say(prices);
+
+// Apply 10% tax
+keep withTax = prices.map(* 1.1);
+say(withTax);
+
+// Apply 20% discount
+keep discounted = prices.map(* 0.8);
+say(discounted);
+
+// --- Practical Example: Score Adjustments ---
+keep scores = [85, 90, 78, 92, 88];
+say(scores);
+
+// Curve: add 5 points to everyone
+keep curved = scores.map(+ 5);
+say(curved);
+
+// --- In-Place Map Operations ---
+keep values = [10, 20, 30];
+say(values);
+
+// Modify array in-place (without creating new array)
+values.map(* 2);
+say(values);
+
+// Chain in-place operations
+values.map(+ 5);
+say(values);

@@ -17,6 +17,7 @@ typedef enum
 	OP_BIN_OP,
 	OP_WHEN,
 	OP_WHEN_BOOL, // for boolean/identifier conditions with else support
+	OP_MAP,
 	OP_END
 } OpCode;
 

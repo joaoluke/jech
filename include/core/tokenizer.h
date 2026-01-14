@@ -11,6 +11,7 @@ typedef enum
 	TOKEN_KEEP,
 	TOKEN_WHEN,
 	TOKEN_ELSE,
+	TOKEN_MAP,
 
 	// Data types
 	TOKEN_STRING,
@@ -25,6 +26,7 @@ typedef enum
 	TOKEN_LBRACKET,  // [
 	TOKEN_RBRACKET,  // ]
 	TOKEN_COMMA,     // ,
+	TOKEN_DOT,       // .
 	TOKEN_EQUAL,	 // =
 	TOKEN_SEMICOLON, // ;
 

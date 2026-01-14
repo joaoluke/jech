@@ -217,6 +217,74 @@ void _JechVM_Execute(const Bytecode *bc)
 		case OP_ARRAY_PUSH:
 			array_push(inst.name, inst.operand);
 			break;
+		case OP_MAP:
+		{
+			// Get source array
+			JechArray *src = find_array(inst.operand);
+			if (!src)
+			{
+				fprintf(stderr, "Runtime Error: Array '%s' not found for map operation\n", inst.operand);
+				exit(1);
+			}
+			
+			// Check if in-place operation (source == destination)
+			bool in_place = (strcmp(inst.name, inst.operand) == 0);
+			
+			// Create result array only if not in-place
+			if (!in_place)
+			{
+				create_array(inst.name);
+			}
+			
+			// Get operation value
+			double op_value = atof(inst.operand_right);
+			
+			// Apply operation to each element
+			for (int i = 0; i < src->size; i++)
+			{
+				double elem_value = atof(src->elements[i]);
+				double new_value = 0;
+				
+				switch (inst.bin_op)
+				{
+				case TOKEN_PLUS:
+					new_value = elem_value + op_value;
+					break;
+				case TOKEN_MINUS:
+					new_value = elem_value - op_value;
+					break;
+				case TOKEN_STAR:
+					new_value = elem_value * op_value;
+					break;
+				case TOKEN_SLASH:
+					if (op_value == 0)
+					{
+						fprintf(stderr, "Runtime Error: Division by zero in map operation\n");
+						exit(1);
+					}
+					new_value = elem_value / op_value;
+					break;
+				default:
+					fprintf(stderr, "Runtime Error: Unsupported operator in map\n");
+					exit(1);
+				}
+				
+				char result_str[MAX_STRING];
+				snprintf(result_str, sizeof(result_str), "%.2f", new_value);
+				
+				if (in_place)
+				{
+					// Modify element in-place
+					strncpy(src->elements[i], result_str, MAX_STRING);
+				}
+				else
+				{
+					// Push to new array
+					array_push(inst.name, result_str);
+				}
+			}
+			break;
+		}
 		case OP_SAY_INDEX:
 		{
 			int index = atoi(inst.operand);

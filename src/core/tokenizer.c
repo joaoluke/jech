@@ -31,6 +31,7 @@ KeywordMap keywords[] = {
 	{"keep", TOKEN_KEEP},
 	{"when", TOKEN_WHEN},
 	{"else", TOKEN_ELSE},
+	{"map", TOKEN_MAP},
 	{NULL, TOKEN_UNKNOWN}};
 
 /**
@@ -274,6 +275,12 @@ JechTokenList _JechTokenizer_Lex(const char *source)
 		else if (*p == ',')
 		{
 			if (!push_token(&list, create_token(TOKEN_COMMA, ",", line, col)))
+				break;
+			p++;
+		}
+		else if (*p == '.')
+		{
+			if (!push_token(&list, create_token(TOKEN_DOT, ".", line, col)))
 				break;
 			p++;
 		}

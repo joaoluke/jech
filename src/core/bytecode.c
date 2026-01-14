@@ -34,11 +34,39 @@ static void compile_say_index(Bytecode *bc, const JechASTNode *node)
 }
 
 /**
+ * Helper function to compile map operation
+ */
+static void compile_map(Bytecode *bc, const JechASTNode *node, const char *result_name)
+{
+	Instruction *inst = &bc->instructions[bc->count++];
+	memset(inst, 0, sizeof(Instruction));
+	inst->op = OP_MAP;
+	
+	// name = result array name
+	strncpy(inst->name, result_name, sizeof(inst->name));
+	
+	// operand = source array name
+	strncpy(inst->operand, node->value, sizeof(inst->operand));
+	
+	// operand_right = operation value
+	if (node->left)
+	{
+		strncpy(inst->operand_right, node->left->value, sizeof(inst->operand_right));
+		inst->bin_op = node->left->op; // operator type (*, +, -, /)
+	}
+}
+
+/**
  * Helper function to compile the `keep` command
  */
 static void compile_keep(Bytecode *bc, const JechASTNode *node)
 {
-	if (node->token_type == TOKEN_LBRACKET && node->left && node->left->type == JECH_AST_ARRAY_LITERAL)
+	if (node->left && node->left->type == JECH_AST_MAP)
+	{
+		// Map operation: keep doubled = numbers.map(* 2);
+		compile_map(bc, node->left, node->name);
+	}
+	else if (node->token_type == TOKEN_LBRACKET && node->left && node->left->type == JECH_AST_ARRAY_LITERAL)
 	{
 		// Array literal: keep arr = [1, 2, 3];
 		Instruction *inst = &bc->instructions[bc->count++];
@@ -211,6 +239,10 @@ Bytecode _JechBytecode_CompileAll(JechASTNode **roots, int count)
 			break;
 		case JECH_AST_ASSIGN:
 			compile_assign(&bc, node);
+			break;
+		case JECH_AST_MAP:
+			// Standalone map: modify array in-place
+			compile_map(&bc, node, node->value);
 			break;
 		default:
 			fprintf(stderr, "Unknown AST node.\n");

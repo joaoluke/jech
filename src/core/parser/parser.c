@@ -7,6 +7,7 @@
 #include "core/parser/say.h"
 #include "core/parser/when.h"
 #include "core/parser/assign.h"
+#include "core/parser/map.h"
 #include "errors/error.h"
 
 #define MAX_AST_ROOTS 128
@@ -101,6 +102,25 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 			{
 				break;
 			}
+		}
+
+		// array.map() standalone expression
+		if ((i + 2) < tokens->count && 
+		    t[i].type == TOKEN_IDENTIFIER && 
+		    t[i + 1].type == TOKEN_DOT && 
+		    t[i + 2].type == TOKEN_MAP)
+		{
+			int remaining = tokens->count - i;
+			int consumed = 0;
+			JechASTNode *node = parse_map(&t[i], remaining, &consumed);
+			if (node)
+			{
+				roots[count++] = node;
+				i += consumed;
+				continue;
+			}
+			else
+				break;
 		}
 
 		// 🔄 assignment: name = value;

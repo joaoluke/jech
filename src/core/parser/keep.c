@@ -1,6 +1,7 @@
 #include <stddef.h>
 #include "core/ast.h"
 #include "core/parser/keep.h"
+#include "core/parser/map.h"
 #include "errors/error.h"
 
 JechASTNode *parse_keep(const JechToken *t, int remaining_tokens, int *out_consumed)
@@ -24,6 +25,29 @@ JechASTNode *parse_keep(const JechToken *t, int remaining_tokens, int *out_consu
         report_syntax_error("Expected '=' after variable name", t[2].line, t[2].column);
         *out_consumed = 0;
         return NULL;
+    }
+
+    // Check for array.map() syntax: keep result = array.map(op value);
+    if (remaining_tokens >= 11 && 
+        t[3].type == TOKEN_IDENTIFIER && 
+        t[4].type == TOKEN_DOT && 
+        t[5].type == TOKEN_MAP)
+    {
+        int map_consumed = 0;
+        JechASTNode *map_node = parse_map(&t[3], remaining_tokens - 3, &map_consumed);
+        
+        if (!map_node)
+        {
+            *out_consumed = 0;
+            return NULL;
+        }
+        
+        // Create KEEP node with map as child
+        JechASTNode *keep = _JechAST_CreateNode(JECH_AST_KEEP, NULL, t[1].value, TOKEN_IDENTIFIER);
+        keep->left = map_node;
+        
+        *out_consumed = 3 + map_consumed; // keep + varname + = + map_consumed
+        return keep;
     }
 
     if (remaining_tokens >= 6 && t[3].type == TOKEN_LBRACKET)
