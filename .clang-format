@@ -1,0 +1,22 @@
+---
+# Configuração de formatação para código C do JECH
+BasedOnStyle: LLVM
+IndentWidth: 4
+UseTab: ForIndentation
+TabWidth: 4
+ColumnLimit: 100
+BreakBeforeBraces: Linux
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+IndentCaseLabels: true
+PointerAlignment: Right
+AlignConsecutiveAssignments: false
+AlignConsecutiveDeclarations: false
+AlignTrailingComments: true
+SpaceAfterCStyleCast: true
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+SpaceBeforeParens: ControlStatements
+IncludeBlocks: Preserve
+SortIncludes: false
