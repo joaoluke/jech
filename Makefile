@@ -11,6 +11,7 @@ OUTPUT = $(BUILD_DIR)/jech
 OUTPUT_DEBUG = $(BUILD_DIR)/jech_debug
 
 CFLAGS = -Wall $(INCLUDE)
+LDFLAGS = -lreadline
 DEBUG_FLAGS = -g -DJECH_DEBUG=1
 
 # ===============
@@ -24,10 +25,10 @@ debug: $(OUTPUT_DEBUG)
 # Compilations
 # ===============
 $(OUTPUT): $(SRC) | $(BUILD_DIR)
-	$(CC) $(CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 $(OUTPUT_DEBUG): $(SRC) | $(BUILD_DIR)
-	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $(DEBUG_FLAGS) $^ -o $@ $(LDFLAGS)
 
 # ===============
 # Infra

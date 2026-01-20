@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "core/repl.h"
 #include "core/pipeline.h"
 #include "core/tokenizer.h"
@@ -17,8 +19,6 @@ static void print_welcome()
 {
 	printf("Jech Interactive Shell v%s\n", JECH_VERSION);
 	printf("Type 'exit' or 'quit' to leave, 'help' for help, 'clear' to clear variables\n");
-	printf(">>> ");
-	fflush(stdout);
 }
 
 static void print_help()
@@ -34,8 +34,8 @@ static void print_help()
 	printf("  keep arr = [1, 2, 3];     - Declare array\n");
 	printf("  say(arr[0]);              - Print array element\n");
 	printf("  when (x > 5) { say(x); }  - Conditional\n");
-	printf("\n>>> ");
-	fflush(stdout);
+	printf("  numbers.map(* 2);         - Transform array\n");
+	printf("\n");
 }
 
 static bool is_command(const char *input, const char *cmd)
@@ -45,54 +45,55 @@ static bool is_command(const char *input, const char *cmd)
 	       (input[len] == '\0' || input[len] == '\n');
 }
 
-static void trim_newline(char *str)
-{
-	size_t len = strlen(str);
-	if (len > 0 && str[len - 1] == '\n')
-	{
-		str[len - 1] = '\0';
-	}
-}
 
 void run_repl()
 {
-	char input[MAX_INPUT];
 	print_welcome();
+	
+	// Initialize readline history
+	using_history();
 
 	while (true)
 	{
-		if (!fgets(input, MAX_INPUT, stdin))
+		// readline handles the prompt and returns allocated string
+		char *input = readline(">>> ");
+		
+		// EOF or error (Ctrl+D)
+		if (!input)
 		{
 			printf("\n");
 			break;
 		}
 
-		trim_newline(input);
-
+		// Skip empty lines
 		if (strlen(input) == 0)
 		{
-			printf(">>> ");
-			fflush(stdout);
+			free(input);
 			continue;
 		}
+
+		// Add non-empty input to history
+		add_history(input);
 
 		if (is_command(input, "exit") || is_command(input, "quit"))
 		{
 			printf("Goodbye!\n");
+			free(input);
 			break;
 		}
 
 		if (is_command(input, "help"))
 		{
 			print_help();
+			free(input);
 			continue;
 		}
 
 		if (is_command(input, "clear"))
 		{
 			_JechVM_ClearState();
-			printf("All variables and arrays cleared.\n>>> ");
-			fflush(stdout);
+			printf("All variables and arrays cleared.\n");
+			free(input);
 			continue;
 		}
 
@@ -100,8 +101,7 @@ void run_repl()
 		
 		if (tokens.count == 0 || (tokens.count == 1 && tokens.tokens[0].type == TOKEN_EOF))
 		{
-			printf(">>> ");
-			fflush(stdout);
+			free(input);
 			continue;
 		}
 
@@ -119,7 +119,7 @@ void run_repl()
 			}
 		}
 
-		printf(">>> ");
-		fflush(stdout);
+		// Free the input allocated by readline
+		free(input);
 	}
 }

@@ -41,7 +41,8 @@ gcc -Wall -Iinclude \
     src/utils/read_file.c \
     src/utils/token_utils.c \
     src/errors/error.c \
-    -o build/test_runner
+    -o build/test_runner \
+    -lreadline
 
 if [ $? -eq 0 ]; then
     echo -e "${GREEN}✓ Compilation successful${NC}"
