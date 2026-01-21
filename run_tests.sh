@@ -33,6 +33,7 @@ gcc -Wall -Iinclude \
     src/core/tokenizer.c \
     src/core/vm.c \
     src/core/parser/assign.c \
+    src/core/parser/function.c \
     src/core/parser/keep.c \
     src/core/parser/map.c \
     src/core/parser/parser.c \

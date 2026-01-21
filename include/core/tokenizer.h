@@ -12,6 +12,7 @@ typedef enum
 	TOKEN_WHEN,
 	TOKEN_ELSE,
 	TOKEN_MAP,
+	TOKEN_DO,
 
 	// Data types
 	TOKEN_STRING,

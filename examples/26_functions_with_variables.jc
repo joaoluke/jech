@@ -1,0 +1,8 @@
+keep message = "Hello from variable";
+
+do display(text) {
+  say(text);
+}
+
+display(message);
+display("Direct string");

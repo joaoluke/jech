@@ -32,6 +32,7 @@ KeywordMap keywords[] = {
 	{"when", TOKEN_WHEN},
 	{"else", TOKEN_ELSE},
 	{"map", TOKEN_MAP},
+	{"do", TOKEN_DO},
 	{NULL, TOKEN_UNKNOWN}};
 
 /**

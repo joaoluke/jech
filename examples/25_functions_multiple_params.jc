@@ -1,0 +1,6 @@
+do showInfo(name, age) {
+  say(name);
+  say(age);
+}
+
+showInfo("João", "25");

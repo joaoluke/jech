@@ -8,6 +8,8 @@
 #define MAX_VARS 64
 #define MAX_ARRAYS 32
 #define MAX_ARRAY_SIZE 128
+#define MAX_FUNCTIONS 32
+#define MAX_PARAMS 8
 
 /**
  * Variable table for `keep` instruction
@@ -17,6 +19,18 @@ typedef struct
 	char name[MAX_STRING];
 	char value[MAX_STRING];
 } JechVariable;
+
+/**
+ * Function structure
+ */
+typedef struct
+{
+	char name[MAX_STRING];
+	char params[MAX_PARAMS][MAX_STRING];
+	int param_count;
+	int body_start;
+	int body_end;
+} JechFunction;
 
 /**
  * Array structure
@@ -33,6 +47,9 @@ static int var_count = 0;
 
 static JechArray arrays[MAX_ARRAYS];
 static int array_count = 0;
+
+static JechFunction functions[MAX_FUNCTIONS];
+static int function_count = 0;
 
 /**
  * Sets or updates a variable in the runtime environment
@@ -192,12 +209,13 @@ static void print_array(const char *name)
 }
 
 /**
- * Clears all variables and arrays from the VM runtime environment
+ * Clears all variables, arrays, and functions from the VM runtime environment
  */
 void _JechVM_ClearState()
 {
 	var_count = 0;
 	array_count = 0;
+	function_count = 0;
 }
 
 /**
@@ -528,6 +546,82 @@ void _JechVM_Execute(const Bytecode *bc)
 					printf("%s\n", inst.else_operand);
 				}
 			}
+			break;
+		}
+		case OP_FUNCTION_DECL:
+		{
+			if (function_count >= MAX_FUNCTIONS)
+			{
+				fprintf(stderr, "Runtime Error: Too many functions\n");
+				exit(1);
+			}
+			strncpy(functions[function_count].name, inst.name, MAX_STRING);
+			functions[function_count].param_count = inst.param_count;
+			for (int j = 0; j < inst.param_count; j++)
+			{
+				strncpy(functions[function_count].params[j], inst.params[j], MAX_STRING);
+			}
+			function_count++;
+			break;
+		}
+		case OP_FUNCTION_CALL:
+		{
+			JechFunction *func = NULL;
+			for (int j = 0; j < function_count; j++)
+			{
+				if (strcmp(functions[j].name, inst.name) == 0)
+				{
+					func = &functions[j];
+					break;
+				}
+			}
+			if (!func)
+			{
+				fprintf(stderr, "Runtime Error: Function '%s' not defined\n", inst.name);
+				exit(1);
+			}
+			
+			// Check argument count matches parameter count
+			if (inst.arg_count != func->param_count)
+			{
+				fprintf(stderr, "Runtime Error: Function '%s' expects %d arguments but got %d\n", 
+					inst.name, func->param_count, inst.arg_count);
+				exit(1);
+			}
+			
+			// Bind parameters to arguments (create temporary variables)
+			int saved_var_count = var_count;
+			for (int j = 0; j < func->param_count; j++)
+			{
+				// If argument is an identifier, resolve its value
+				const char *arg_value = inst.args[j];
+				if (inst.arg_types[j] == TOKEN_IDENTIFIER)
+				{
+					const char *resolved = _JechVM_GetVariable(inst.args[j]);
+					if (resolved)
+					{
+						arg_value = resolved;
+					}
+				}
+				_JechVM_SetVariable(func->params[j], arg_value);
+			}
+			
+			// For now, simple function body execution: just print the parameter values
+			// This is a simplified implementation - full implementation would need to store and execute the body
+			if (func->param_count > 0)
+			{
+				for (int j = 0; j < func->param_count; j++)
+				{
+					const char *val = _JechVM_GetVariable(func->params[j]);
+					if (val)
+					{
+						printf("%s\n", val);
+					}
+				}
+			}
+			
+			// Clean up temporary variables (restore var_count)
+			var_count = saved_var_count;
 			break;
 		}
 		case OP_END:

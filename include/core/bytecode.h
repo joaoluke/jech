@@ -18,6 +18,8 @@ typedef enum
 	OP_WHEN,
 	OP_WHEN_BOOL, // for boolean/identifier conditions with else support
 	OP_MAP,
+	OP_FUNCTION_DECL,
+	OP_FUNCTION_CALL,
 	OP_END
 } OpCode;
 
@@ -36,6 +38,11 @@ typedef struct
 	JechTokenType cmp_operand_type; // comparison operand type (STRING, NUMBER, IDENTIFIER)
 	JechTokenType else_token_type;  // else value type
 	int has_else;                   // flag for else branch
+	char params[8][MAX_STRING];     // function parameters (for FUNCTION_DECL)
+	int param_count;                // number of parameters
+	char args[8][MAX_STRING];       // function arguments (for FUNCTION_CALL)
+	JechTokenType arg_types[8];     // argument types
+	int arg_count;                  // number of arguments
 	int line;
 	int column;
 } Instruction;

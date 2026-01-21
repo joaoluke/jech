@@ -1,0 +1,7 @@
+do showNumber(num) {
+  say(num);
+}
+
+keep value = 42;
+showNumber(value);
+showNumber(100);

@@ -1,0 +1,31 @@
+// Função simples sem parâmetros
+do hello() {
+  say("Hello, World!");
+}
+
+// Função com um parâmetro
+do greet(name) {
+  say(name);
+}
+
+// Função com múltiplos parâmetros
+do showPerson(name, age, city) {
+  say(name);
+  say(age);
+  say(city);
+}
+
+// Testando as funções
+say("=== Testing Functions ===");
+
+hello();
+
+say("---");
+greet("João");
+
+say("---");
+keep userName = "Maria";
+keep userAge = 30;
+keep userCity = "São Paulo";
+
+showPerson(userName, userAge, userCity);

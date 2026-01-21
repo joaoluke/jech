@@ -1,0 +1,5 @@
+do greet(name) {
+  say(name);
+}
+
+greet("World");

@@ -160,6 +160,55 @@ static void compile_when(Bytecode *bc, const JechASTNode *node)
 }
 
 /**
+ * Helper function to compile function declarations
+ */
+static void compile_function_decl(Bytecode *bc, const JechASTNode *node)
+{
+	Instruction *inst = &bc->instructions[bc->count++];
+	memset(inst, 0, sizeof(Instruction));
+	inst->op = OP_FUNCTION_DECL;
+	strncpy(inst->name, node->name, sizeof(inst->name));
+	
+	// Extract parameters from param_list (node->left)
+	inst->param_count = 0;
+	if (node->left && node->left->type == JECH_AST_PARAM_LIST)
+	{
+		JechASTNode *param = node->left->left;
+		while (param && inst->param_count < 8)
+		{
+			strncpy(inst->params[inst->param_count], param->value, MAX_STRING);
+			inst->param_count++;
+			param = param->right;
+		}
+	}
+}
+
+/**
+ * Helper function to compile function calls
+ */
+static void compile_function_call(Bytecode *bc, const JechASTNode *node)
+{
+	Instruction *inst = &bc->instructions[bc->count++];
+	memset(inst, 0, sizeof(Instruction));
+	inst->op = OP_FUNCTION_CALL;
+	strncpy(inst->name, node->name, sizeof(inst->name));
+	
+	// Extract arguments from arg_list (node->left)
+	inst->arg_count = 0;
+	if (node->left && node->left->type == JECH_AST_PARAM_LIST)
+	{
+		JechASTNode *arg = node->left->left;
+		while (arg && inst->arg_count < 8)
+		{
+			strncpy(inst->args[inst->arg_count], arg->value, MAX_STRING);
+			inst->arg_types[inst->arg_count] = arg->token_type;
+			inst->arg_count++;
+			arg = arg->right;
+		}
+	}
+}
+
+/**
  * Helper function to compile the `assign` command
  */
 static void compile_assign(Bytecode *bc, const JechASTNode *node)
@@ -243,6 +292,12 @@ Bytecode _JechBytecode_CompileAll(JechASTNode **roots, int count)
 		case JECH_AST_MAP:
 			// Standalone map: modify array in-place
 			compile_map(&bc, node, node->value);
+			break;
+		case JECH_AST_FUNCTION_DECL:
+			compile_function_decl(&bc, node);
+			break;
+		case JECH_AST_FUNCTION_CALL:
+			compile_function_call(&bc, node);
 			break;
 		default:
 			fprintf(stderr, "Unknown AST node.\n");
