@@ -127,7 +127,6 @@ JechASTNode *parse_function_decl(const JechToken *t, int remaining_tokens, int *
     }
     i++;
 
-    int body_start = i;
     int brace_count = 1;
     while (i < remaining_tokens && brace_count > 0)
     {

@@ -2,7 +2,13 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdarg.h>
+
+#include "core/pipeline.h"
+#include "core/vm.h"
+#include "core/tokenizer.h"
+#include "core/parser/parser.h"
+#include "core/bytecode.h"
+#include "core/ast.h"
 
 #define OUTPUT_BUFFER_SIZE 16384
 
@@ -10,36 +16,29 @@ static char output_buffer[OUTPUT_BUFFER_SIZE];
 static int output_pos = 0;
 
 /**
- * Custom printf that writes to our buffer instead of stdout
- * This will be used by overriding printf in the VM code
+ * Função para adicionar texto ao buffer de saída
+ * Esta será chamada pelo JavaScript via EM_JS
  */
-int jech_wasm_printf(const char *format, ...) {
-    va_list args;
-    va_start(args, format);
-    
+EMSCRIPTEN_KEEPALIVE
+void append_output(const char* text) {
+    int len = strlen(text);
     int remaining = OUTPUT_BUFFER_SIZE - output_pos - 1;
-    if (remaining > 0) {
-        int written = vsnprintf(output_buffer + output_pos, remaining, format, args);
-        if (written > 0 && written < remaining) {
-            output_pos += written;
-        }
-    }
+    int to_copy = (len < remaining) ? len : remaining;
     
-    va_end(args);
-    return 0;
+    if (to_copy > 0) {
+        memcpy(output_buffer + output_pos, text, to_copy);
+        output_pos += to_copy;
+        output_buffer[output_pos] = '\0';
+    }
 }
 
-// Override printf and fprintf for WASM
-#define printf jech_wasm_printf
-#define fprintf(stream, ...) jech_wasm_printf(__VA_ARGS__)
-
-// Now include the Jech headers after defining the overrides
-#include "core/pipeline.h"
-#include "core/vm.h"
-#include "core/tokenizer.h"
-#include "core/parser/parser.h"
-#include "core/bytecode.h"
-#include "core/ast.h"
+/**
+ * Obter o buffer de saída atual
+ */
+EMSCRIPTEN_KEEPALIVE
+const char* get_output() {
+    return output_buffer;
+}
 
 /**
  * Execute Jech code and return the output

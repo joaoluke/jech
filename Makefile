@@ -18,7 +18,7 @@ CFLAGS = -Wall $(INCLUDE)
 LDFLAGS = -lreadline
 DEBUG_FLAGS = -g -DJECH_DEBUG=1
 WASM_FLAGS = -O3 -s WASM=1 \
-	-s EXPORTED_FUNCTIONS='["_jech_execute","_jech_clear","_jech_version","_malloc","_free"]' \
+	-s EXPORTED_FUNCTIONS='["_jech_execute","_jech_clear","_jech_version","_append_output","_get_output","_malloc","_free"]' \
 	-s EXPORTED_RUNTIME_METHODS='["ccall","cwrap","UTF8ToString","stringToUTF8"]' \
 	-s MODULARIZE=1 \
 	-s EXPORT_NAME='JechModule' \
@@ -26,7 +26,8 @@ WASM_FLAGS = -O3 -s WASM=1 \
 	-s INITIAL_MEMORY=16777216 \
 	-s MAXIMUM_MEMORY=33554432 \
 	-s NO_EXIT_RUNTIME=1 \
-	-s ASSERTIONS=0
+	-s ASSERTIONS=0 \
+	-s EXIT_RUNTIME=0
 
 # ===============
 # Main Targets
