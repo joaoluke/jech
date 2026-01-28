@@ -14,33 +14,33 @@
 /**
  * Variable table for `keep` instruction
  */
-typedef struct
-{
-	char name[MAX_STRING];
-	char value[MAX_STRING];
-} JechVariable;
+typedef struct {
+    char name[MAX_STRING];
+    char value[MAX_STRING];
+}
+JechVariable;
 
 /**
  * Function structure
  */
-typedef struct
-{
-	char name[MAX_STRING];
-	char params[MAX_PARAMS][MAX_STRING];
-	int param_count;
-	int body_start;
-	int body_end;
-} JechFunction;
+typedef struct {
+    char name[MAX_STRING];
+    char params[MAX_PARAMS][MAX_STRING];
+    int param_count;
+    int body_start;
+    int body_end;
+}
+JechFunction;
 
 /**
  * Array structure
  */
-typedef struct
-{
-	char name[MAX_STRING];
-	char elements[MAX_ARRAY_SIZE][MAX_STRING];
-	int size;
-} JechArray;
+typedef struct {
+    char name[MAX_STRING];
+    char elements[MAX_ARRAY_SIZE][MAX_STRING];
+    int size;
+}
+JechArray;
 
 static JechVariable variables[MAX_VARS];
 static int var_count = 0;
@@ -54,581 +54,504 @@ static int function_count = 0;
 /**
  * Sets or updates a variable in the runtime environment
  */
-void _JechVM_SetVariable(const char *name, const char *value)
-{
-	for (int i = 0; i < var_count; i++)
-	{
-		if (strcmp(variables[i].name, name) == 0)
-		{
-			strncpy(variables[i].value, value, MAX_STRING);
-			return;
-		}
-	}
-	if (var_count < MAX_VARS)
-	{
-		strncpy(variables[var_count].name, name, MAX_STRING);
-		strncpy(variables[var_count].value, value, MAX_STRING);
-		var_count++;
-	}
+void _JechVM_SetVariable(const char * name,
+    const char * value) {
+    for (int i = 0; i < var_count; i++) {
+        if (strcmp(variables[i].name, name) == 0) {
+            strncpy(variables[i].value, value, MAX_STRING);
+            return;
+        }
+    }
+    if (var_count < MAX_VARS) {
+        strncpy(variables[var_count].name, name, MAX_STRING);
+        strncpy(variables[var_count].value, value, MAX_STRING);
+        var_count++;
+    }
 }
 
 /**
  * Retrieves the value of a variable by name
  */
-const char *_JechVM_GetVariable(const char *name)
-{
-	for (int i = 0; i < var_count; i++)
-	{
-		if (strcmp(variables[i].name, name) == 0)
-		{
-			return variables[i].value;
-		}
-	}
-	return NULL;
+const char * _JechVM_GetVariable(const char * name) {
+    for (int i = 0; i < var_count; i++) {
+        if (strcmp(variables[i].name, name) == 0) {
+            return variables[i].value;
+        }
+    }
+    return NULL;
 }
 
 /**
  * Debug function to print all variables in the VM
  */
-void _debug_vm_dump_vars()
-{
-	extern JechVariable variables[];
-	extern int var_count;
+void _debug_vm_dump_vars() {
+    extern JechVariable variables[];
+    extern int var_count;
 
-	for (int i = 0; i < var_count; i++)
-	{
-		printf("Variable: %s = %s\n", variables[i].name, variables[i].value);
-	}
+    for (int i = 0; i < var_count; i++) {
+        printf("Variable: %s = %s\n", variables[i].name, variables[i].value);
+    }
 }
 
 /**
  * Checks if a variable exists in the runtime environment
  */
-bool variable_exists(const char *name)
-{
-	for (int i = 0; i < var_count; i++)
-	{
-		if (strcmp(variables[i].name, name) == 0)
-		{
-			return true;
-		}
-	}
-	return false;
+bool variable_exists(const char * name) {
+    for (int i = 0; i < var_count; i++) {
+        if (strcmp(variables[i].name, name) == 0) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /**
  * Creates a new array in the runtime environment
  */
-static void create_array(const char *name)
-{
-	if (array_count >= MAX_ARRAYS)
-	{
-		fprintf(stderr, "Runtime Error: Too many arrays\n");
-		exit(1);
-	}
-	strncpy(arrays[array_count].name, name, MAX_STRING);
-	arrays[array_count].size = 0;
-	array_count++;
+static void create_array(const char * name) {
+    if (array_count >= MAX_ARRAYS) {
+        fprintf(stderr, "Runtime Error: Too many arrays\n");
+        exit(1);
+    }
+    strncpy(arrays[array_count].name, name, MAX_STRING);
+    arrays[array_count].size = 0;
+    array_count++;
 }
 
 /**
  * Finds an array by name
  */
-static JechArray *find_array(const char *name)
-{
-	for (int i = 0; i < array_count; i++)
-	{
-		if (strcmp(arrays[i].name, name) == 0)
-		{
-			return &arrays[i];
-		}
-	}
-	return NULL;
+static JechArray * find_array(const char * name) {
+    for (int i = 0; i < array_count; i++) {
+        if (strcmp(arrays[i].name, name) == 0) {
+            return & arrays[i];
+        }
+    }
+    return NULL;
 }
 
 /**
  * Pushes an element to an array
  */
-static void array_push(const char *name, const char *value)
-{
-	JechArray *arr = find_array(name);
-	if (!arr)
-	{
-		fprintf(stderr, "Runtime Error: Array '%s' not found\n", name);
-		exit(1);
-	}
-	if (arr->size >= MAX_ARRAY_SIZE)
-	{
-		fprintf(stderr, "Runtime Error: Array '%s' is full\n", name);
-		exit(1);
-	}
-	strncpy(arr->elements[arr->size], value, MAX_STRING);
-	arr->size++;
+static void array_push(const char * name,
+    const char * value) {
+    JechArray * arr = find_array(name);
+    if (!arr) {
+        fprintf(stderr, "Runtime Error: Array '%s' not found\n", name);
+        exit(1);
+    }
+    if (arr -> size >= MAX_ARRAY_SIZE) {
+        fprintf(stderr, "Runtime Error: Array '%s' is full\n", name);
+        exit(1);
+    }
+    strncpy(arr -> elements[arr -> size], value, MAX_STRING);
+    arr -> size++;
 }
 
 /**
  * Gets an element from an array by index
  */
-static const char *array_get(const char *name, int index)
-{
-	JechArray *arr = find_array(name);
-	if (!arr)
-	{
-		fprintf(stderr, "Runtime Error: Array '%s' not found\n", name);
-		exit(1);
-	}
-	if (index < 0 || index >= arr->size)
-	{
-		fprintf(stderr, "Runtime Error: Index %d out of bounds for array '%s' (size: %d)\n", index, name, arr->size);
-		exit(1);
-	}
-	return arr->elements[index];
+static
+const char * array_get(const char * name, int index) {
+    JechArray * arr = find_array(name);
+    if (!arr) {
+        fprintf(stderr, "Runtime Error: Array '%s' not found\n", name);
+        exit(1);
+    }
+    if (index < 0 || index >= arr -> size) {
+        fprintf(stderr, "Runtime Error: Index %d out of bounds for array '%s' (size: %d)\n", index, name, arr -> size);
+        exit(1);
+    }
+    return arr -> elements[index];
 }
 
 /**
  * Prints all elements of an array
  */
-static void print_array(const char *name)
-{
-	JechArray *arr = find_array(name);
-	if (!arr)
-	{
-		return;
-	}
-	
-	printf("[");
-	for (int i = 0; i < arr->size; i++)
-	{
-		printf("%s", arr->elements[i]);
-		if (i < arr->size - 1)
-		{
-			printf(", ");
-		}
-	}
-	printf("]\n");
+static void print_array(const char * name) {
+    JechArray * arr = find_array(name);
+    if (!arr) {
+        return;
+    }
+
+    printf("[");
+    for (int i = 0; i < arr -> size; i++) {
+        printf("%s", arr -> elements[i]);
+        if (i < arr -> size - 1) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
 }
 
 /**
  * Clears all variables, arrays, and functions from the VM runtime environment
  */
-void _JechVM_ClearState()
-{
-	var_count = 0;
-	array_count = 0;
-	function_count = 0;
+void _JechVM_ClearState() {
+    var_count = 0;
+    array_count = 0;
+    function_count = 0;
 }
 
 /**
  * Executes the bytecode generated by the compiler
  */
-void _JechVM_Execute(const Bytecode *bc)
-{
-	for (int i = 0; i < bc->count; i++)
-	{
-		Instruction inst = bc->instructions[i];
+void _JechVM_Execute(const Bytecode * bc) {
+    for (int i = 0; i < bc -> count; i++) {
+        Instruction inst = bc -> instructions[i];
 
-		switch (inst.op)
-		{
-		case OP_ARRAY_NEW:
-			create_array(inst.name);
-			break;
-		case OP_ARRAY_PUSH:
-			array_push(inst.name, inst.operand);
-			break;
-		case OP_MAP:
-		{
-			// Get source array
-			JechArray *src = find_array(inst.operand);
-			if (!src)
-			{
-				fprintf(stderr, "Runtime Error: Array '%s' not found for map operation\n", inst.operand);
-				exit(1);
-			}
-			
-			// Check if in-place operation (source == destination)
-			bool in_place = (strcmp(inst.name, inst.operand) == 0);
-			
-			// Create result array only if not in-place
-			if (!in_place)
-			{
-				create_array(inst.name);
-			}
-			
-			// Get operation value
-			double op_value = atof(inst.operand_right);
-			
-			// Apply operation to each element
-			for (int i = 0; i < src->size; i++)
-			{
-				double elem_value = atof(src->elements[i]);
-				double new_value = 0;
-				
-				switch (inst.bin_op)
-				{
-				case TOKEN_PLUS:
-					new_value = elem_value + op_value;
-					break;
-				case TOKEN_MINUS:
-					new_value = elem_value - op_value;
-					break;
-				case TOKEN_STAR:
-					new_value = elem_value * op_value;
-					break;
-				case TOKEN_SLASH:
-					if (op_value == 0)
-					{
-						fprintf(stderr, "Runtime Error: Division by zero in map operation\n");
-						exit(1);
-					}
-					new_value = elem_value / op_value;
-					break;
-				default:
-					fprintf(stderr, "Runtime Error: Unsupported operator in map\n");
-					exit(1);
-				}
-				
-				char result_str[MAX_STRING];
-				snprintf(result_str, sizeof(result_str), "%.2f", new_value);
-				
-				if (in_place)
-				{
-					// Modify element in-place
-					strncpy(src->elements[i], result_str, MAX_STRING);
-				}
-				else
-				{
-					// Push to new array
-					array_push(inst.name, result_str);
-				}
-			}
-			break;
-		}
-		case OP_SAY_INDEX:
-		{
-			int index = atoi(inst.operand);
-			const char *value = array_get(inst.name, index);
-			printf("%s\n", value);
-			break;
-		}
-		case OP_SAY:
-			if (inst.token_type == TOKEN_IDENTIFIER)
-			{
-				const char *value = _JechVM_GetVariable(inst.operand);
-				if (value)
-				{
-					printf("%s\n", value);
-				}
-				else
-				{
-					JechArray *arr = find_array(inst.operand);
-					if (arr)
-					{
-						print_array(inst.operand);
-					}
-					else
-					{
-						fprintf(stderr, "Runtime error: undefined variable '%s'\n", inst.operand);
-					}
-				}
-			}
-			else
-			{
-				printf("%s\n", inst.operand);
-			}
-			break;
-		case OP_KEEP:
-			if (_JechVM_GetVariable(inst.name) != NULL)
-			{
-				report_runtime_error("Variable already declared", inst.line, inst.column);
-				exit(1);
-			}
-			_JechVM_SetVariable(inst.name, inst.operand);
-			break;
-		case OP_ASSIGN:
-			if (variable_exists(inst.name))
-			{
-				_JechVM_SetVariable(inst.name, inst.operand);
-			}
-			else
-			{
-				report_runtime_error("Cannot assign to undeclared variable", 0, 0);
-				exit(1);
-			}
-			break;
-		case OP_BIN_OP:
-		{
-			const char *left_val = _JechVM_GetVariable(inst.operand);
-			if (!left_val)
-			{
-				fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
-				exit(1);
-			}
+        switch (inst.op) {
+        case OP_ARRAY_NEW:
+            create_array(inst.name);
+            break;
+        case OP_ARRAY_PUSH:
+            array_push(inst.name, inst.operand);
+            break;
+        case OP_MAP: {
+            // Get source array
+            JechArray * src = find_array(inst.operand);
+            if (!src) {
+                fprintf(stderr, "Runtime Error: Array '%s' not found for map operation\n", inst.operand);
+                exit(1);
+            }
 
-			double left = atof(left_val);
-			double right = atof(inst.operand_right);
-			double result = 0;
+            // Check if in-place operation (source == destination)
+            bool in_place = (strcmp(inst.name, inst.operand) == 0);
 
-			switch (inst.bin_op)
-			{
-			case TOKEN_PLUS:
-				result = left + right;
-				break;
-			case TOKEN_MINUS:
-				result = left - right;
-				break;
-			case TOKEN_STAR:
-				result = left * right;
-				break;
-			case TOKEN_SLASH:
-				if (right == 0)
-				{
-					fprintf(stderr, "Runtime Error: Division by zero\n");
-					exit(1);
-				}
-				result = left / right;
-				break;
-			default:
-				fprintf(stderr, "Runtime Error: Unsupported binary operator\n");
-				exit(1);
-			}
+            // Create result array only if not in-place
+            if (!in_place) {
+                create_array(inst.name);
+            }
 
-			char result_str[MAX_STRING];
-			snprintf(result_str, sizeof(result_str), "%.2f", result);
-			_JechVM_SetVariable(inst.name, result_str);
-			break;
-		}
-		case OP_WHEN:
-		{
-			// Binary condition: when (x > 10) or when (x == "hello") { ... } else { ... }
-			const char *left_val = _JechVM_GetVariable(inst.name);
-			if (!left_val)
-			{
-				fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.name);
-				exit(1);
-			}
+            // Get operation value
+            double op_value = atof(inst.operand_right);
 
-			// Get right operand value (could be literal or variable)
-			const char *right_val = inst.operand;
-			if (inst.cmp_operand_type == TOKEN_IDENTIFIER)
-			{
-				right_val = _JechVM_GetVariable(inst.operand);
-				if (!right_val)
-				{
-					fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
-					exit(1);
-				}
-			}
+            // Apply operation to each element
+            for (int i = 0; i < src -> size; i++) {
+                double elem_value = atof(src -> elements[i]);
+                double new_value = 0;
 
-			bool is_true = false;
+                switch (inst.bin_op) {
+                case TOKEN_PLUS:
+                    new_value = elem_value + op_value;
+                    break;
+                case TOKEN_MINUS:
+                    new_value = elem_value - op_value;
+                    break;
+                case TOKEN_STAR:
+                    new_value = elem_value * op_value;
+                    break;
+                case TOKEN_SLASH:
+                    if (op_value == 0) {
+                        fprintf(stderr, "Runtime Error: Division by zero in map operation\n");
+                        exit(1);
+                    }
+                    new_value = elem_value / op_value;
+                    break;
+                default:
+                    fprintf(stderr, "Runtime Error: Unsupported operator in map\n");
+                    exit(1);
+                }
 
-			// String comparison for == with strings
-			if (inst.cmp_operand_type == TOKEN_STRING || 
-			    (inst.cmp_operand_type == TOKEN_IDENTIFIER && inst.bin_op == TOKEN_EQEQ))
-			{
-				// Use string comparison for == operator
-				if (inst.bin_op == TOKEN_EQEQ)
-				{
-					is_true = (strcmp(left_val, right_val) == 0);
-				}
-				else if (inst.bin_op == TOKEN_GT)
-				{
-					is_true = (strcmp(left_val, right_val) > 0);
-				}
-				else if (inst.bin_op == TOKEN_LT)
-				{
-					is_true = (strcmp(left_val, right_val) < 0);
-				}
-			}
-			else
-			{
-				// Numeric comparison
-				double left = atof(left_val);
-				double right = atof(right_val);
+                char result_str[MAX_STRING];
+                snprintf(result_str, sizeof(result_str), "%.2f", new_value);
 
-				switch (inst.bin_op)
-				{
-				case TOKEN_GT:
-					is_true = (left > right);
-					break;
-				case TOKEN_LT:
-					is_true = (left < right);
-					break;
-				case TOKEN_EQEQ:
-					is_true = (left == right);
-					break;
-				default:
-					fprintf(stderr, "Runtime Error: Unsupported operator in when.\n");
-					exit(1);
-				}
-			}
+                if (in_place) {
+                    // Modify element in-place
+                    strncpy(src -> elements[i], result_str, MAX_STRING);
+                } else {
+                    // Push to new array
+                    array_push(inst.name, result_str);
+                }
+            }
+            break;
+        }
+        case OP_SAY_INDEX: {
+            int index = atoi(inst.operand);
+            const char * value = array_get(inst.name, index);
+            printf("%s\n", value);
+            break;
+        }
+        case OP_SAY:
+            if (inst.token_type == TOKEN_IDENTIFIER) {
+                const char * value = _JechVM_GetVariable(inst.operand);
+                if (value) {
+                    printf("%s\n", value);
+                } else {
+                    JechArray * arr = find_array(inst.operand);
+                    if (arr) {
+                        print_array(inst.operand);
+                    } else {
+                        fprintf(stderr, "Runtime error: undefined variable '%s'\n", inst.operand);
+                    }
+                }
+            } else {
+                printf("%s\n", inst.operand);
+            }
+            break;
+        case OP_KEEP:
+            if (_JechVM_GetVariable(inst.name) != NULL) {
+                report_runtime_error("Variable already declared", inst.line, inst.column);
+                exit(1);
+            }
+            _JechVM_SetVariable(inst.name, inst.operand);
+            break;
+        case OP_ASSIGN:
+            if (variable_exists(inst.name)) {
+                _JechVM_SetVariable(inst.name, inst.operand);
+            } else {
+                report_runtime_error("Cannot assign to undeclared variable", 0, 0);
+                exit(1);
+            }
+            break;
+        case OP_BIN_OP: {
+            // Get left operand value
+            const char * left_val = NULL;
+            if (inst.token_type == TOKEN_IDENTIFIER) {
+                left_val = _JechVM_GetVariable(inst.operand);
+                if (!left_val) {
+                    fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
+                    exit(1);
+                }
+            } else {
+                left_val = inst.operand;
+            }
 
-			if (is_true)
-			{
-				if (inst.token_type == TOKEN_IDENTIFIER)
-				{
-					const char *say_val = _JechVM_GetVariable(inst.operand_right);
-					if (say_val)
-						printf("%s\n", say_val);
-					else
-						fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand_right);
-				}
-				else
-				{
-					printf("%s\n", inst.operand_right);
-				}
-			}
-			else if (inst.has_else)
-			{
-				if (inst.else_token_type == TOKEN_IDENTIFIER)
-				{
-					const char *say_val = _JechVM_GetVariable(inst.else_operand);
-					if (say_val)
-						printf("%s\n", say_val);
-					else
-						fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.else_operand);
-				}
-				else
-				{
-					printf("%s\n", inst.else_operand);
-				}
-			}
-			break;
-		}
-		case OP_WHEN_BOOL:
-		{
-			// Boolean/identifier condition: when (name) { ... } else { ... }
-			bool is_true = false;
+            // Get right operand value
+            const char * right_val = NULL;
+            if (inst.cmp_operand_type == TOKEN_IDENTIFIER) {
+                right_val = _JechVM_GetVariable(inst.operand_right);
+                if (!right_val) {
+                    fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand_right);
+                    exit(1);
+                }
+            } else {
+                right_val = inst.operand_right;
+            }
 
-			if (inst.bin_op == TOKEN_BOOL)
-			{
-				// Literal true/false
-				is_true = strcmp(inst.name, "true") == 0;
-			}
-			else
-			{
-				// Identifier - get variable value at runtime
-				const char *var_val = _JechVM_GetVariable(inst.name);
-				if (!var_val)
-				{
-					fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.name);
-					exit(1);
-				}
-				is_true = strcmp(var_val, "true") == 0;
-			}
+            // Check if this is string concatenation (+ operator with at least one string)
+            if (inst.bin_op == TOKEN_PLUS &&
+                (inst.token_type == TOKEN_STRING || inst.cmp_operand_type == TOKEN_STRING)) {
+                // String concatenation
+                char result_str[MAX_STRING];
+                snprintf(result_str, sizeof(result_str), "%s%s", left_val, right_val);
+                _JechVM_SetVariable(inst.name, result_str);
+            } else {
+                // Numeric operation
+                double left = atof(left_val);
+                double right = atof(right_val);
+                double result = 0;
 
-			if (is_true)
-			{
-				if (inst.token_type == TOKEN_IDENTIFIER)
-				{
-					const char *say_val = _JechVM_GetVariable(inst.operand);
-					if (say_val)
-						printf("%s\n", say_val);
-					else
-						fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
-				}
-				else
-				{
-					printf("%s\n", inst.operand);
-				}
-			}
-			else if (inst.has_else)
-			{
-				if (inst.else_token_type == TOKEN_IDENTIFIER)
-				{
-					const char *say_val = _JechVM_GetVariable(inst.else_operand);
-					if (say_val)
-						printf("%s\n", say_val);
-					else
-						fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.else_operand);
-				}
-				else
-				{
-					printf("%s\n", inst.else_operand);
-				}
-			}
-			break;
-		}
-		case OP_FUNCTION_DECL:
-		{
-			if (function_count >= MAX_FUNCTIONS)
-			{
-				fprintf(stderr, "Runtime Error: Too many functions\n");
-				exit(1);
-			}
-			strncpy(functions[function_count].name, inst.name, MAX_STRING);
-			functions[function_count].param_count = inst.param_count;
-			for (int j = 0; j < inst.param_count; j++)
-			{
-				strncpy(functions[function_count].params[j], inst.params[j], MAX_STRING);
-			}
-			function_count++;
-			break;
-		}
-		case OP_FUNCTION_CALL:
-		{
-			JechFunction *func = NULL;
-			for (int j = 0; j < function_count; j++)
-			{
-				if (strcmp(functions[j].name, inst.name) == 0)
-				{
-					func = &functions[j];
-					break;
-				}
-			}
-			if (!func)
-			{
-				fprintf(stderr, "Runtime Error: Function '%s' not defined\n", inst.name);
-				exit(1);
-			}
-			
-			// Check argument count matches parameter count
-			if (inst.arg_count != func->param_count)
-			{
-				fprintf(stderr, "Runtime Error: Function '%s' expects %d arguments but got %d\n", 
-					inst.name, func->param_count, inst.arg_count);
-				exit(1);
-			}
-			
-			// Bind parameters to arguments (create temporary variables)
-			int saved_var_count = var_count;
-			for (int j = 0; j < func->param_count; j++)
-			{
-				// If argument is an identifier, resolve its value
-				const char *arg_value = inst.args[j];
-				if (inst.arg_types[j] == TOKEN_IDENTIFIER)
-				{
-					const char *resolved = _JechVM_GetVariable(inst.args[j]);
-					if (resolved)
-					{
-						arg_value = resolved;
-					}
-				}
-				_JechVM_SetVariable(func->params[j], arg_value);
-			}
-			
-			// For now, simple function body execution: just print the parameter values
-			// This is a simplified implementation - full implementation would need to store and execute the body
-			if (func->param_count > 0)
-			{
-				for (int j = 0; j < func->param_count; j++)
-				{
-					const char *val = _JechVM_GetVariable(func->params[j]);
-					if (val)
-					{
-						printf("%s\n", val);
-					}
-				}
-			}
-			
-			// Clean up temporary variables (restore var_count)
-			var_count = saved_var_count;
-			break;
-		}
-		case OP_END:
-			return;
-		default:
-			fprintf(stderr, "VM error: unknown opcode %d\n", inst.op);
-			return;
-		}
-	}
+                switch (inst.bin_op) {
+                case TOKEN_PLUS:
+                    result = left + right;
+                    break;
+                case TOKEN_MINUS:
+                    result = left - right;
+                    break;
+                case TOKEN_STAR:
+                    result = left * right;
+                    break;
+                case TOKEN_SLASH:
+                    if (right == 0) {
+                        fprintf(stderr, "Runtime Error: Division by zero\n");
+                        exit(1);
+                    }
+                    result = left / right;
+                    break;
+                default:
+                    fprintf(stderr, "Runtime Error: Unsupported binary operator\n");
+                    exit(1);
+                }
+
+                char result_str[MAX_STRING];
+                snprintf(result_str, sizeof(result_str), "%.2f", result);
+                _JechVM_SetVariable(inst.name, result_str);
+            }
+            break;
+        }
+        case OP_WHEN: {
+            // Binary condition: when (x > 10) or when (x == "hello") { ... } else { ... }
+            const char * left_val = _JechVM_GetVariable(inst.name);
+            if (!left_val) {
+                fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.name);
+                exit(1);
+            }
+
+            // Get right operand value (could be literal or variable)
+            const char * right_val = inst.operand;
+            if (inst.cmp_operand_type == TOKEN_IDENTIFIER) {
+                right_val = _JechVM_GetVariable(inst.operand);
+                if (!right_val) {
+                    fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
+                    exit(1);
+                }
+            }
+
+            bool is_true = false;
+
+            // String comparison for == with strings
+            if (inst.cmp_operand_type == TOKEN_STRING ||
+                (inst.cmp_operand_type == TOKEN_IDENTIFIER && inst.bin_op == TOKEN_EQEQ)) {
+                // Use string comparison for == operator
+                if (inst.bin_op == TOKEN_EQEQ) {
+                    is_true = (strcmp(left_val, right_val) == 0);
+                } else if (inst.bin_op == TOKEN_GT) {
+                    is_true = (strcmp(left_val, right_val) > 0);
+                } else if (inst.bin_op == TOKEN_LT) {
+                    is_true = (strcmp(left_val, right_val) < 0);
+                }
+            } else {
+                // Numeric comparison
+                double left = atof(left_val);
+                double right = atof(right_val);
+
+                switch (inst.bin_op) {
+                case TOKEN_GT:
+                    is_true = (left > right);
+                    break;
+                case TOKEN_LT:
+                    is_true = (left < right);
+                    break;
+                case TOKEN_EQEQ:
+                    is_true = (left == right);
+                    break;
+                default:
+                    fprintf(stderr, "Runtime Error: Unsupported operator in when.\n");
+                    exit(1);
+                }
+            }
+
+            if (is_true) {
+                if (inst.token_type == TOKEN_IDENTIFIER) {
+                    const char * say_val = _JechVM_GetVariable(inst.operand_right);
+                    if (say_val)
+                        printf("%s\n", say_val);
+                    else
+                        fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand_right);
+                } else {
+                    printf("%s\n", inst.operand_right);
+                }
+            } else if (inst.has_else) {
+                if (inst.else_token_type == TOKEN_IDENTIFIER) {
+                    const char * say_val = _JechVM_GetVariable(inst.else_operand);
+                    if (say_val)
+                        printf("%s\n", say_val);
+                    else
+                        fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.else_operand);
+                } else {
+                    printf("%s\n", inst.else_operand);
+                }
+            }
+            break;
+        }
+        case OP_WHEN_BOOL: {
+            // Boolean/identifier condition: when (name) { ... } else { ... }
+            bool is_true = false;
+
+            if (inst.bin_op == TOKEN_BOOL) {
+                // Literal true/false
+                is_true = strcmp(inst.name, "true") == 0;
+            } else {
+                // Identifier - get variable value at runtime
+                const char * var_val = _JechVM_GetVariable(inst.name);
+                if (!var_val) {
+                    fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.name);
+                    exit(1);
+                }
+                is_true = strcmp(var_val, "true") == 0;
+            }
+
+            if (is_true) {
+                if (inst.token_type == TOKEN_IDENTIFIER) {
+                    const char * say_val = _JechVM_GetVariable(inst.operand);
+                    if (say_val)
+                        printf("%s\n", say_val);
+                    else
+                        fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.operand);
+                } else {
+                    printf("%s\n", inst.operand);
+                }
+            } else if (inst.has_else) {
+                if (inst.else_token_type == TOKEN_IDENTIFIER) {
+                    const char * say_val = _JechVM_GetVariable(inst.else_operand);
+                    if (say_val)
+                        printf("%s\n", say_val);
+                    else
+                        fprintf(stderr, "Runtime Error: Undefined variable '%s'\n", inst.else_operand);
+                } else {
+                    printf("%s\n", inst.else_operand);
+                }
+            }
+            break;
+        }
+        case OP_FUNCTION_DECL: {
+            if (function_count >= MAX_FUNCTIONS) {
+                fprintf(stderr, "Runtime Error: Too many functions\n");
+                exit(1);
+            }
+            strncpy(functions[function_count].name, inst.name, MAX_STRING);
+            functions[function_count].param_count = inst.param_count;
+            for (int j = 0; j < inst.param_count; j++) {
+                strncpy(functions[function_count].params[j], inst.params[j], MAX_STRING);
+            }
+            function_count++;
+            break;
+        }
+        case OP_FUNCTION_CALL: {
+            JechFunction * func = NULL;
+            for (int j = 0; j < function_count; j++) {
+                if (strcmp(functions[j].name, inst.name) == 0) {
+                    func = & functions[j];
+                    break;
+                }
+            }
+            if (!func) {
+                fprintf(stderr, "Runtime Error: Function '%s' not defined\n", inst.name);
+                exit(1);
+            }
+
+            // Check argument count matches parameter count
+            if (inst.arg_count != func -> param_count) {
+                fprintf(stderr, "Runtime Error: Function '%s' expects %d arguments but got %d\n",
+                    inst.name, func -> param_count, inst.arg_count);
+                exit(1);
+            }
+
+            // Bind parameters to arguments (create temporary variables)
+            int saved_var_count = var_count;
+            for (int j = 0; j < func -> param_count; j++) {
+                // If argument is an identifier, resolve its value
+                const char * arg_value = inst.args[j];
+                if (inst.arg_types[j] == TOKEN_IDENTIFIER) {
+                    const char * resolved = _JechVM_GetVariable(inst.args[j]);
+                    if (resolved) {
+                        arg_value = resolved;
+                    }
+                }
+                _JechVM_SetVariable(func -> params[j], arg_value);
+            }
+
+            // For now, simple function body execution: just print the parameter values
+            // This is a simplified implementation - full implementation would need to store and execute the body
+            if (func -> param_count > 0) {
+                for (int j = 0; j < func -> param_count; j++) {
+                    const char * val = _JechVM_GetVariable(func -> params[j]);
+                    if (val) {
+                        printf("%s\n", val);
+                    }
+                }
+            }
+
+            // Clean up temporary variables (restore var_count)
+            var_count = saved_var_count;
+            break;
+        }
+        case OP_END:
+            return;
+        default:
+            fprintf(stderr, "VM error: unknown opcode %d\n", inst.op);
+            return;
+        }
+    }
 }
