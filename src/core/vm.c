@@ -330,8 +330,25 @@ void _JechVM_Execute(const Bytecode * bc) {
             }
 
             // Check if this is string concatenation (+ operator with at least one string)
-            if (inst.bin_op == TOKEN_PLUS &&
-                (inst.token_type == TOKEN_STRING || inst.cmp_operand_type == TOKEN_STRING)) {
+            // For variables, we need to check if their content looks like a string
+            bool left_is_string = (inst.token_type == TOKEN_STRING);
+            bool right_is_string = (inst.cmp_operand_type == TOKEN_STRING);
+            
+            // If operands are variables, check their content to determine if they're strings
+            if (inst.token_type == TOKEN_IDENTIFIER && left_val) {
+                // Check if variable content looks like a string (contains quotes or is not a number)
+                left_is_string = (strlen(left_val) > 0 && 
+                                 (left_val[0] == '"' || left_val[0] == '\'' || 
+                                  (atof(left_val) == 0.0 && strcmp(left_val, "0") != 0 && strcmp(left_val, "0.00") != 0)));
+            }
+            
+            if (inst.cmp_operand_type == TOKEN_IDENTIFIER && right_val) {
+                right_is_string = (strlen(right_val) > 0 && 
+                                  (right_val[0] == '"' || right_val[0] == '\'' || 
+                                   (atof(right_val) == 0.0 && strcmp(right_val, "0") != 0 && strcmp(right_val, "0.00") != 0)));
+            }
+            
+            if (inst.bin_op == TOKEN_PLUS && (left_is_string || right_is_string)) {
                 // String concatenation
                 char result_str[MAX_STRING];
                 snprintf(result_str, sizeof(result_str), "%s%s", left_val, right_val);

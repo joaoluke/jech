@@ -18,6 +18,9 @@ void debug_print_bytecode(const Bytecode *bc)
         case OP_KEEP:
             op_name = "OP_KEEP";
             break;
+        case OP_BIN_OP:
+            op_name = "OP_BIN_OP";
+            break;
         case OP_END:
             op_name = "OP_END";
             break;
@@ -35,6 +38,14 @@ void debug_print_bytecode(const Bytecode *bc)
         else if (inst.op == OP_KEEP)
         {
             printf(" %s = \"%s\"", inst.name, inst.operand);
+        }
+        else if (inst.op == OP_BIN_OP)
+        {
+            printf(" %s = %s %c %s", inst.name, inst.operand, 
+                   inst.bin_op == TOKEN_PLUS ? '+' : 
+                   inst.bin_op == TOKEN_MINUS ? '-' : 
+                   inst.bin_op == TOKEN_STAR ? '*' : '/', 
+                   inst.operand_right);
         }
 
         printf(" [type: %s]\n", token_type_to_str(inst.token_type));

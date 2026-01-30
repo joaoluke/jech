@@ -141,11 +141,11 @@ JechASTNode * parse_keep(const JechToken * t, int remaining_tokens, int * out_co
         t[6].type == TOKEN_SEMICOLON) {
         JechASTNode * left = _JechAST_CreateNode(
             t[3].type == TOKEN_IDENTIFIER ? JECH_AST_ASSIGN : JECH_AST_KEEP,
-            t[3].value, NULL, t[3].type);
+            t[3].value, t[3].type == TOKEN_IDENTIFIER ? t[3].value : NULL, t[3].type);
 
         JechASTNode * right = _JechAST_CreateNode(
             t[5].type == TOKEN_IDENTIFIER ? JECH_AST_ASSIGN : JECH_AST_KEEP,
-            t[5].value, NULL, t[5].type);
+            t[5].value, t[5].type == TOKEN_IDENTIFIER ? t[5].value : NULL, t[5].type);
 
         JechASTNode * binop = _JechAST_CreateNode(JECH_AST_BIN_OP, NULL, NULL, t[4].type);
         binop -> left = left;

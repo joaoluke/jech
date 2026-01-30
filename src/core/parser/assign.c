@@ -25,11 +25,11 @@ JechASTNode * parse_assign(const JechToken * t, int remaining_tokens, int * out_
         t[5].type == TOKEN_SEMICOLON) {
         JechASTNode * left = _JechAST_CreateNode(
             t[2].type == TOKEN_IDENTIFIER ? JECH_AST_ASSIGN : JECH_AST_KEEP,
-            t[2].value, NULL, t[2].type);
+            t[2].value, t[2].type == TOKEN_IDENTIFIER ? t[2].value : NULL, t[2].type);
 
         JechASTNode * right = _JechAST_CreateNode(
             t[4].type == TOKEN_IDENTIFIER ? JECH_AST_ASSIGN : JECH_AST_KEEP,
-            t[4].value, NULL, t[4].type);
+            t[4].value, t[4].type == TOKEN_IDENTIFIER ? t[4].value : NULL, t[4].type);
 
         JechASTNode * binop = _JechAST_CreateNode(JECH_AST_BIN_OP, NULL, NULL, t[3].type);
         binop -> left = left;

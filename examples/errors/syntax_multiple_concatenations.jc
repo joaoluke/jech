@@ -1,0 +1,24 @@
+// Multiple Concatenations Error Example
+// This file demonstrates the syntax error for multiple concatenations
+
+// This will cause a SyntaxError
+say("a" + "b" + "c");
+
+// The error message will suggest using temporary variables:
+// "Multiple concatenations not supported. Use temporary variables: keep temp = a + b; say(temp + c);"
+
+// Correct way to do multiple concatenations:
+keep temp = "a" + "b";
+say(temp + "c");
+
+// Another example with variables:
+keep x = "hello";
+keep y = "world";
+keep z = "!";
+
+// This will cause an error:
+// say(x + y + z);
+
+// Correct approach:
+keep intermediate = x + y;
+say(intermediate + z);

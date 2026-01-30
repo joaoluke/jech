@@ -15,6 +15,7 @@ JechASTNode * parse_say(const JechToken * t, int remaining_tokens, int * out_con
         return NULL;
     }
 
+    // Check for literal values: say("hello"), say(42), say(true)
     if (!(t[2].type == TOKEN_STRING || t[2].type == TOKEN_NUMBER ||
             t[2].type == TOKEN_BOOL || t[2].type == TOKEN_IDENTIFIER)) {
         report_syntax_error("Invalid value in 'say' statement", t[2].line, t[2].column);
@@ -22,6 +23,7 @@ JechASTNode * parse_say(const JechToken * t, int remaining_tokens, int * out_con
         return NULL;
     }
 
+    // Check for array access: say(array[0])
     if (remaining_tokens >= 8 &&
         t[2].type == TOKEN_IDENTIFIER &&
         t[3].type == TOKEN_LBRACKET &&
@@ -35,6 +37,7 @@ JechASTNode * parse_say(const JechToken * t, int remaining_tokens, int * out_con
         return say;
     }
 
+    // Check for binary operation: say(a + b)
     if (remaining_tokens >= 7 &&
         (t[2].type == TOKEN_STRING ||
             t[2].type == TOKEN_NUMBER ||
@@ -45,12 +48,27 @@ JechASTNode * parse_say(const JechToken * t, int remaining_tokens, int * out_con
             t[3].type == TOKEN_SLASH) &&
         (t[4].type == TOKEN_STRING ||
             t[4].type == TOKEN_NUMBER ||
-            t[4].type == TOKEN_IDENTIFIER) &&
-        t[5].type == TOKEN_RPAREN &&
-        t[6].type == TOKEN_SEMICOLON) {
+            t[4].type == TOKEN_IDENTIFIER))
+    {
+        // Check for multiple concatenations: say(a + b + c)
+        if (remaining_tokens >= 9 && 
+            (t[5].type == TOKEN_PLUS || t[5].type == TOKEN_MINUS || 
+             t[5].type == TOKEN_STAR || t[5].type == TOKEN_SLASH) &&
+            (t[6].type == TOKEN_STRING || t[6].type == TOKEN_NUMBER || 
+             t[6].type == TOKEN_IDENTIFIER))
+        {
+            report_syntax_error("Multiple concatenations not supported. Use temporary variables: keep temp = a + b; say(temp + c);", 
+                               t[5].line, t[5].column);
+            *out_consumed = 0;
+            return NULL;
+        }
+        
+        // Now check for the normal binary operation pattern
+        if (t[5].type == TOKEN_RPAREN &&
+            t[6].type == TOKEN_SEMICOLON) {
 
-        JechASTNode * left = _JechAST_CreateNode(t[2].type == TOKEN_IDENTIFIER ? JECH_AST_ASSIGN : JECH_AST_KEEP, t[2].value, NULL, t[2].type);
-        JechASTNode * right = _JechAST_CreateNode(t[4].type == TOKEN_IDENTIFIER ? JECH_AST_ASSIGN : JECH_AST_KEEP, t[4].value, NULL, t[4].type);
+        JechASTNode * left = _JechAST_CreateNode(t[2].type == TOKEN_IDENTIFIER ? JECH_AST_ASSIGN : JECH_AST_KEEP, t[2].value, t[2].type == TOKEN_IDENTIFIER ? t[2].value : NULL, t[2].type);
+        JechASTNode * right = _JechAST_CreateNode(t[4].type == TOKEN_IDENTIFIER ? JECH_AST_ASSIGN : JECH_AST_KEEP, t[4].value, t[4].type == TOKEN_IDENTIFIER ? t[4].value : NULL, t[4].type);
 
         JechASTNode * binop = _JechAST_CreateNode(JECH_AST_BIN_OP, NULL, NULL, t[3].type);
         binop -> left = left;
@@ -63,6 +81,7 @@ JechASTNode * parse_say(const JechToken * t, int remaining_tokens, int * out_con
 
         * out_consumed = 7;
         return say;
+        }
     }
 
     if (t[3].type != TOKEN_RPAREN) {

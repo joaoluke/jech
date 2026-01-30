@@ -114,11 +114,25 @@ static void compile_keep(Bytecode * bc,
         memset(inst, 0, sizeof(Instruction));
         inst -> op = OP_BIN_OP;
         strncpy(inst -> name, node -> name, sizeof(inst -> name));
-        strncpy(inst -> operand, node -> left -> left -> value, sizeof(inst -> operand));
-        strncpy(inst -> operand_right, node -> left -> right -> value, sizeof(inst -> operand_right));
+        // Handle left operand
+        if (node -> left -> left -> type == JECH_AST_ASSIGN) {
+            strncpy(inst -> operand, node -> left -> left -> name, sizeof(inst -> operand));
+            inst -> token_type = TOKEN_IDENTIFIER;
+        } else {
+            strncpy(inst -> operand, node -> left -> left -> value, sizeof(inst -> operand));
+            inst -> token_type = node -> left -> left -> token_type;
+        }
+        
+        // Handle right operand
+        if (node -> left -> right -> type == JECH_AST_ASSIGN) {
+            strncpy(inst -> operand_right, node -> left -> right -> name, sizeof(inst -> operand_right));
+            inst -> cmp_operand_type = TOKEN_IDENTIFIER;
+        } else {
+            strncpy(inst -> operand_right, node -> left -> right -> value, sizeof(inst -> operand_right));
+            inst -> cmp_operand_type = node -> left -> right -> token_type;
+        }
+        
         inst -> bin_op = node -> left -> op;
-        inst -> token_type = node -> left -> left -> token_type;
-        inst -> cmp_operand_type = node -> left -> right -> token_type;
     } else {
         // Scalar keep
         Instruction * inst = & bc -> instructions[bc -> count++];
