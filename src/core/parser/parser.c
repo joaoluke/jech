@@ -181,6 +181,14 @@ JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 		// Handle other tokens
 		else
 		{
+			if (t[i].type == TOKEN_IDENTIFIER)
+			{
+				char msg[128];
+				snprintf(msg, sizeof(msg), "Unknown expression or statement: '%s'. Did you mean to call it as a function or assign a value?", t[i].value);
+				report_error(ERROR_PARSER, msg, t[i].line, t[i].column);
+			}
+		else
+		{
 			report_error(ERROR_PARSER, "Unexpected token or invalid statement", t[i].line, t[i].column);
 			break;
 		}
