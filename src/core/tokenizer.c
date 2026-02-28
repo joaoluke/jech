@@ -33,6 +33,7 @@ KeywordMap keywords[] = {
 	{"else", TOKEN_ELSE},
 	{"map", TOKEN_MAP},
 	{"do", TOKEN_DO},
+	{"return", TOKEN_RETURN},
 	{NULL, TOKEN_UNKNOWN}};
 
 /**

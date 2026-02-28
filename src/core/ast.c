@@ -25,6 +25,8 @@ JechASTNode *_JechAST_CreateNode(JechASTType type, const char *value, const char
     node->left = NULL;
     node->right = NULL;
     node->else_branch = NULL;
+    node->body = NULL;
+    node->body_count = 0;
 
     return node;
 }
@@ -39,6 +41,12 @@ void _JechAST_Free(JechASTNode *node)
     _JechAST_Free(node->left);
     _JechAST_Free(node->right);
     _JechAST_Free(node->else_branch);
+    if (node->body) {
+        for (int i = 0; i < node->body_count; i++) {
+            _JechAST_Free(node->body[i]);
+        }
+        free(node->body);
+    }
     free(node);
 }
 

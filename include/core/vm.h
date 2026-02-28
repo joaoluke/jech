@@ -25,4 +25,9 @@ void _JechVM_Execute(const Bytecode *bc);
  */
 void _JechVM_ClearState();
 
+/**
+ * Returns the last return value from a function call
+ */
+const char *_JechVM_GetLastReturn();
+
 #endif

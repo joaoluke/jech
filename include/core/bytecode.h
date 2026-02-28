@@ -20,6 +20,7 @@ typedef enum
 	OP_MAP,
 	OP_FUNCTION_DECL,
 	OP_FUNCTION_CALL,
+	OP_RETURN,
 	OP_END
 } OpCode;
 
@@ -43,6 +44,7 @@ typedef struct
 	char args[8][MAX_STRING];       // function arguments (for FUNCTION_CALL)
 	JechTokenType arg_types[8];     // argument types
 	int arg_count;                  // number of arguments
+	struct Bytecode *body_bc;        // compiled function body (for FUNCTION_DECL)
 	int line;
 	int column;
 } Instruction;
@@ -50,7 +52,7 @@ typedef struct
 /**
  * Bytecode structure containing an array of instructions
  */
-typedef struct
+typedef struct Bytecode
 {
 	Instruction instructions[128];
 	int count;

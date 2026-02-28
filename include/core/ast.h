@@ -21,6 +21,7 @@ typedef enum
     JECH_AST_MAP,
     JECH_AST_FUNCTION_DECL,
     JECH_AST_FUNCTION_CALL,
+    JECH_AST_RETURN,
     JECH_AST_PARAM_LIST,
     JECH_AST_IDENTIFIER,
     JECH_AST_NUMBER_LITERAL,
@@ -40,7 +41,10 @@ typedef struct JechASTNode
 
     struct JechASTNode *left;
     struct JechASTNode *right;
-    struct JechASTNode *else_branch; // for when/else
+    struct JechASTNode *else_branch;
+
+    struct JechASTNode **body; 
+    int body_count;
 
     JechTokenType op;
 } JechASTNode;

@@ -1,5 +1,16 @@
-do greet(name) {
-  say(name);
+// Funções que executam código
+do saudacao(nome) {
+    say("Ola ");
+    say(nome);
 }
 
-greet("World");
+// Chamando a função
+saudacao("Visitante");
+
+// Função com retorno
+do soma(a, b) {
+    return a + b;
+}
+
+keep resultado = soma(3, 5);
+say(resultado);

@@ -1,6 +1,8 @@
 #include "core/ast.h"
 #include "core/parser/function.h"
+#include "core/parser/parser.h"
 #include "errors/error.h"
+#include <stdlib.h>
 #include <string.h>
 
 /**
@@ -127,6 +129,8 @@ JechASTNode *parse_function_decl(const JechToken *t, int remaining_tokens, int *
     }
     i++;
 
+    // Find body boundaries (between { and })
+    int body_start = i;
     int brace_count = 1;
     while (i < remaining_tokens && brace_count > 0)
     {
@@ -134,7 +138,8 @@ JechASTNode *parse_function_decl(const JechToken *t, int remaining_tokens, int *
             brace_count++;
         else if (t[i].type == TOKEN_RBRACE)
             brace_count--;
-        i++;
+        if (brace_count > 0)
+            i++;
     }
 
     if (brace_count != 0)
@@ -145,10 +150,48 @@ JechASTNode *parse_function_decl(const JechToken *t, int remaining_tokens, int *
         return NULL;
     }
 
+    int body_end = i; // index of closing }
+
+    // Parse body tokens into AST nodes
+    int body_token_count = body_end - body_start;
+    JechASTNode **body_roots = NULL;
+    int body_count = 0;
+
+    if (body_token_count > 0)
+    {
+        // Create a temporary token list for the body
+        JechTokenList body_tokens;
+        body_tokens.count = 0;
+        for (int j = body_start; j < body_end; j++)
+        {
+            body_tokens.tokens[body_tokens.count++] = t[j];
+        }
+        // Add EOF token
+        body_tokens.tokens[body_tokens.count] = t[body_end];
+        body_tokens.tokens[body_tokens.count].type = TOKEN_EOF;
+        body_tokens.tokens[body_tokens.count].value[0] = '\0';
+        body_tokens.count++;
+
+        body_roots = _JechParser_ParseAll(&body_tokens, &body_count);
+    }
+
+    i++; // skip closing }
+
     param_list->left = param_head;
 
     JechASTNode *func_decl = _JechAST_CreateNode(JECH_AST_FUNCTION_DECL, NULL, t[1].value, TOKEN_IDENTIFIER);
     func_decl->left = param_list;
+
+    // Store body AST nodes
+    if (body_count > 0 && body_roots)
+    {
+        func_decl->body = malloc(sizeof(JechASTNode *) * body_count);
+        for (int j = 0; j < body_count; j++)
+        {
+            func_decl->body[j] = body_roots[j];
+        }
+        func_decl->body_count = body_count;
+    }
 
     *out_consumed = i;
     return func_decl;

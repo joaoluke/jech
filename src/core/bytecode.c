@@ -6,6 +6,9 @@
 #include "core/ast.h"
 #include "core/vm.h"
 
+// Forward declarations
+static void compile_function_call(Bytecode * bc, const JechASTNode * node);
+
 /**
  * Helper function to compile the `say` command
  */
@@ -87,6 +90,18 @@ static void compile_map(Bytecode * bc,
  */
 static void compile_keep(Bytecode * bc,
     const JechASTNode * node) {
+    if (node -> left && node -> left -> type == JECH_AST_FUNCTION_CALL) {
+        // keep result = func(args); — compile the call, then keep from return value
+        compile_function_call(bc, node -> left);
+
+        Instruction * inst = & bc -> instructions[bc -> count++];
+        memset(inst, 0, sizeof(Instruction));
+        inst -> op = OP_KEEP;
+        strncpy(inst -> name, node -> name, sizeof(inst -> name));
+        strncpy(inst -> operand, "__last_return__", sizeof(inst -> operand));
+        inst -> token_type = TOKEN_IDENTIFIER;
+        return;
+    }
     if (node -> left && node -> left -> type == JECH_AST_MAP) {
         // Map operation: keep doubled = numbers.map(* 2);
         compile_map(bc, node -> left, node -> name);
@@ -218,6 +233,15 @@ static void compile_function_decl(Bytecode * bc,
             param = param -> right;
         }
     }
+
+    // Compile function body into a separate Bytecode
+    if (node -> body_count > 0 && node -> body) {
+        Bytecode * body = malloc(sizeof(Bytecode));
+        * body = _JechBytecode_CompileAll(node -> body, node -> body_count);
+        inst -> body_bc = body;
+    } else {
+        inst -> body_bc = NULL;
+    }
 }
 
 /**
@@ -240,6 +264,41 @@ static void compile_function_call(Bytecode * bc,
             inst -> arg_count++;
             arg = arg -> right;
         }
+    }
+}
+
+/**
+ * Helper function to compile return statements
+ */
+static void compile_return(Bytecode * bc,
+    const JechASTNode * node) {
+    if (node -> left && node -> left -> type == JECH_AST_BIN_OP) {
+        // return a + b; — compile binop into temp, then return temp
+        static int ret_temp_counter = 0;
+        char temp_name[MAX_STRING];
+        snprintf(temp_name, sizeof(temp_name), "__ret_temp_%d", ret_temp_counter++);
+
+        Instruction * binop_inst = & bc -> instructions[bc -> count++];
+        memset(binop_inst, 0, sizeof(Instruction));
+        binop_inst -> op = OP_BIN_OP;
+        strncpy(binop_inst -> name, temp_name, sizeof(binop_inst -> name));
+        strncpy(binop_inst -> operand, node -> left -> left -> value, sizeof(binop_inst -> operand));
+        strncpy(binop_inst -> operand_right, node -> left -> right -> value, sizeof(binop_inst -> operand_right));
+        binop_inst -> bin_op = node -> left -> op;
+        binop_inst -> token_type = node -> left -> left -> token_type;
+        binop_inst -> cmp_operand_type = node -> left -> right -> token_type;
+
+        Instruction * inst = & bc -> instructions[bc -> count++];
+        memset(inst, 0, sizeof(Instruction));
+        inst -> op = OP_RETURN;
+        strncpy(inst -> operand, temp_name, sizeof(inst -> operand));
+        inst -> token_type = TOKEN_IDENTIFIER;
+    } else {
+        Instruction * inst = & bc -> instructions[bc -> count++];
+        memset(inst, 0, sizeof(Instruction));
+        inst -> op = OP_RETURN;
+        strncpy(inst -> operand, node -> value, sizeof(inst -> operand));
+        inst -> token_type = node -> token_type;
     }
 }
 
@@ -320,6 +379,9 @@ Bytecode _JechBytecode_CompileAll(JechASTNode ** roots, int count) {
             break;
         case JECH_AST_FUNCTION_CALL:
             compile_function_call( & bc, node);
+            break;
+        case JECH_AST_RETURN:
+            compile_return( & bc, node);
             break;
         default:
             fprintf(stderr, "Unknown AST node.\n");

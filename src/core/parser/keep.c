@@ -2,6 +2,7 @@
 #include "core/ast.h"
 #include "core/parser/keep.h"
 #include "core/parser/map.h"
+#include "core/parser/function.h"
 #include "errors/error.h"
 
 JechASTNode * parse_keep(const JechToken * t, int remaining_tokens, int * out_consumed) {
@@ -41,6 +42,25 @@ JechASTNode * parse_keep(const JechToken * t, int remaining_tokens, int * out_co
         keep -> left = map_node;
 
         * out_consumed = 3 + map_consumed; // keep + varname + = + map_consumed
+        return keep;
+    }
+
+    // Check for function call: keep result = func(args);
+    if (remaining_tokens >= 7 &&
+        t[3].type == TOKEN_IDENTIFIER &&
+        t[4].type == TOKEN_LPAREN) {
+        int call_consumed = 0;
+        JechASTNode * call_node = parse_function_call( & t[3], remaining_tokens - 3, & call_consumed);
+
+        if (!call_node) {
+            * out_consumed = 0;
+            return NULL;
+        }
+
+        JechASTNode * keep = _JechAST_CreateNode(JECH_AST_KEEP, NULL, t[1].value, TOKEN_IDENTIFIER);
+        keep -> left = call_node;
+
+        * out_consumed = 3 + call_consumed;
         return keep;
     }
 

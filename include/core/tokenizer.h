@@ -13,6 +13,7 @@ typedef enum
 	TOKEN_ELSE,
 	TOKEN_MAP,
 	TOKEN_DO,
+	TOKEN_RETURN,
 
 	// Data types
 	TOKEN_STRING,
