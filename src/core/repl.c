@@ -168,6 +168,10 @@ void run_repl()
 
 		int ast_count = 0;
 		JechASTNode **roots = _JechParser_ParseAll(&tokens, &ast_count);
+		if (!roots)
+		{
+			continue;
+		}
 
 		if (ast_count > 0)
 		{
@@ -178,6 +182,11 @@ void run_repl()
 			{
 				_JechAST_Free(roots[i]);
 			}
+			free(roots);
+		}
+		else
+		{
+			free(roots);
 		}
 	}
 }
