@@ -53,6 +53,10 @@ void run_pipeline(const char *source)
 
     int ast_count = 0;
     JechASTNode **roots = _JechParser_ParseAll(&tokens, &ast_count);
+	if (!roots)
+	{
+		return;
+	}
 
     if (JECH_DEBUG)
     {
@@ -79,4 +83,5 @@ void run_pipeline(const char *source)
     {
         _JechAST_Free(roots[i]);
     }
+	free(roots);
 }

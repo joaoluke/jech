@@ -191,7 +191,12 @@ JechASTNode *parse_function_decl(const JechToken *t, int remaining_tokens, int *
             func_decl->body[j] = body_roots[j];
         }
         func_decl->body_count = body_count;
+		free(body_roots);
     }
+	else if (body_roots)
+	{
+		free(body_roots);
+	}
 
     *out_consumed = i;
     return func_decl;

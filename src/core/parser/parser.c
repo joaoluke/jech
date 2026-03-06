@@ -18,7 +18,14 @@
  */
 JechASTNode **_JechParser_ParseAll(const JechTokenList *tokens, int *out_count)
 {
-	static JechASTNode *roots[MAX_AST_ROOTS];
+	JechASTNode **roots = malloc(sizeof(JechASTNode *) * MAX_AST_ROOTS);
+	if (!roots)
+	{
+		report_error(ERROR_PARSER, "Out of memory", 0, 0);
+		*out_count = 0;
+		return NULL;
+	}
+
 	int count = 0;
 	int i = 0;
 	const JechToken *t = tokens->tokens;
