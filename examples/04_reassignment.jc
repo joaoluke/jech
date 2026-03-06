@@ -1,9 +1,11 @@
 // ================================================
 // 04 - Variable Reassignment
 // Changing variable values after declaration
+// Alterando valores de variáveis após a declaração
 // ================================================
 
-// --- Basic Reassignment ---
+// --- Basic numeric reassignment ---
+// Reatribuição numérica básica
 keep counter = 0;
 say(counter);
 
@@ -13,7 +15,8 @@ say(counter);
 counter = 2;
 say(counter);
 
-// --- String Reassignment ---
+// --- String reassignment ---
+// Reatribuição de string
 keep status = "pending";
 say(status);
 
@@ -23,14 +26,16 @@ say(status);
 status = "complete";
 say(status);
 
-// --- Boolean Reassignment ---
+// --- Boolean reassignment ---
+// Reatribuição booleana
 keep isLoggedIn = false;
 say(isLoggedIn);
 
 isLoggedIn = true;
 say(isLoggedIn);
 
-// --- Multiple Reassignments ---
+// --- Multiple reassignments on the same variable ---
+// Múltiplas reatribuições na mesma variável
 keep value = 10;
 say(value);
 

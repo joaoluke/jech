@@ -1,9 +1,11 @@
 // ================================================
 // 12 - Practical Example: Temperature Monitor
 // Checking temperature thresholds
+// Verificando limiares de temperatura
 // ================================================
 
-// --- Sensor Reading ---
+// --- Sensor reading ---
+// Leitura do sensor
 keep temperature = 72;
 keep unit = "Fahrenheit";
 keep alertEnabled = true;
@@ -13,7 +15,8 @@ say("Current temperature:");
 say(temperature);
 say(unit);
 
-// --- Check if Hot ---
+// --- Check if it is too hot ---
+// Verifica se está quente demais
 when (temperature > 80) {
     say("Warning: High temperature!");
 }
@@ -21,7 +24,8 @@ else {
     say("Temperature is normal");
 }
 
-// --- Check if Cold ---
+// --- Check if it is too cold ---
+// Verifica se está frio demais
 when (temperature < 60) {
     say("Warning: Low temperature!");
 }
@@ -29,7 +33,8 @@ else {
     say("Not too cold");
 }
 
-// --- Simulate Temperature Rise ---
+// --- Simulate a temperature rise ---
+// Simula um aumento de temperatura
 temperature = temperature + 15;
 say("Temperature rising:");
 say(temperature);
@@ -41,7 +46,8 @@ else {
     say("Still within range");
 }
 
-// --- Check Alert Status ---
+// --- Check if alerts are active ---
+// Verifica se os alertas estão ativos
 when (alertEnabled) {
     say("Alerts are enabled");
 }
@@ -49,7 +55,8 @@ else {
     say("Alerts are disabled");
 }
 
-// --- Cool Down ---
+// --- Cool down: lower the temperature ---
+// Resfriamento: reduz a temperatura
 temperature = temperature - 20;
 say("After cooling:");
 say(temperature);

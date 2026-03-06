@@ -1,56 +1,70 @@
 // ================================================
 // 23 - Array Map Method
 // Transforming arrays with map operations
+// Transformando arrays com operações de map
 // ================================================
 
-// --- Basic Map Operations ---
+// --- Basic map operations ---
+// Operações básicas de map
 keep numbers = [1, 2, 3, 4, 5];
 say(numbers);
 
 // Multiply each element by 2
+// Multiplica cada elemento por 2
 keep doubled = numbers.map(* 2);
 say(doubled);
 
 // Add 10 to each element
+// Adiciona 10 a cada elemento
 keep added = numbers.map(+ 10);
 say(added);
 
 // Divide each element by 2
+// Divide cada elemento por 2
 keep halved = numbers.map(/ 2);
 say(halved);
 
 // Subtract 1 from each element
+// Subtrai 1 de cada elemento
 keep decreased = numbers.map(- 1);
 say(decreased);
 
-// --- Practical Example: Price Calculations ---
+// --- Practical example: price calculations ---
+// Exemplo prático: cálculo de preços
 keep prices = [100, 200, 300, 400];
 say(prices);
 
-// Apply 10% tax
+// Apply 10% tax (multiply by 1.1)
+// Aplica 10% de imposto (multiplica por 1.1)
 keep withTax = prices.map(* 1.1);
 say(withTax);
 
-// Apply 20% discount
+// Apply 20% discount (multiply by 0.8)
+// Aplica 20% de desconto (multiplica por 0.8)
 keep discounted = prices.map(* 0.8);
 say(discounted);
 
-// --- Practical Example: Score Adjustments ---
+// --- Practical example: score adjustments ---
+// Exemplo prático: ajuste de pontuações
 keep scores = [85, 90, 78, 92, 88];
 say(scores);
 
-// Curve: add 5 points to everyone
+// Curve: add 5 bonus points to everyone
+// Curva: adiciona 5 pontos bônus a todos
 keep curved = scores.map(+ 5);
 say(curved);
 
-// --- In-Place Map Operations ---
+// --- In-place map operations ---
+// Operações de map no lugar (modifica o array original)
 keep values = [10, 20, 30];
 say(values);
 
-// Modify array in-place (without creating new array)
+// Modify the array in-place (without creating a new array)
+// Modifica o array no lugar (sem criar um novo array)
 values.map(* 2);
 say(values);
 
-// Chain in-place operations
+// Chain another in-place operation
+// Encadeia outra operação no lugar
 values.map(+ 5);
 say(values);

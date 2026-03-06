@@ -1,31 +1,41 @@
+// ================================================
+// 28 - Functions: Complete Overview
+// No params, one param, and multiple params in one file
+// Sem parâmetros, um parâmetro e múltiplos parâmetros em um único arquivo
+// ================================================
+
+// --- Simple function with no parameters ---
 // Função simples sem parâmetros
 do hello() {
-  say("Hello, World!");
+    say("Hello, World!");
 }
 
+// --- Function with one parameter ---
 // Função com um parâmetro
 do greet(name) {
-  say(name);
+    say(name);
 }
 
+// --- Function with multiple parameters ---
 // Função com múltiplos parâmetros
 do showPerson(name, age, city) {
-  say(name);
-  say(age);
-  say(city);
+    say(name);
+    say(age);
+    say(city);
 }
 
-// Testando as funções
+// --- Test all functions ---
+// Testa todas as funções
 say("=== Testing Functions ===");
 
 hello();
 
 say("---");
-greet("João");
+greet("Alice");
 
 say("---");
-keep userName = "Maria";
+keep userName = "Bob";
 keep userAge = 30;
-keep userCity = "São Paulo";
+keep userCity = "New York";
 
 showPerson(userName, userAge, userCity);

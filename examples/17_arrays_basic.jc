@@ -1,4 +1,15 @@
+// ================================================
+// 17 - Arrays: Basic Usage
+// Declaring an array and accessing elements by index
+// Declarando um array e acessando elementos por índice
+// ================================================
+
+// --- Declare a numeric array ---
+// Declara um array de números
 keep numbers = [1, 2, 3, 4, 5];
+
+// Access elements by index (zero-based)
+// Acessa elementos pelo índice (começa em zero)
 say(numbers[0]);
 say(numbers[2]);
 say(numbers[4]);

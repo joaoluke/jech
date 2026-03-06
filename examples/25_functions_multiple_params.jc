@@ -1,6 +1,16 @@
+// ================================================
+// 25 - Functions: Multiple Parameters
+// Passing more than one argument to a function
+// Passando mais de um argumento para uma função
+// ================================================
+
+// --- Function that receives two parameters ---
+// Função que recebe dois parâmetros
 do showInfo(name, age) {
-  say(name);
-  say(age);
+    say(name);
+    say(age);
 }
 
-showInfo("João", "25");
+// Call the function with two arguments
+// Chama a função com dois argumentos
+showInfo("Alice", "25");

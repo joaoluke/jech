@@ -1,24 +1,32 @@
-# Exemplo de uso do REPL com suporte multi-linha
-# Este arquivo demonstra como usar funções multi-linha no REPL
+// ================================================
+// 29 - Multiline REPL Test
+// Demonstrates multi-line support: functions, conditions
+// Demonstra suporte a múltiplas linhas: funções e condicionais
+// ================================================
 
-# Função simples com uma linha
+// --- Simple function with one parameter ---
+// Função simples com um parâmetro
 do greet(name) {
-  say(name);
+    say(name);
 }
 
-# Função com múltiplos parâmetros
+// --- Function with multiple parameters ---
+// Função com múltiplos parâmetros
 do showInfo(name, age, city) {
-  say(name);
-  say(age);
-  say(city);
+    say(name);
+    say(age);
+    say(city);
 }
 
-# Testando as funções
-greet("João");
-showInfo("Maria", "30", "São Paulo");
+// --- Test the functions ---
+// Testa as funções
+greet("Alice");
+showInfo("Bob", "30", "New York");
 
-# Condicional multi-linha
+// --- Multi-line conditional ---
+// Condicional de múltiplas linhas
 keep x = 15;
+
 when (x > 10) {
-  say("X é maior que 10");
+    say("X is greater than 10");
 }

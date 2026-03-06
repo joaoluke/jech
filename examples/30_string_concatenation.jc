@@ -1,49 +1,63 @@
-// String Concatenation Examples
-// This file demonstrates string concatenation using the + operator
+// ================================================
+// 30 - String Concatenation
+// Joining strings together using the + operator
+// Unindo strings com o operador +
+// ================================================
 
-// 1. Basic string concatenation with literals
+// --- Basic concatenation with string literals ---
+// Concatenação básica com literais de string
 say("Hello" + "World");
 
-// 2. Concatenation with variables (using temporary variable)
-keep firstName = "João";
-keep lastName = "Lucas";
+// --- Concatenation with variables ---
+// Concatenação com variáveis
+keep firstName = "Alice";
+keep lastName = "Smith";
 keep tempName = firstName + " ";
 say(tempName + lastName);
 
-// 3. Mixed concatenation (variable + literal)
+// --- Mixed concatenation (variable + literal) ---
+// Concatenação mista (variável + literal)
 keep greeting = "Hello";
 say(greeting + " World!");
 
-// 4. Concatenation with special characters (using temporary variable)
+// --- Concatenation with special characters ---
+// Concatenação com caracteres especiais
 keep prefix = "User: ";
-keep username = "joaoluke";
+keep username = "alice123";
 keep suffix = "!";
 keep tempUser = prefix + username;
 say(tempUser + suffix);
 
-// 5. Practical example - building a message
+// --- Building a message from parts ---
+// Construindo uma mensagem a partir de partes
 keep status = "active";
 keep message = "User is " + status;
 say(message);
 
-// 6. Concatenation result stored in variable
+// --- Concatenation result stored in a variable ---
+// Resultado da concatenação armazenado em uma variável
 keep part1 = "hello";
 keep part2 = "world";
 keep fullMessage = part1 + part2;
 say(fullMessage);
 
-// 7. Numeric vs String concatenation
+// --- Numeric vs string concatenation ---
+// Concatenação numérica vs de string
 keep num1 = "10";
 keep num2 = "20";
-say(num1 + num2);        // String concatenation: "1020"
-say(10 + 20);            // Numeric addition: 30.00
+say(num1 + num2);   // String concatenation: "1020"
+                    // Concatenação de string: "1020"
+say(10 + 20);       // Numeric addition: 30
+                    // Adição numérica: 30
 
-// 8. Edge case - empty string concatenation
+// --- Edge case: empty string concatenation ---
+// Caso extremo: concatenação com string vazia
 keep empty = "";
 keep result = empty + "test";
 say(result);
 
-// 9. Complex example with multiple steps
+// --- Complex example: building a sentence step by step ---
+// Exemplo complexo: construindo uma frase passo a passo
 keep step1 = "The";
 keep step2 = step1 + " quick";
 keep step3 = step2 + " brown";

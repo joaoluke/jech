@@ -1,5 +1,15 @@
+// ================================================
+// 21 - Arrays: Practical Example - Player Scores
+// Using an array to store and retrieve leaderboard data
+// Usando um array para armazenar e recuperar dados de placar
+// ================================================
+
+// --- Leaderboard data ---
+// Dados do placar (ranking)
 keep scores = [100, 250, 175, 300, 425];
 
+// Print selected player scores
+// Imprime as pontuações de jogadores selecionados
 say("First player score:");
 say(scores[0]);
 

@@ -1,9 +1,11 @@
 // ================================================
 // 08 - Arithmetic Operations
 // Addition, subtraction, multiplication, division
+// Adição, subtração, multiplicação e divisão
 // ================================================
 
 // --- Addition ---
+// Adição
 keep sum = 5;
 sum = sum + 3;
 say(sum);
@@ -13,6 +15,7 @@ total = total + 50;
 say(total);
 
 // --- Subtraction ---
+// Subtração
 keep difference = 20;
 difference = difference - 8;
 say(difference);
@@ -22,6 +25,7 @@ balance = balance - 250;
 say(balance);
 
 // --- Multiplication ---
+// Multiplicação
 keep product = 4;
 product = product * 5;
 say(product);
@@ -31,6 +35,7 @@ quantity = quantity * 10;
 say(quantity);
 
 // --- Division ---
+// Divisão
 keep quotient = 100;
 quotient = quotient / 4;
 say(quotient);
@@ -39,7 +44,8 @@ keep half = 50;
 half = half / 2;
 say(half);
 
-// --- Combined Operations ---
+// --- Combined operations: multiple steps on one variable ---
+// Operações combinadas: múltiplas etapas em uma variável
 keep result = 10;
 result = result + 5;
 result = result * 2;
@@ -47,14 +53,16 @@ result = result - 10;
 result = result / 5;
 say(result);
 
-// --- Practical Example: Shopping Cart ---
+// --- Practical example: shopping cart total ---
+// Exemplo prático: total do carrinho de compras
 keep cartTotal = 0;
 cartTotal = cartTotal + 25;
 cartTotal = cartTotal + 15;
 cartTotal = cartTotal + 10;
 say(cartTotal);
 
-// --- Practical Example: Score Calculation ---
+// --- Practical example: score calculation with multiplier ---
+// Exemplo prático: cálculo de pontuação com multiplicador
 keep gameScore = 0;
 gameScore = gameScore + 100;
 gameScore = gameScore + 50;

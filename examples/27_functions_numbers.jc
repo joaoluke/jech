@@ -1,7 +1,17 @@
+// ================================================
+// 27 - Functions: Numeric Arguments
+// Passing number variables and literals to a function
+// Passando variáveis numéricas e literais para uma função
+// ================================================
+
+// --- Function that prints a number ---
+// Função que imprime um número
 do showNumber(num) {
-  say(num);
+    say(num);
 }
 
+// Call with a variable and with a literal
+// Chama com uma variável e com um literal
 keep value = 42;
 showNumber(value);
 showNumber(100);

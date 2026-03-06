@@ -1,3 +1,17 @@
+// ================================================
+// 20 - Arrays: Empty and Single-Element
+// Creating empty arrays and arrays with one item
+// Criando arrays vazios e arrays com um único elemento
+// ================================================
+
+// --- Empty array ---
+// Array vazio
 keep empty = [];
+
+// --- Single-element array ---
+// Array com um único elemento
 keep single = [100];
+
+// Access the only element (index 0)
+// Acessa o único elemento (índice 0)
 say(single[0]);

@@ -1,9 +1,11 @@
 // ================================================
 // 07 - When/Else Statements
 // Handling both true and false cases
+// Tratando os casos verdadeiro e falso
 // ================================================
 
-// --- Basic When/Else with Boolean ---
+// --- Basic when/else with a boolean variable ---
+// When/else básico com variável booleana
 keep isOnline = true;
 
 when (isOnline) {
@@ -13,7 +15,8 @@ else {
     say("User is offline");
 }
 
-// --- When/Else with False Condition ---
+// --- When/else when the condition is false ---
+// When/else quando a condição é falsa
 keep hasPermission = false;
 
 when (hasPermission) {
@@ -23,7 +26,8 @@ else {
     say("Access denied");
 }
 
-// --- When/Else with Comparison ---
+// --- When/else with a comparison ---
+// When/else com comparação
 keep age = 16;
 
 when (age > 18) {
@@ -33,7 +37,8 @@ else {
     say("Too young to vote");
 }
 
-// --- When/Else with Equality ---
+// --- When/else with string equality ---
+// When/else com igualdade de string
 keep answer = "yes";
 
 when (answer == "yes") {
@@ -43,7 +48,8 @@ else {
     say("You declined");
 }
 
-// --- Practical Example: Login Check ---
+// --- Practical example: login check ---
+// Exemplo prático: verificação de login
 keep isLoggedIn = false;
 
 when (isLoggedIn) {
@@ -53,7 +59,8 @@ else {
     say("Please log in");
 }
 
-// --- Practical Example: Stock Check ---
+// --- Practical example: stock check ---
+// Exemplo prático: verificação de estoque
 keep inventory = 0;
 
 when (inventory > 0) {
@@ -63,7 +70,8 @@ else {
     say("Out of stock");
 }
 
-// --- Practical Example: Pass/Fail ---
+// --- Practical example: pass/fail ---
+// Exemplo prático: aprovado/reprovado
 keep testScore = 45;
 
 when (testScore > 60) {

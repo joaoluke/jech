@@ -1,9 +1,11 @@
 // ================================================
 // 16 - Edge Cases and Special Scenarios
 // Testing boundary conditions
+// Testando condições de limite
 // ================================================
 
-// --- Zero Values ---
+// --- Zero value ---
+// Valor zero
 keep zero = 0;
 say(zero);
 
@@ -18,31 +20,37 @@ else {
     say("Zero is not greater than zero");
 }
 
-// --- Empty-ish String ---
+// --- Whitespace-only string ---
+// String com apenas espaço em branco
 keep space = " ";
 say(space);
 
-// --- Long String ---
+// --- Very long string ---
+// String muito longa
 keep longText = "This is a very long string that tests how JECH handles longer text content in variables";
 say(longText);
 
-// --- Large Numbers ---
+// --- Large number ---
+// Número grande
 keep bigNumber = 999999;
 say(bigNumber);
 
 bigNumber = bigNumber + 1;
 say(bigNumber);
 
-// --- Small Decimals ---
+// --- Small decimal ---
+// Decimal pequeno
 keep tiny = 0.001;
 say(tiny);
 
-// --- Negative-like via Subtraction ---
+// --- Negative result via subtraction ---
+// Resultado negativo via subtração
 keep result = 5;
 result = result - 10;
 say(result);
 
-// --- Boolean Toggle ---
+// --- Boolean toggle ---
+// Alternância booleana
 keep flag = true;
 say(flag);
 
@@ -52,7 +60,8 @@ say(flag);
 flag = true;
 say(flag);
 
-// --- Multiple Comparisons on Same Variable ---
+// --- Multiple comparisons on the same variable ---
+// Múltiplas comparações na mesma variável
 keep num = 50;
 
 when (num > 25) {

@@ -1,6 +1,7 @@
 // ================================================
 // 02 - Say Command with Different Types
 // Printing strings, numbers, and booleans
+// Imprimindo strings, números e booleanos
 // ================================================
 
 // --- Strings ---
@@ -10,11 +11,13 @@ say("Even special chars: @#$%");
 
 // --- Numbers ---
 // Integers
+// Inteiros
 say(42);
 say(0);
 say(999);
 
-// Floats
+// Floats (decimal numbers)
+// Floats (números decimais)
 say(3.14);
 say(0.5);
 say(100.99);

@@ -1,40 +1,47 @@
 // ================================================
 // 05 - When with Boolean Conditions
 // Conditional execution based on true/false
+// Execução condicional baseada em verdadeiro/falso
 // ================================================
 
-// --- When with true literal ---
+// --- When with a true literal (always executes) ---
+// When com literal verdadeiro (sempre executa)
 when (true) {
     say("This always runs");
 }
 
-// --- When with false literal (won't execute) ---
+// --- When with a false literal (never executes) ---
+// When com literal falso (nunca executa)
 when (false) {
     say("This never runs");
 }
 
-// --- When with boolean variable (true) ---
+// --- When with a boolean variable set to true ---
+// When com variável booleana igual a verdadeiro
 keep showMessage = true;
 
 when (showMessage) {
     say("Message is visible!");
 }
 
-// --- When with boolean variable (false) ---
+// --- When with a boolean variable set to false ---
+// When com variável booleana igual a falso
 keep hideContent = false;
 
 when (hideContent) {
     say("This is hidden");
 }
 
-// --- Practical Example: Feature Flag ---
+// --- Practical example: feature flag ---
+// Exemplo prático: flag de funcionalidade
 keep featureEnabled = true;
 
 when (featureEnabled) {
     say("New feature is active!");
 }
 
-// --- Practical Example: Debug Mode ---
+// --- Practical example: debug mode ---
+// Exemplo prático: modo de depuração
 keep debugMode = false;
 
 when (debugMode) {

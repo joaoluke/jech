@@ -1,4 +1,15 @@
+// ================================================
+// 19 - Arrays: Mixed Types
+// Arrays can hold numbers, strings, and booleans together
+// Arrays podem conter números, strings e booleanos juntos
+// ================================================
+
+// --- Declare a mixed-type array ---
+// Declara um array com tipos mistos
 keep mixed = [42, "hello", true, 3.14];
+
+// Access each element
+// Acessa cada elemento
 say(mixed[0]);
 say(mixed[1]);
 say(mixed[2]);

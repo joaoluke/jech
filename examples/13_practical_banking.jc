@@ -1,9 +1,11 @@
 // ================================================
 // 13 - Practical Example: Simple Banking
 // Account balance operations
+// Operações de saldo em conta bancária
 // ================================================
 
-// --- Account Setup ---
+// --- Account setup ---
+// Configuração da conta
 keep accountHolder = "John Doe";
 keep balance = 1000;
 keep minimumBalance = 100;
@@ -14,22 +16,26 @@ say(accountHolder);
 say("Initial balance:");
 say(balance);
 
-// --- Deposit ---
+// --- Deposit: add funds ---
+// Depósito: adiciona fundos
 balance = balance + 500;
 say("Deposit +500. New balance:");
 say(balance);
 
-// --- Withdrawal ---
+// --- Withdrawal: remove funds ---
+// Saque: remove fundos
 balance = balance - 200;
 say("Withdrawal -200. New balance:");
 say(balance);
 
-// --- Another Withdrawal ---
+// --- Another withdrawal ---
+// Outro saque
 balance = balance - 800;
 say("Withdrawal -800. New balance:");
 say(balance);
 
-// --- Check Minimum Balance ---
+// --- Check if balance is above the minimum ---
+// Verifica se o saldo está acima do mínimo
 when (balance > minimumBalance) {
     say("Balance OK");
 }
@@ -37,12 +43,14 @@ else {
     say("Warning: Low balance!");
 }
 
-// --- Large Deposit ---
+// --- Large deposit to recover the account ---
+// Depósito maior para recuperar a conta
 balance = balance + 2000;
 say("Deposit +2000. New balance:");
 say(balance);
 
-// --- Final Balance Check ---
+// --- Final balance check ---
+// Verificação final do saldo
 when (balance > 1000) {
     say("Healthy account balance");
 }

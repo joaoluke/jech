@@ -1,8 +1,20 @@
+// ================================================
+// 26 - Functions: Passing Variables as Arguments
+// Variables can be passed directly into functions
+// Variáveis podem ser passadas diretamente para funções
+// ================================================
+
+// --- Declare a variable to be passed ---
+// Declara uma variável que será passada
 keep message = "Hello from variable";
 
+// --- Function that displays any text ---
+// Função que exibe qualquer texto
 do display(text) {
-  say(text);
+    say(text);
 }
 
+// Call using a variable and a literal
+// Chama usando uma variável e um literal
 display(message);
 display("Direct string");

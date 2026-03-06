@@ -1,16 +1,19 @@
 // ================================================
 // 14 - Practical Example: Quiz System
 // Checking answers and calculating score
+// Verificando respostas e calculando pontuação
 // ================================================
 
-// --- Quiz Setup ---
+// --- Quiz setup ---
+// Configuração do quiz
 keep totalQuestions = 5;
 keep correctAnswers = 0;
 keep passingScore = 3;
 
 say("=== Quiz Started ===");
 
-// --- Question 1: Correct ---
+// --- Question 1: correct ---
+// Questão 1: correta
 keep answer1 = "correct";
 when (answer1 == "correct") {
     say("Q1: Correct!");
@@ -20,7 +23,8 @@ else {
 }
 correctAnswers = correctAnswers + 1;
 
-// --- Question 2: Correct ---
+// --- Question 2: correct ---
+// Questão 2: correta
 keep answer2 = "correct";
 when (answer2 == "correct") {
     say("Q2: Correct!");
@@ -30,7 +34,8 @@ else {
 }
 correctAnswers = correctAnswers + 1;
 
-// --- Question 3: Wrong ---
+// --- Question 3: wrong ---
+// Questão 3: errada
 keep answer3 = "wrong";
 when (answer3 == "correct") {
     say("Q3: Correct!");
@@ -39,7 +44,8 @@ else {
     say("Q3: Wrong");
 }
 
-// --- Question 4: Correct ---
+// --- Question 4: correct ---
+// Questão 4: correta
 keep answer4 = "correct";
 when (answer4 == "correct") {
     say("Q4: Correct!");
@@ -49,7 +55,8 @@ else {
 }
 correctAnswers = correctAnswers + 1;
 
-// --- Question 5: Wrong ---
+// --- Question 5: wrong ---
+// Questão 5: errada
 keep answer5 = "wrong";
 when (answer5 == "correct") {
     say("Q5: Correct!");
@@ -58,7 +65,8 @@ else {
     say("Q5: Wrong");
 }
 
-// --- Results ---
+// --- Results: show score and pass/fail verdict ---
+// Resultados: exibe a pontuação e o veredicto aprovado/reprovado
 say("=== Quiz Results ===");
 say("Correct answers:");
 say(correctAnswers);

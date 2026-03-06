@@ -1,16 +1,27 @@
-// Funções que executam código
-do saudacao(nome) {
-    say("Ola ");
-    say(nome);
+// ================================================
+// 24 - Functions: Basic Usage
+// Defining and calling functions in JECH
+// Definindo e chamando funções em JECH
+// ================================================
+
+// --- Simple function: no return value ---
+// Função simples: sem valor de retorno
+do greet(name) {
+    say("Hello ");
+    say(name);
 }
 
-// Chamando a função
-saudacao("Visitante");
+// Call the function
+// Chama a função
+greet("Visitor");
 
-// Função com retorno
-do soma(a, b) {
+// --- Function with a return value ---
+// Função com valor de retorno
+do add(a, b) {
     return a + b;
 }
 
-keep resultado = soma(3, 5);
-say(resultado);
+// Store and print the result
+// Armazena e imprime o resultado
+keep result = add(3, 5);
+say(result);

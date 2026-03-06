@@ -1,4 +1,15 @@
+// ================================================
+// 18 - Arrays: Strings
+// Storing and accessing string values in an array
+// Armazenando e acessando strings em um array
+// ================================================
+
+// --- Declare a string array ---
+// Declara um array de strings
 keep names = ["Alice", "Bob", "Charlie"];
+
+// Print each name by index
+// Imprime cada nome pelo índice
 say(names[0]);
 say(names[1]);
 say(names[2]);

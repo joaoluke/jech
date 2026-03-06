@@ -1,9 +1,11 @@
 // ================================================
 // 11 - Practical Example: Game Score System
 // Tracking player progress
+// Acompanhando o progresso do jogador
 // ================================================
 
-// --- Player Setup ---
+// --- Player setup ---
+// Configuração do jogador
 keep playerName = "Hero";
 keep score = 0;
 keep level = 1;
@@ -13,7 +15,8 @@ say("=== Game Started ===");
 say("Player:");
 say(playerName);
 
-// --- Collect Coins ---
+// --- Collect coins: each coin adds 10 points ---
+// Coleta moedas: cada moeda adiciona 10 pontos
 score = score + 10;
 say("Collected coin! Score:");
 say(score);
@@ -26,17 +29,20 @@ score = score + 10;
 say("Collected coin! Score:");
 say(score);
 
-// --- Defeat Enemy ---
+// --- Defeat an enemy: bonus 50 points ---
+// Derrota um inimigo: bônus de 50 pontos
 score = score + 50;
 say("Enemy defeated! Score:");
 say(score);
 
-// --- Bonus Multiplier ---
+// --- Bonus multiplier: double the score ---
+// Multiplicador de bônus: dobra a pontuação
 score = score * 2;
 say("Bonus activated! Score:");
 say(score);
 
-// --- Check for Level Up ---
+// --- Check if player leveled up ---
+// Verifica se o jogador subiu de nível
 when (score > 100) {
     say("Level up!");
 }
@@ -44,7 +50,8 @@ else {
     say("Keep playing");
 }
 
-// --- Take Damage ---
+// --- Take damage: check if player is still alive ---
+// Recebe dano: verifica se o jogador ainda está vivo
 isAlive = true;
 when (isAlive) {
     say("Player is still alive!");
@@ -53,6 +60,7 @@ else {
     say("Game Over");
 }
 
-// --- Final Score ---
+// --- Display final score ---
+// Exibe a pontuação final
 say("=== Final Score ===");
 say(score);

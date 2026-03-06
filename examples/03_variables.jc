@@ -1,15 +1,18 @@
 // ================================================
 // 03 - Variables with keep
 // Declaring and using variables
+// Declarando e usando variáveis
 // ================================================
 
-// --- String Variables ---
+// --- String variables ---
+// Variáveis de string
 keep name = "Alice";
 keep greeting = "Hello";
 say(name);
 say(greeting);
 
-// --- Number Variables ---
+// --- Number variables ---
+// Variáveis numéricas
 keep age = 25;
 keep score = 100;
 keep price = 19.99;
@@ -17,13 +20,15 @@ say(age);
 say(score);
 say(price);
 
-// --- Boolean Variables ---
+// --- Boolean variables ---
+// Variáveis booleanas
 keep isActive = true;
 keep isComplete = false;
 say(isActive);
 say(isComplete);
 
-// --- Using Variables in Output ---
+// --- Using variables in output ---
+// Usando variáveis na saída
 keep username = "Bob";
 say(username);
 

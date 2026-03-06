@@ -1,24 +1,29 @@
 // ================================================
 // 09 - Practical Example: User Authentication
 // Simulating a login system
+// Simulando um sistema de login
 // ================================================
 
-// --- User Data ---
+// --- User data ---
+// Dados do usuário
 keep username = "admin";
 keep isAuthenticated = false;
 keep loginAttempts = 0;
 
-// --- Display Initial State ---
+// --- Display initial state ---
+// Exibe o estado inicial
 say("=== Login System ===");
 say(username);
 say(isAuthenticated);
 
-// --- Simulate Login Attempt ---
+// --- Simulate a login attempt ---
+// Simula uma tentativa de login
 loginAttempts = loginAttempts + 1;
 say("Login attempt:");
 say(loginAttempts);
 
-// --- Check Credentials ---
+// --- Check credentials ---
+// Verifica as credenciais
 when (username == "admin") {
     say("Username valid");
 }
@@ -26,12 +31,14 @@ else {
     say("Unknown user");
 }
 
-// --- Authenticate User ---
+// --- Authenticate the user ---
+// Autentica o usuário
 isAuthenticated = true;
 say("Authentication status:");
 say(isAuthenticated);
 
-// --- Check Authentication ---
+// --- Check authentication before granting access ---
+// Verifica autenticação antes de conceder acesso
 when (isAuthenticated) {
     say("Welcome to the system!");
 }
@@ -40,6 +47,7 @@ else {
 }
 
 // --- Logout ---
+// Logout
 isAuthenticated = false;
 say("User logged out");
 say(isAuthenticated);

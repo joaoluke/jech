@@ -1,44 +1,69 @@
-keep age=25;
-when(age > 18) {
+// ================================================
+// 06 - When with Comparisons
+// Conditional execution based on comparison operators
+// Execução condicional com base em operadores de comparação
+// ================================================
+
+// --- Greater than: checking age ---
+// Maior que: verificando a idade
+keep age = 25;
+
+when (age > 18) {
     say("You are an adult");
 }
-when(age > 30) {
+
+when (age > 30) {
     say("This won't show - age is 25");
 }
 
-keep temperature=15;
-when(temperature < 20) {
+// --- Less than: checking temperature ---
+// Menor que: verificando a temperatura
+keep temperature = 15;
+
+when (temperature < 20) {
     say("It's cold outside");
 }
-when(temperature < 10) {
+
+when (temperature < 10) {
     say("This won't show - temp is 15");
 }
 
-keep score=100;
-when(score == 100) {
+// --- Equality: checking an exact value ---
+// Igualdade: verificando um valor exato
+keep score = 100;
+
+when (score == 100) {
     say("Perfect score!");
 }
 
-when(score == 50) {
+when (score == 50) {
     say("This won't show - score is 100");
 }
 
-keep color="blue";
-when(color == "blue") {
-    say("The color is blue");
+// --- Equality: comparing strings ---
+// Igualdade: comparando strings
+keep color = "blue";
 
+when (color == "blue") {
+    say("The color is blue");
 }
-when(color == "red") {
+
+when (color == "red") {
     say("This won't show - color is blue");
 }
 
-keep grade=85;
-when(grade > 90) {
+// --- Multiple thresholds on the same variable ---
+// Múltiplos limiares na mesma variável
+keep grade = 85;
+
+when (grade > 90) {
     say("Excellent!");
 }
-when(grade > 70) {
+
+when (grade > 70) {
     say("Good job!");
 }
-when(grade > 50) {
+
+when (grade > 50) {
     say("You passed");
 }

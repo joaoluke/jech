@@ -1,9 +1,11 @@
 // ================================================
 // 15 - Practical Example: Todo List Status
 // Tracking task completion
+// Acompanhando a conclusão de tarefas
 // ================================================
 
-// --- Task Setup ---
+// --- Task setup: define tasks and their initial status ---
+// Configuração: define as tarefas e seu status inicial
 keep task1 = "Buy groceries";
 keep task1Done = false;
 
@@ -17,7 +19,8 @@ keep completedTasks = 0;
 
 say("=== Todo List ===");
 
-// --- Check Task 1 ---
+// --- Check task 1 ---
+// Verifica a tarefa 1
 say(task1);
 when (task1Done) {
     say("Status: Complete");
@@ -26,7 +29,8 @@ else {
     say("Status: Pending");
 }
 
-// --- Check Task 2 ---
+// --- Check task 2 ---
+// Verifica a tarefa 2
 say(task2);
 when (task2Done) {
     say("Status: Complete");
@@ -35,7 +39,8 @@ else {
     say("Status: Pending");
 }
 
-// --- Check Task 3 ---
+// --- Check task 3 ---
+// Verifica a tarefa 3
 say(task3);
 when (task3Done) {
     say("Status: Complete");
@@ -44,20 +49,24 @@ else {
     say("Status: Pending");
 }
 
-// --- Complete Task 1 ---
+// --- Complete task 1 ---
+// Conclui a tarefa 1
 task1Done = true;
 completedTasks = completedTasks + 1;
 say("Task 1 completed!");
 
-// --- Complete Task 2 ---
+// --- Complete task 2 ---
+// Conclui a tarefa 2
 task2Done = true;
 completedTasks = completedTasks + 1;
 say("Task 2 completed!");
 
-// --- Count completed (task3 was already done) ---
+// --- Count task 3 (was already done at the start) ---
+// Conta a tarefa 3 (já estava concluída no início)
 completedTasks = completedTasks + 1;
 
 // --- Summary ---
+// Resumo
 say("=== Summary ===");
 say("Completed tasks:");
 say(completedTasks);
